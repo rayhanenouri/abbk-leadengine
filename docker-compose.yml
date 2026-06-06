@@ -14,8 +14,8 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./docker/init.sql:/docker-entrypoint-initdb.d/init.sql
-    ports:
-      - "5432:5432"          # remove in production
+    # ports:
+    #   - "5432:5432"          # commented out due to port conflict with local PostgreSQL
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
       interval: 10s
@@ -29,8 +29,8 @@ services:
     restart: unless-stopped
     volumes:
       - redis_data:/data
-    ports:
-      - "6379:6379"          # remove in production
+    # ports:
+    #   - "6379:6379"          # commented out due to port conflict
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 10s
