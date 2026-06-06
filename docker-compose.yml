@@ -96,7 +96,7 @@ services:
     depends_on:
       - redis
       - worker
-    command: celery -A app.workers.celery_app beat --loglevel=info --scheduler django_celery_beat.schedulers:DatabaseScheduler
+    command: celery -A app.workers.celery_app beat --loglevel=info
 
   # ─── Flower (Celery monitoring UI) ────────────────────────────
   flower:

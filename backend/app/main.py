@@ -10,11 +10,18 @@ from app.api.routes import leads, users, scores, auth, scraping
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # Startup: create DB tables if they don't exist
-    async with engine.begin() as conn:
-        await conn.run_sync(Base.metadata.create_all)
+    try:
+        async with engine.begin() as conn:
+            await conn.run_sync(Base.metadata.create_all)
+    except Exception as e:
+        print(f"Warning: Could not connect to database on startup: {e}")
+        print("The application will start anyway, but database operations will fail.")
     yield
     # Shutdown: close DB connections
-    await engine.dispose()
+    try:
+        await engine.dispose()
+    except Exception:
+        pass
 
 
 app = FastAPI(

@@ -20,7 +20,8 @@ COPY uv.lock* .
 RUN uv pip install --system -r pyproject.toml
 
 # Install Playwright browsers (for JS-heavy scraping)
-RUN playwright install chromium --with-deps
+# Skipping for now - install later if needed: playwright install chromium --with-deps
+# RUN playwright install chromium --with-deps || true
 
 # Copy source code
 COPY . .
