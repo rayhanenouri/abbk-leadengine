@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from './assets/vite.svg'
 import heroImg from './assets/hero.png'
@@ -6,6 +6,15 @@ import './App.css'
 
 function App() {
   const [count, setCount] = useState(0)
+  const [health, setHealth] = useState(null)
+  const [healthError, setHealthError] = useState(null)
+
+  useEffect(() => {
+    fetch('http://localhost:8000/health')
+      .then(res => res.json())
+      .then(data => setHealth(data))
+      .catch(err => setHealthError(err.message))
+  }, [])
 
   return (
     <>
@@ -16,10 +25,17 @@ function App() {
           <img src={viteLogo} className="vite" alt="Vite logo" />
         </div>
         <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
+          <h1>ABBK Lead Engine</h1>
+          {health && (
+            <p style={{ color: 'green' }}>
+              Backend Status: {health.status} (v{health.version})
+            </p>
+          )}
+          {healthError && (
+            <p style={{ color: 'red' }}>
+              Backend Error: {healthError}
+            </p>
+          )}
         </div>
         <button
           type="button"
