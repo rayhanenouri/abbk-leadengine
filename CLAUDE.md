@@ -1,139 +1,419 @@
-# ABBK LeadEngine — Complete Project Context
+# ABBK LeadEngine — Complete Project Bible
 
-## What this project is
-AI-powered B2B lead generation and sales intelligence platform for ABBK Physicsworks — the official SolidWorks representative in Tunisia and North/West Africa. The platform automatically finds, enriches, scores, and ranks potential client companies so the sales manager knows exactly who to call, what to offer, and why they will say yes.
+## Project Identity
+Name: ABBK LeadEngine
+Type: AI-powered B2B lead generation and sales intelligence platform
+Client: ABBK Physicsworks — official SolidWorks representative in Tunisia and North/West Africa
+Developer: Rayhane Nouri — final-year electrical engineering student, Ubuntu 24.04 LTS
+Repository: rayhanenouri/abbk-leadengine (private, branch: develop)
+Demo deadline: June 20, 2026 to ABBK business manager
+Final delivery: June 30, 2026
 
-## Business goal
-Replace the manager's current inefficient manual process — he currently googles SolidWorks Tunisia on the SolidWorks website, sees a database of names, and manually reviews them one by one. This platform automates everything: finding companies, enriching their profiles, scoring them per service, and ranking them by best opportunity. Primary success metric: number of qualified leads that become real sales.
+## The Problem We Are Solving
+The ABBK sales manager currently:
+- Manually googles SolidWorks Tunisia on the SolidWorks website
+- Sees a database of company names and manually reviews them one by one
+- Calls companies blindly without knowing if they are ready to buy
+- When calling cracked SolidWorks users, most hang up fearing legal action
+- Has no system to track signals, score leads, or prioritize who to call
+This platform replaces all of that with full automation.
 
-## Geographic scope
+## Business Goal
+Primary success metric: number of qualified leads that become real sales.
+The manager opens the platform on his phone or computer and sees exactly which company to call today, what to offer them, and why they will say yes.
+
+## Geographic Scope
 - Primary: Tunisia
-- Secondary: North Africa (Algeria, Morocco, Libya)
-- Extended: West Africa and all African markets where ABBK can sell
+- Secondary: North Africa (Algeria, Morocco, Libya, Egypt)
+- Extended: West Africa and all African markets where ABBK sells
 
-## ABBK services (each gets its own independent score per lead)
-1. SolidWorks license — main product
-2. Other engineering software licenses (SIMULIA, CATIA, 3DEXPERIENCE)
-3. Professional training programs on SolidWorks and engineering software
+## ABBK Exact Products and Services (verified from official website abbk-tn.com)
 
-## Priority lead types (highest conversion — score these highest)
-1. Multinational companies with international clients — their international clients FORCE them to use licensed software. Best conversion.
-2. Companies under international audit — cannot use cracked software. Must buy license.
-3. Companies with mechanical engineers, CAD designers, bureau d'études, R&D departments — they directly need SolidWorks.
-4. Companies that did technical/engineering training recently — warm leads for ABBK training sales.
-5. Companies attending engineering events and salons — already interested in the domain.
-6. Companies that received international funding (bailleurs de fonds) — audited, must use real software.
+### Software Licenses ABBK sells (each gets its own score per lead):
+1. SOLIDWORKS — main CAD 3D product
+2. SOLIDWORKS Simulation — FEA structural analysis
+3. SOLIDWORKS Flow Simulation — fluid dynamics and thermal
+4. SOLIDWORKS Plastics — injection molding simulation
+5. SOLIDWORKS PDM — product data management
+6. SOLIDWORKS CAM + CAMWorks — manufacturing and machining
+7. SOLIDWORKS Electrical — electrical system design
+8. SOLIDWORKS Industrial Designer — industrial design
+9. SOLIDWORKS Conceptual Designer — concept creation
+10. Abaqus — advanced simulation (part of Simulia)
+11. Simulia suite — simulation platform
+12. 3DEXPERIENCE platform — cloud collaboration
+13. EMWorks products — electromagnetic simulation
 
-## Important business context about cracked SolidWorks users
-When ABBK calls companies using cracked versions, most hang up because they fear legal action. Strategy:
-- Still detect potential cracked users (signal: has engineers but no license signals)
-- Score them LOWER for direct license sales due to low conversion
-- Score them HIGHER if they also have multinational/audit signals
-- Never ignore them — they are leads, just lower priority
-- Best approach for cracked users: lead with training offer first, not license
+### Training Programs ABBK offers (each gets its own score per lead):
+1. SOLIDWORKS Essential Level 1 training
+2. SOLIDWORKS professional training
+3. SOLIDWORKS certification preparation (CSWA, CSWP, CSWPA)
+4. Abaqus training
+5. CAMWorks training
+6. 3DEXPERIENCE training
+7. STEM Education programs for schools and universities
+8. Corporate training programs
 
-## Lead profile — what each company page must show
-- Full company overview: name, sector, size, city, country, website, LinkedIn
-- All enriched data: fiscalité, registre de commerce, actualité, nombre d'employés, nouveaux employés, type d'employés
-- Score card: one score (0-100) per ABBK service with reasoning
-- Overall recommendation: what is the single best deal to propose to this company and why
-- Signals timeline: chronological list of all detected events
-- Source links: where each piece of data came from
+## Priority Lead Types (score these highest — best conversion)
+1. HIGHEST: Multinational companies with international clients
+   Reason: international clients force them to use licensed software
+2. HIGHEST: Companies under international audit
+   Reason: cannot use cracked software during audit — must buy license
+3. HIGH: Companies with mechanical engineers, CAD designers, bureau d etudes, R&D
+   Reason: these roles directly need SOLIDWORKS daily
+4. HIGH: Companies that did technical or engineering training recently
+   Reason: already investing in skills — warm leads for ABBK training
+5. MEDIUM: Companies attending engineering events and salons
+   Reason: already interested in the domain
+6. MEDIUM: Companies that received international funding (bailleurs de fonds)
+   Reason: internationally funded projects require audit and licensed software
+7. LOWER: Companies potentially using cracked SOLIDWORKS
+   Strategy: lead with training offer first not license — never ignore them
 
-## Scoring system (fully automated — no manual input ever)
-- Rule-based weighted scoring
-- Each signal is boolean (true/false) extracted by Claude API
-- Each signal has a different weight per service type
-- Score = (sum of fired signal weights / total possible weights) * 100
-- Score range: 0 to 100
-- One score row per lead per ABBK service in lead_scores table
-- Overall lead score = best opportunity across all services
-- Scores recalculate automatically every time new data arrives
+## Important Business Context — Cracked SOLIDWORKS Users
+When ABBK calls companies using cracked versions most hang up because they fear legal action. Strategy:
+- Detect potential cracked users (signal: has engineers but no license signals)
+- Score them LOWER for direct license sales due to low conversion rate
+- Score them HIGHER if they also have multinational or audit signals
+- Never ignore them — they are leads just lower priority
+- Best approach: lead with training offer first then upsell license
+
+## Complete Lead Profile — What Each Company Page Must Show
+- Company overview: name, sector, size, city, country, website, LinkedIn URL
+- Enriched data: fiscalite, registre de commerce, actualite, nombre employes, nouveaux employes, type employes, news recentes
+- Score card: one score 0-100 per ABBK product and training with full reasoning
+- Overall recommendation: single best deal to propose and why
+- Signals timeline: all detected events chronological with source URLs
+- Action suggestion: what to do next — call, wait, send info
+
+## Scoring System (rule-based, fully automated, zero manual input ever)
+Location: backend/app/services/scoring_engine.py
+Logic:
+- Each signal is boolean true or false
+- Claude API extracts signals from unstructured scraped text
+- Each signal has a weight per product type
+- Score = sum of fired signal weights divided by total possible weights times 100
+- Score range 0 to 100
+- One row in lead_scores per lead per ABBK product and per training
+- Overall lead score = best opportunity across all products
+- Scores auto-recalculate every time new data arrives via Celery task
 - Claude API responses cached in DB — never re-call same text twice
 
-## Data sources to scrape (always dynamic, always updating)
-Directories: annuaire.tn, pagesjaunes.tn, kompass.tn, registre national des entreprises
-Job boards: emploi.tn, keejob.com, LinkedIn Jobs — target roles: ingénieur conception, CAD designer, bureau d'études, R&D, mécanique, production
-News: businessnews.com.tn, managers.com.tn, tekiano.com
-Training centers: ISET websites, université partner pages, centres de formation
-Funding: Banque Mondiale, AFD, BEI, EU programs, USAID
-Public sector: TUNEPS, Ministère de l'Industrie, Ministère de l'Enseignement Supérieur
-Company websites: SolidWorks logo detection, SIMULIA/CATIA logos, job titles via Playwright
-LinkedIn: Apify LinkedIn Company Scraper — employee roles, counts, recent hires
-Events: engineering salons, SolidWorks events, industry conferences Tunisia and Africa
+## Signal Types (stored in lead_signals table)
+- new_hire: company hiring mechanical or CAD or engineering roles
+- funding: company received investment or international funding
+- news: company in press for expansion new contract or export
+- logo_detected: SOLIDWORKS or Simulia or Abaqus or 3DEXPERIENCE found on website
+- role_detected: engineering job titles found on website or LinkedIn
+- training_detected: company sent employees to technical training
+- event_attendance: company at engineering event or salon
+- tender_detected: company won public tender requiring licensed software
+- audit_signal: ISO certification international audit compliance mention
+- export_signal: company exports products internationally
+- multinational_signal: company has international clients or parent company
+- cracked_risk: has engineers but no license signals — potential cracked user
 
-## Tech stack (final — do not change)
+## Complete Data Sources to Scrape
+
+### Business Directories
+- annuaire.tn
+- pagesjaunes.tn
+- kompass.tn
+- Registre national des entreprises Tunisia
+- African business directories per country
+- find any other trusted data sources that can bring me leads that we can convert into real sales. 
+
+### Job Boards — Hiring Signals
+- emploi.tn
+- keejob.com
+- LinkedIn Jobs via Apify
+- Target roles: ingenieur conception, CAD designer, bureau d etudes, R&D, mecanique, production, ingenieur simulation, ingenieur calcul, ingenieur fabrication
+- find any other trusted Hiring signals that can bring me leads that we can convert into real sales. 
+
+### News and Press
+- businessnews.com.tn
+- managers.com.tn
+- tekiano.com
+- African business news sites
+- find any other trusted news and press sources that can bring me leads that we can convert into real sales. 
+
+### Training Centers
+- ISET websites all regional campuses
+- University partner pages
+- Company training and HR sections
+- Centres de formation professionnelle listings
+- ATFP Agence Tunisienne de la Formation Professionnelle
+
+### Bailleurs de Fonds and International Funding
+- Banque Mondiale Tunisia projects
+- AFD Agence Francaise de Developpement
+- BEI Banque Europeenne d Investissement
+- USAID Tunisia programs
+- EU funding programs Tunisia and Africa
+- GIZ Deutsche Gesellschaft fur Internationale Zusammenarbeit
+- find any other trusted data sources that can bring me leads that we can convert into real sales. 
+
+### Public Sector and Tenders
+- TUNEPS Tunisian public procurement platform
+- Ministere de l Industrie
+- Ministere de l Enseignement Superieur et de la Recherche
+- Other ministere tender platforms
+- find any other trusted data sources that can bring me leads that we can convert into real sales. 
+
+### Company Websites via Playwright
+- SOLIDWORKS logo detection
+- Simulia Abaqus 3DEXPERIENCE CAMWorks logo detection
+- Engineering job titles in About and Team pages
+- Products requiring engineering software mention
+
+
+### LinkedIn via Apify (APIFY_API_TOKEN in .env)
+- Apify LinkedIn Company Scraper
+- Extract: employee count description specialties industry
+- Recent hires and job titles
+- Engineering roles detection
+
+### Events and Conferences
+- Engineering salons Tunisia and Africa
+- SOLIDWORKS regional events and days
+- Industry events automotive aerospace manufacturing construction
+- University career fairs with engineering companies
+
+### Research Centers
+- Annuaire des centres de recherche Tunisia
+- University research labs
+- CRBT CERTE and other national research centers
+
+
+## Tech Stack — Final Decisions Do Not Change
 - Backend: FastAPI Python — port 8000
-- Frontend: React + Vite + Tailwind CSS — port 5173
+- Frontend: React 18 plus Vite plus Tailwind CSS — port 5173
 - Database: PostgreSQL 16 with pgvector — port 5432
-- Cache + broker: Redis 7 — port 6379
-- Task queue: Celery workers + Celery Beat
-- Scraping: Scrapy + Playwright + Apify
-- AI: Claude API claude-sonnet-4-5
+- Cache and broker: Redis 7 — port 6379
+- Task queue: Celery workers plus Celery Beat
+- Scraping structured sites: Scrapy
+- Scraping JS-heavy sites: Playwright Chromium
+- LinkedIn data: Apify LinkedIn Company and Jobs Scraper
+- AI signal extraction: Claude API claude-sonnet-4-5
+- Lead analysis text: Claude API for reasoning and recommendations
 - Containers: Docker Compose 7 services
-- Hosting: Hetzner VPS CX31 Ubuntu 24.04
-- Version control: GitHub rayhanenouri/abbk-leadengine branch develop
+- Python packages: uv
+- Hosting production: Hetzner VPS CX31 Ubuntu 24.04
+- Version control: Git plus GitHub rayhanenouri/abbk-leadengine
+- Branch: develop daily work then main when milestone complete
 
-## Database tables (created and migrated — M1 complete)
-users: id, email, full_name, hashed_pw, role (admin/manager/sales/viewer), permissions JSON, is_active
-leads: id, company_name, website, linkedin_url, country, city, sector, employee_count, is_multinational, is_exporter, under_audit, scraped_data JSON, status, created_at, updated_at
-lead_scores: id, lead_id FK, service_type, service_name, score float 0-100, reasoning text, signal_breakdown JSON, scored_at
-lead_signals: id, lead_id FK, signal_type (new_hire/funding/news/logo_detected/role_detected/training_detected/event_attendance/tender_detected/funded/audit_signal), title, detail, source_url, detected_at
-services: id, name, service_type, description, scoring_weights JSON, is_active
+## Docker Services All 7
+- abbk_backend: FastAPI port 8000
+- abbk_frontend: React Vite port 5173
+- abbk_db: PostgreSQL port 5432
+- abbk_redis: Redis port 6379
+- abbk_worker: Celery worker background scraping and scoring
+- abbk_beat: Celery Beat scheduler triggers all automation
+- abbk_flower: Celery monitoring UI port 5555 has import bug fix in M4
 
-## M1 complete — built and working
-- Docker Compose: all 7 services boot correctly
-- FastAPI: GET /health returns 200
+## Database Schema All Tables Created in M1
+
+### users
+id, email, full_name, hashed_pw
+role: admin or manager or sales or viewer
+is_active: boolean
+permissions: JSON per-section read write none
+created_at
+
+### leads
+id, company_name, website, linkedin_url
+country, city, sector
+employee_count, is_multinational, is_exporter, under_audit
+scraped_data: JSON all raw data from all sources
+status: new qualified contacted converted lost
+created_at, updated_at
+
+### lead_scores
+id, lead_id FK to leads
+service_type, service_name
+score: float 0 to 100
+reasoning: text AI explanation
+signal_breakdown: JSON which signals fired and their weights
+scored_at
+
+### lead_signals
+id, lead_id FK to leads
+signal_type, title, detail
+source_url, detected_at
+
+### services
+id, name, service_type, description
+scoring_weights: JSON signal to weight mapping
+is_active
+
+## Project Folder Structure
+abbk-leadengine/
+├── backend/
+│   ├── app/
+│   │   ├── main.py
+│   │   ├── core/config.py
+│   │   ├── db/session.py
+│   │   ├── models/models.py
+│   │   ├── schemas/
+│   │   ├── api/routes/
+│   │   │   ├── auth.py
+│   │   │   ├── leads.py
+│   │   │   ├── users.py
+│   │   │   ├── scores.py
+│   │   │   └── scraping.py
+│   │   ├── services/
+│   │   │   └── scoring_engine.py
+│   │   └── workers/
+│   │       ├── celery_app.py
+│   │       └── tasks/
+│   │           ├── scraping.py
+│   │           ├── scoring.py
+│   │           └── enrichment.py
+│   ├── alembic/
+│   ├── Dockerfile
+│   └── pyproject.toml
+├── scraper/
+│   ├── spiders/
+│   │   ├── directories_spider.py
+│   │   ├── jobs_spider.py
+│   │   ├── news_spider.py
+│   │   ├── training_spider.py
+│   │   ├── funders_spider.py
+│   │   └── tenders_spider.py
+│   └── utils/
+│       ├── dedup.py
+│       ├── enrichment.py
+│       └── logo_detector.py
+├── frontend/
+│   └── src/
+│       ├── components/
+│       ├── pages/
+│       └── api/
+├── docker-compose.yml
+├── CLAUDE.md
+├── PROGRESS.md
+├── SKILLS.md
+└── .env never commit this
+
+## Milestone Plan
+M1 Foundation COMPLETE due June 9
+M2 Scraping engine IN PROGRESS due June 16
+M3 Scoring engine due June 22
+M4 Dashboard plus deploy due June 28
+M5 Deliver due June 30
+
+## M1 Complete — What Works Right Now
+- Docker Compose: all 7 services boot
+- GET /health returns status ok version 0.1.0
 - PostgreSQL: 5 tables created via Alembic
-- JWT auth: POST /api/auth/login returns token
-- Protected routes: 401 without token, 403 wrong role
-- RBAC: 4 roles enforced
-- React frontend: boots on localhost:5173
-- Test admin: admin@abbk.tn / admin123
+- POST /api/auth/login returns JWT token
+- Protected routes: 401 without token 403 wrong role
+- RBAC: 4 roles enforced with middleware
+- React frontend boots on localhost:5173
+- Test admin: admin@abbk.tn password admin123
 
-## Known issues from M1
-- Flower has import error — non-critical
-- Nginx port 80 conflict — stopped for dev
-- Issue 9 Hetzner deploy — pending M4
+## M2 Issues 16 Total — Priority Order for June 20 Demo
 
-## Current milestone: M2 — Scraping engine
-Due: June 16 2026
-Demo to manager: June 20 2026
-Final delivery: June 30 2026
+MUST HAVE FOR DEMO:
+11 — POST /api/leads/import CSV import of ABBK existing database
+1  — Spider 1 Tunisian directories annuaire.tn pagesjaunes.tn kompass.tn
+14 — Data deduplication and multi-source merging pipeline
+16 — GET /api/leads paginated filtered sorted with signals
+10 — Apify LinkedIn connector
 
-## M2 priority order
-1. Issue 11 — POST /api/leads/import CSV import
-2. Issue 1 — Spider 1 directories
-3. Issue 14 — Deduplication pipeline
-4. Issue 16 — GET /api/leads with filters
-5. Issue 10 — Apify LinkedIn
-6. Issue 2 — Spider 2 job boards
-7. Issue 3 — Spider 3 news
-8. Issue 7 — Logo detection
+IMPORTANT FOR DEMO:
+2  — Spider 2 job boards emploi.tn keejob.com hiring signals
+3  — Spider 3 Tunisian business news signals
+7  — Logo detection on company websites Playwright
 
-## RBAC
-- Admin: full access + user management
-- Manager: all leads + scores + reports
-- Sales: assigned leads only
-- Viewer: read-only no scores
+COMPLETE AFTER DEMO:
+4  — Spider 4 training history detection
+5  — Spider 5 bailleurs de fonds
+6  — Spider 6 ministeres and public tenders
+8  — Multinational and exporter detection
+9  — Audit pressure detection
+12 — Company enrichment fiscalite actualite employes
+13 — Event-based lead signals
+15 — Celery Beat all scrapers auto-scheduled
 
-## Coding rules
-- Always async/await for DB operations
-- Always Pydantic schemas for request/response
-- Always check duplicates before inserting leads
-- Always store raw data in lead.scraped_data JSON
-- Always create LeadSignal for every detected signal
-- Never hardcode credentials — use .env settings
-- Always add Celery tasks to beat_schedule
-- Always create Alembic migration when changing models
-- Cache Claude API responses in DB
-- Commit format: feat: / fix: / chore:
+## M3 Plan — Scoring Engine
+- Rule-based weighted scoring per ABBK product and training
+- Claude API signal extraction from scraped text
+- Score recalculation Celery task after every scrape
+- GET /api/scores endpoint
+- Lead recommendation engine best deal per lead
+- Score reasoning text generation via Claude API
+- Seed services table with all ABBK products and their scoring weights
 
-## How to start every Claude Code session
-1. docker compose up -d
-2. docker compose ps
-3. Read PROGRESS.md
-4. Continue from current priority issue
+## M4 Plan — Dashboard and Deploy
+- React dashboard: ranked leads list sorted by best score
+- Lead profile page with full company analysis
+- Score cards per ABBK product with reasoning text
+- Signals timeline per company
+- Admin panel: user management RBAC control
+- Mobile responsive — manager uses phone
+- Notification system: bell icon alerts for high-score signals
+- Hetzner VPS deployment
+- Nginx reverse proxy production config
+- Fix Flower import error
+- Fix Nginx port 80 conflict
 
-## Developer
-Final-year electrical engineering student. Python basics. Fast learner. Strong prompter. Ubuntu 24.04 LTS. 10 hours/day. Goal: deliver working LeadEngine, secure Dassault Systèmes internship.
+## M5 Plan — Deliver
+- Seed 20 to 30 real ABBK companies
+- Run full scraping on real Tunisian data
+- Verify scores make business sense
+- Fix any bugs found during ABBK walkthrough
+- Final Hetzner deployment confirmed working
+
+## RBAC Rules
+Admin: full access plus user management plus RBAC control
+Manager: all leads plus all scores plus reports plus dashboard plus notifications
+Sales: assigned leads only plus their scores no other user data
+Viewer: read-only no scores visible
+
+## Notification System Built in M4
+Triggers: new_hire_engineer detected, funding_received, high_score_lead above 80, audit_signal_detected
+Delivery: in-platform bell icon notifications
+Storage: DB table so manager sees alerts on mobile
+Future: email via SendGrid or Mailgun flexible integration
+
+## Known Issues and Blockers
+- Flower UI has import error non-critical fix M4
+- Nginx port 80 conflict on local dev stopped fix M4
+- Issue 9 Hetzner deploy pending M4
+- Playwright not installed in Docker commented out reinstall M4
+- APIFY_API_TOKEN empty in .env add before issue 10
+- ANTHROPIC_API_KEY empty in .env add before M3
+
+## Coding Rules Always Follow Without Exception
+1. Always use async await for all DB operations SQLAlchemy async
+2. Always use Pydantic schemas for every request and response
+3. Always check duplicates before inserting any lead by website OR company_name
+4. Always store raw scraped data in lead.scraped_data JSON column
+5. Always create a LeadSignal record for every detected signal
+6. Never hardcode credentials always use settings from core/config.py
+7. Always add new Celery tasks to beat_schedule in celery_app.py
+8. Always create Alembic migration when changing any model
+9. Cache all Claude API responses in DB never re-call same text twice
+10. Every route must be protected with get_current_user dependency
+11. Every admin route must use require_role UserRole.admin
+12. Commit format: feat: description or fix: description or chore: description
+13. Close GitHub issues with: gh issue close N --comment explanation
+14. Always push to develop branch: git push origin develop
+
+## How to Start Every Claude Code Session
+1. cd ~/projects/abbk-leadengine
+2. docker compose up -d
+3. docker compose ps verify all running
+4. Read PROGRESS.md for exact current status
+5. Continue from current priority issue in PROGRESS.md
+
+## Developer Context
+Name: Rayhane Nouri
+Level: final-year electrical engineering student
+Python: basic knowledge learning fast
+Daily availability: 10 hours
+Goal 1: deliver working LeadEngine to ABBK by June 30
+Goal 2: secure internship at Dassault Systemes through this project
+Uses: Claude Code daily for all development
+Machine: Ubuntu 24.04 LTS
