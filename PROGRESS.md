@@ -6,12 +6,12 @@ Update this at end of every session.
 When developer says good night — update everything done today and what to start tomorrow.
 
 ## Current Status
-Date: 2026-06-18
-Active milestone: M2 Scraping engine
-Next action: Issue 23 Deduplication pipeline
+Date: 2026-06-18 Evening
+Active milestone: M3 Scoring engine + M4 Dashboard
+Next action: React dashboard for ranked leads (CRITICAL FOR DEMO)
 Demo deadline: June 20 — 2 days away
 Delivery deadline: June 30
-Database: 29 companies (7 CSV import + 22 directory scraping)
+Database: 29 companies, 14 ABBK services, 406 scores calculated
 
 ## M1 — Foundation COMPLETE 9 of 9 issues closed
 Done:
@@ -58,11 +58,33 @@ Done in M2:
 Blocked: nothing
 Notes: DirectoriesSpider ready for annuaire.tn, pagesjaunes.tn, kompass.tn
 
-## M3 — Scoring engine NOT STARTED
-## M4 — Dashboard and deploy NOT STARTED
+## M3 — Scoring engine BASIC VERSION DONE
+Done:
+- Rule-based scoring engine with sector/city/signals
+- 14 ABBK services seeded (SOLIDWORKS + training programs)
+- 406 scores calculated (29 leads × 14 services)
+- GET /api/scores/ranked endpoint working
+- Top leads identified: BET-SCET, Groupe Chimique Tunisien (75/100)
+Next: Claude API signal extraction (after demo)
+
+## M4 — Dashboard and deploy IN PROGRESS
+Done: nothing yet
+Next: React ranked leads page (CRITICAL FOR DEMO)
 ## M5 — Deliver NOT STARTED
 
 ## Daily Log
+
+### 2026-06-18 Evening - MAJOR PROGRESS
+- M3 Scoring engine BASIC VERSION COMPLETE
+- Rule-based algorithm: sector match + city + signals = score 0-100
+- 14 ABBK services seeded (SOLIDWORKS products + training)
+- 406 scores calculated: 29 leads × 14 services
+- GET /api/scores/ranked endpoint working
+- Top lead: Bureau d'Études BET-SCET 75/100 (engineering consulting)
+- Scores API: ranked list, per-lead scores, recalculate
+- Commit 54f27cf pushed to develop
+- Demo ready for scoring component ✅
+- Next: React dashboard to display ranked leads
 
 ### 2026-06-18 Afternoon
 - Issue 10 complete: Spider 1 Tunisian business directories
@@ -73,7 +95,6 @@ Notes: DirectoriesSpider ready for annuaire.tn, pagesjaunes.tn, kompass.tn
 - Scrapy settings configured: robots.txt, auto-throttle, 1s delay
 - test_spider.py validates parsing logic - PASSED
 - Commit 9551522 pushed to develop
-- Next: Issue 23 Deduplication pipeline
 
 ### 2026-06-18 Morning
 - Issue 20 complete: POST /api/leads/import CSV endpoint
