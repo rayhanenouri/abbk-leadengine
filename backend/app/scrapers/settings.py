@@ -22,6 +22,7 @@ COOKIES_ENABLED = False
 # Configure item pipelines
 ITEM_PIPELINES = {
     'app.scrapers.pipelines.DatabasePipeline': 300,
+    'app.scrapers.pipelines_signals.SignalsPipeline': 400,
 }
 
 # User-Agent

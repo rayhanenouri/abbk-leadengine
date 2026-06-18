@@ -136,6 +136,13 @@ class ScoringEngine:
             signals['large_company'] = 15
             reasoning_parts.append("Large/national company (+15)")
 
+        # Hiring signals - STRONG buying signal
+        hiring_signals = self._check_hiring_signals(lead)
+        if hiring_signals:
+            score += 20
+            signals['hiring_engineers'] = 20
+            reasoning_parts.append(f"🔥 Hiring engineers NOW - hot lead! (+20)")
+
         # Service-specific scoring
         service_bonus = self._score_for_service(lead, service)
         if service_bonus > 0:
@@ -220,6 +227,22 @@ class ScoringEngine:
         ]
 
         return any(indicator in name_lower for indicator in indicators)
+
+    def _check_hiring_signals(self, lead: Lead) -> bool:
+        """
+        Check if company has hiring signals (new_hire).
+
+        Hiring = immediate buying intent.
+        They need software for the new engineer starting soon.
+        """
+        if not hasattr(lead, 'signals') or not lead.signals:
+            return False
+
+        # Check if any signals are hiring-related
+        return any(
+            signal.signal_type == 'new_hire'
+            for signal in lead.signals
+        )
 
     def _score_for_service(self, lead: Lead, service: Service) -> float:
         """Additional scoring based on specific service type."""
