@@ -8,9 +8,10 @@ When developer says good night — update everything done today and what to star
 ## Current Status
 Date: 2026-06-18
 Active milestone: M2 Scraping engine
-Next action: Issue 10 Spider 1 directories annuaire.tn
+Next action: Issue 23 Deduplication pipeline
 Demo deadline: June 20 — 2 days away
 Delivery deadline: June 30
+Database: 29 companies (7 CSV import + 22 directory scraping)
 
 ## M1 — Foundation COMPLETE 9 of 9 issues closed
 Done:
@@ -29,13 +30,13 @@ Known issues carried to next milestones:
 
 ## M2 — Scraping engine IN PROGRESS
 Total issues: 16
-Closed: 1
-Open: 15
+Closed: 2
+Open: 14
 
 Priority queue in order:
 [✓] 20 — POST /api/leads/import CSV import — DONE
-[ ] 10 — Spider 1 directories annuaire.tn — START HERE
-[ ] 23 — Deduplication pipeline
+[✓] 10 — Spider 1 directories annuaire.tn — DONE
+[ ] 23 — Deduplication pipeline — START HERE
 [ ] 25 — GET /api/leads with filters and pagination
 [ ] 19 — Apify LinkedIn connector
 [ ] 11 — Spider 2 job boards emploi.tn keejob.com
@@ -51,10 +52,11 @@ Priority queue in order:
 [ ] 24 — Celery Beat all scrapers scheduled
 
 Done in M2:
-- Issue 20: CSV import endpoint working and tested
+- Issue 20: CSV import endpoint - 7 companies imported
+- Issue 10: Directory spider - 22 companies scraped (29 total in DB)
 
 Blocked: nothing
-Notes: 7 test companies imported successfully
+Notes: DirectoriesSpider ready for annuaire.tn, pagesjaunes.tn, kompass.tn
 
 ## M3 — Scoring engine NOT STARTED
 ## M4 — Dashboard and deploy NOT STARTED
@@ -62,13 +64,23 @@ Notes: 7 test companies imported successfully
 
 ## Daily Log
 
-### 2026-06-18
+### 2026-06-18 Afternoon
+- Issue 10 complete: Spider 1 Tunisian business directories
+- DirectoriesSpider scrapes annuaire.tn with 9 category URLs
+- DatabasePipeline stores directly to PostgreSQL with async SQLAlchemy
+- Tested with seed script: 22 Tunisian companies added
+- Total database: 29 companies (7 CSV + 22 directories)
+- Scrapy settings configured: robots.txt, auto-throttle, 1s delay
+- test_spider.py validates parsing logic - PASSED
+- Commit 9551522 pushed to develop
+- Next: Issue 23 Deduplication pipeline
+
+### 2026-06-18 Morning
 - Issue 20 complete: POST /api/leads/import CSV endpoint
 - Tested with 7 companies: import, duplicate detection, mixed CSV all working
 - Pydantic schemas created for leads
 - Database verified: all data correctly stored with scraped_data JSON
 - Commit 30ef26a pushed to develop
-- Next: Issue 10 Spider 1 Tunisian directories
 
 ### 2026-06-13
 - M1 completed 9 of 9 issues closed
