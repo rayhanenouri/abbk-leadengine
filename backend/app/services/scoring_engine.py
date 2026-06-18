@@ -1,144 +1,326 @@
 """
-Rule-based scoring engine.
-Each lead gets a score (0–100) per ABBK service.
-Signals are extracted from scraped data and weighted by service type.
+Lead scoring engine for ABBK LeadEngine.
+
+Rule-based scoring system that assigns 0-100 scores to each lead
+based on their fit for ABBK products and services.
+
+Scoring signals:
+- Sector match (engineering, manufacturing, industrial)
+- City (Tunis and major cities score higher)
+- Has website (company is established)
+- Has phone (can be contacted)
+- Company size indicators from name/description
 """
-from dataclasses import dataclass, field
-from typing import Any
+from typing import Dict, List, Tuple
+from datetime import datetime
+import logging
 
-import anthropic
+from app.models.models import Lead, LeadScore, Service, ServiceType
 
-from app.core.config import settings
+logger = logging.getLogger(__name__)
 
 
-# ─── Signal weights per service ───────────────────────────────────────────────
-# Tweak these values as you learn which signals actually convert.
+# High-value sectors for SOLIDWORKS and engineering software
+HIGH_VALUE_SECTORS = {
+    'engineering': 40,
+    'bureau d etudes': 40,
+    'ingenieur': 35,
+    'manufacturing': 35,
+    'fabrication': 35,
+    'industrial': 35,
+    'industrie': 35,
+    'construction': 30,
+    'btp': 30,
+    'automotive': 35,
+    'automobile': 35,
+    'mechanical': 35,
+    'mecanique': 35,
+    'steel': 30,
+    'metal': 30,
+    'cement': 25,
+    'ciment': 25,
+    'aluminum': 30,
+    'aluminium': 30,
+    'electronics': 30,
+    'electronique': 30,
+    'electrical': 28,
+    'electrique': 28,
+    'oil': 25,
+    'petrole': 25,
+    'chemical': 25,
+    'chimique': 25,
+}
 
-SIGNAL_WEIGHTS = {
-    "solidworks_license": {
-        "has_mechanical_engineer":  25,
-        "has_cad_designer":         20,
-        "is_multinational":         20,
-        "is_exporter":              15,
-        "under_audit":              20,
-        "uses_solidworks_logo":     30,
-        "uses_competitor_software": 10,
-        "recent_engineering_hire":  15,
-        "attended_solidworks_event": 20,
-        "funded_by_bailleur":        8,
-    },
-    "training": {
-        "did_technical_training":   20,
-        "has_new_engineers":        25,
-        "is_growing_headcount":     15,
-        "training_budget_signal":   20,
-        "school_partnership":       10,
-        "recent_funding":           15,
-        "sector_requires_certs":    15,
-    },
-    "other_license": {
-        "uses_solidworks_logo":     15,
-        "has_mechanical_engineer":  15,
-        "is_multinational":         10,
-        "under_audit":              15,
-        "uses_competitor_software": 20,
-        "attended_industry_event":  10,
-    },
+# Medium-value sectors
+MEDIUM_VALUE_SECTORS = {
+    'energy': 20,
+    'utilities': 20,
+    'telecom': 15,
+    'aviation': 20,
+    'infrastructure': 20,
+    'water': 15,
+    'sanitation': 15,
+}
+
+# Major cities with more engineering companies
+MAJOR_CITIES = {
+    'tunis': 10,
+    'sfax': 8,
+    'sousse': 7,
+    'ariana': 8,
+    'ben arous': 8,
+    'manouba': 7,
+    'bizerte': 6,
+    'gabes': 6,
+    'nabeul': 6,
 }
 
 
-@dataclass
-class ScoringResult:
-    service_name: str
-    score: float                          # 0–100
-    signal_breakdown: dict[str, float]    # which signals fired and their contribution
-    reasoning: str                        # human-readable explanation
-
-
-def score_lead(lead_data: dict[str, Any], service_key: str, service_name: str) -> ScoringResult:
+class ScoringEngine:
     """
-    Score a single lead for a single service.
-    lead_data: the scraped + enriched data dict from the Lead model.
+    Main scoring engine that calculates lead scores for all ABBK services.
     """
-    weights = SIGNAL_WEIGHTS.get(service_key, {})
-    if not weights:
-        return ScoringResult(service_name, 0.0, {}, "Unknown service type")
 
-    total_possible = sum(weights.values())
-    earned = 0.0
-    breakdown = {}
+    def __init__(self):
+        self.logger = logging.getLogger(__name__)
 
-    for signal, weight in weights.items():
-        value = lead_data.get(signal, False)
-        if value:
-            contribution = weight
-            earned += contribution
-            breakdown[signal] = contribution
+    def calculate_lead_score(
+        self,
+        lead: Lead,
+        service: Service
+    ) -> Tuple[float, str, Dict]:
+        """
+        Calculate score for a lead-service pair.
+
+        Args:
+            lead: The lead to score
+            service: The ABBK service to score for
+
+        Returns:
+            Tuple of (score, reasoning, signal_breakdown)
+        """
+        score = 0.0
+        signals = {}
+        reasoning_parts = []
+
+        # Base score from sector match
+        sector_score = self._score_sector(lead.sector)
+        if sector_score > 0:
+            score += sector_score
+            signals['sector_match'] = sector_score
+            reasoning_parts.append(f"Sector '{lead.sector}' highly relevant (+{sector_score})")
+
+        # City/location bonus
+        city_score = self._score_city(lead.city)
+        if city_score > 0:
+            score += city_score
+            signals['major_city'] = city_score
+            reasoning_parts.append(f"Located in {lead.city} (+{city_score})")
+
+        # Has website = established company
+        if lead.website:
+            score += 10
+            signals['has_website'] = 10
+            reasoning_parts.append("Has website - established company (+10)")
+
+        # Has phone = contactable
+        phone = self._extract_phone(lead)
+        if phone:
+            score += 5
+            signals['has_phone'] = 5
+            reasoning_parts.append("Phone available (+5)")
+
+        # Company size indicators from name
+        if self._is_large_company(lead.company_name):
+            score += 15
+            signals['large_company'] = 15
+            reasoning_parts.append("Large/national company (+15)")
+
+        # Service-specific scoring
+        service_bonus = self._score_for_service(lead, service)
+        if service_bonus > 0:
+            score += service_bonus
+            signals[f'{service.service_type}_fit'] = service_bonus
+            reasoning_parts.append(f"Good fit for {service.name} (+{service_bonus})")
+
+        # Cap at 100
+        score = min(score, 100.0)
+
+        # Generate reasoning text
+        if score >= 70:
+            priority = "HIGH PRIORITY"
+        elif score >= 50:
+            priority = "MEDIUM PRIORITY"
+        elif score >= 30:
+            priority = "LOW PRIORITY"
         else:
-            breakdown[signal] = 0.0
+            priority = "RESEARCH NEEDED"
 
-    # Normalize to 0–100
-    score = round((earned / total_possible) * 100, 1) if total_possible > 0 else 0.0
+        reasoning = f"{priority} - Score: {score:.0f}/100. " + ". ".join(reasoning_parts)
 
-    reasoning = _build_reasoning(breakdown, score)
-    return ScoringResult(service_name, score, breakdown, reasoning)
+        return score, reasoning, signals
+
+    def _score_sector(self, sector: str) -> float:
+        """Score based on sector match."""
+        if not sector:
+            return 0.0
+
+        sector_lower = sector.lower()
+
+        # Check high-value sectors
+        for keyword, points in HIGH_VALUE_SECTORS.items():
+            if keyword in sector_lower:
+                return float(points)
+
+        # Check medium-value sectors
+        for keyword, points in MEDIUM_VALUE_SECTORS.items():
+            if keyword in sector_lower:
+                return float(points)
+
+        return 0.0
+
+    def _score_city(self, city: str) -> float:
+        """Score based on city (major cities have more opportunities)."""
+        if not city:
+            return 0.0
+
+        city_lower = city.lower()
+        for major_city, points in MAJOR_CITIES.items():
+            if major_city in city_lower:
+                return float(points)
+
+        return 0.0
+
+    def _extract_phone(self, lead: Lead) -> str:
+        """Extract phone from scraped_data."""
+        if not lead.scraped_data:
+            return None
+
+        # Check all sources in scraped_data
+        for source_data in lead.scraped_data.values():
+            if isinstance(source_data, dict) and source_data.get('phone'):
+                return source_data['phone']
+
+        return None
+
+    def _is_large_company(self, company_name: str) -> bool:
+        """Detect if company is likely large/national."""
+        if not company_name:
+            return False
+
+        name_lower = company_name.lower()
+
+        # National/international company indicators
+        indicators = [
+            'groupe', 'group', 'holding',
+            'societe nationale', 'national',
+            'international', 'multinational',
+            'office', 'steg', 'tunisie telecom',
+            'banque', 'bank', 'assurance',
+        ]
+
+        return any(indicator in name_lower for indicator in indicators)
+
+    def _score_for_service(self, lead: Lead, service: Service) -> float:
+        """Additional scoring based on specific service type."""
+        score = 0.0
+
+        if service.service_type == ServiceType.solidworks_license:
+            # SOLIDWORKS is for design, engineering, manufacturing
+            if lead.sector and any(kw in lead.sector.lower() for kw in
+                ['engineering', 'design', 'manufacturing', 'mechanical', 'bureau']):
+                score += 10
+
+        elif service.service_type == ServiceType.training:
+            # Training fits education and companies with engineers
+            if lead.sector and any(kw in lead.sector.lower() for kw in
+                ['education', 'universite', 'engineering', 'industrial']):
+                score += 10
+
+        elif service.service_type == ServiceType.other_license:
+            # Simulia, Abaqus for advanced simulation
+            if lead.sector and any(kw in lead.sector.lower() for kw in
+                ['automotive', 'aerospace', 'mechanical', 'civil']):
+                score += 10
+
+        return score
 
 
-def _build_reasoning(breakdown: dict[str, float], score: float) -> str:
-    fired = [sig for sig, pts in breakdown.items() if pts > 0]
-    missed = [sig for sig, pts in breakdown.items() if pts == 0]
-    lines = [f"Score: {score}/100"]
-    if fired:
-        lines.append("Positive signals: " + ", ".join(fired))
-    if missed:
-        lines.append("Missing signals: " + ", ".join(missed[:5]))
-    return " | ".join(lines)
-
-
-async def extract_signals_with_ai(scraped_text: str, company_name: str) -> dict[str, bool]:
+async def score_lead(lead: Lead, services: List[Service], db_session) -> List[LeadScore]:
     """
-    Use Claude to extract boolean signals from unstructured scraped text.
-    Returns a dict of signal_name → True/False.
-    Cached result should be stored in DB to avoid re-calling the API.
+    Score a single lead against all ABBK services.
+
+    Args:
+        lead: Lead to score
+        services: List of ABBK services
+        db_session: Database session
+
+    Returns:
+        List of LeadScore objects created
     """
-    client = anthropic.AsyncAnthropic(api_key=settings.ANTHROPIC_API_KEY)
+    engine = ScoringEngine()
+    scores_created = []
 
-    prompt = f"""
-You are analyzing scraped data about a company called "{company_name}" to extract sales intelligence signals.
+    for service in services:
+        if not service.is_active:
+            continue
 
-Scraped text:
-{scraped_text[:4000]}
+        # Calculate score
+        score_value, reasoning, signal_breakdown = engine.calculate_lead_score(lead, service)
 
-Respond with ONLY a valid JSON object (no markdown, no explanation) with these boolean keys:
-{{
-  "has_mechanical_engineer": bool,
-  "has_cad_designer": bool,
-  "is_multinational": bool,
-  "is_exporter": bool,
-  "under_audit": bool,
-  "uses_solidworks_logo": bool,
-  "uses_competitor_software": bool,
-  "recent_engineering_hire": bool,
-  "attended_solidworks_event": bool,
-  "did_technical_training": bool,
-  "has_new_engineers": bool,
-  "is_growing_headcount": bool,
-  "recent_funding": bool,
-  "funded_by_bailleur": bool,
-  "school_partnership": bool,
-  "sector_requires_certs": bool,
-  "attended_industry_event": bool,
-  "training_budget_signal": bool
-}}
-"""
-    response = await client.messages.create(
-        model="claude-sonnet-4-20250514",
-        max_tokens=500,
-        messages=[{"role": "user", "content": prompt}],
+        # Create score record
+        lead_score = LeadScore(
+            lead_id=lead.id,
+            service_type=service.service_type,
+            service_name=service.name,
+            score=score_value,
+            reasoning=reasoning,
+            signal_breakdown=signal_breakdown,
+            scored_at=datetime.utcnow()
+        )
+
+        db_session.add(lead_score)
+        scores_created.append(lead_score)
+
+        logger.info(f"Scored {lead.company_name} for {service.name}: {score_value:.1f}/100")
+
+    return scores_created
+
+
+async def score_all_leads(db_session) -> Dict[str, int]:
+    """
+    Score all leads in the database against all active services.
+
+    Returns:
+        Dictionary with counts of leads and scores created
+    """
+    from sqlalchemy import select
+
+    # Get all active services
+    services_result = await db_session.execute(
+        select(Service).where(Service.is_active == True)
     )
+    services = services_result.scalars().all()
 
-    import json
-    try:
-        return json.loads(response.content[0].text)
-    except Exception:
-        return {}
+    if not services:
+        logger.warning("No active services found - cannot score leads")
+        return {"leads_scored": 0, "scores_created": 0, "services": 0}
+
+    # Get all leads
+    leads_result = await db_session.execute(select(Lead))
+    leads = leads_result.scalars().all()
+
+    total_scores = 0
+    for lead in leads:
+        scores = await score_lead(lead, services, db_session)
+        total_scores += len(scores)
+
+    await db_session.commit()
+
+    logger.info(f"Scored {len(leads)} leads against {len(services)} services, created {total_scores} scores")
+
+    return {
+        "leads_scored": len(leads),
+        "scores_created": total_scores,
+        "services": len(services)
+    }
