@@ -18,7 +18,7 @@ router = APIRouter()
 
 @router.get("/ranked", response_model=List[RankedLeadResponse])
 async def get_ranked_leads(
-    limit: int = Query(default=20, le=100),
+    limit: int = Query(default=100, le=500),
     min_score: float = Query(default=0, ge=0, le=100),
     db: AsyncSession = Depends(get_db),
     current_user: User = Depends(get_current_user),
@@ -30,10 +30,15 @@ async def get_ranked_leads(
     Each lead shows its best-scoring service.
 
     Query params:
-    - limit: Max number of leads to return (default 20, max 100)
+    - limit: Max number of unique leads to return (default 100, max 500)
     - min_score: Only show leads with score >= this (default 0)
     """
-    # Subquery to get best score per lead
+    # First get all leads with their best score
+    # Then join to get the details of one service with that best score
+    from sqlalchemy import distinct
+    from sqlalchemy.orm import aliased
+
+    # Subquery: for each lead, get their best score
     best_scores_subq = (
         select(
             LeadScore.lead_id,
@@ -43,10 +48,13 @@ async def get_ranked_leads(
         .subquery()
     )
 
-    # Get lead scores that match the best score for each lead
-    query = (
-        select(Lead, LeadScore)
-        .join(LeadScore, Lead.id == LeadScore.lead_id)
+    # Subquery: for each (lead, best_score), pick the first score_id
+    # This handles when a lead has the same max score for multiple services
+    first_score_subq = (
+        select(
+            LeadScore.lead_id,
+            func.min(LeadScore.id).label('first_score_id')
+        )
         .join(
             best_scores_subq,
             and_(
@@ -54,8 +62,28 @@ async def get_ranked_leads(
                 LeadScore.score == best_scores_subq.c.best_score
             )
         )
-        .where(LeadScore.score >= min_score)
-        .order_by(LeadScore.score.desc())
+        .group_by(LeadScore.lead_id)
+        .subquery()
+    )
+
+    # Main query: get leads with their best score details
+    # Order by best score DESC, then by lead_id for deterministic ordering
+    query = (
+        select(Lead, LeadScore, best_scores_subq.c.best_score)
+        .join(
+            first_score_subq,
+            Lead.id == first_score_subq.c.lead_id
+        )
+        .join(
+            LeadScore,
+            LeadScore.id == first_score_subq.c.first_score_id
+        )
+        .join(
+            best_scores_subq,
+            Lead.id == best_scores_subq.c.lead_id
+        )
+        .where(best_scores_subq.c.best_score >= min_score)
+        .order_by(best_scores_subq.c.best_score.desc(), Lead.id.asc())
         .limit(limit)
     )
 
@@ -63,13 +91,13 @@ async def get_ranked_leads(
     rows = result.all()
 
     ranked_leads = []
-    for lead, score in rows:
+    for lead, score, best_score in rows:
         ranked_leads.append(RankedLeadResponse(
             lead_id=lead.id,
             company_name=lead.company_name,
             sector=lead.sector,
             city=lead.city,
-            best_score=score.score,
+            best_score=best_score,
             best_service=score.service_name,
             best_reasoning=score.reasoning
         ))
