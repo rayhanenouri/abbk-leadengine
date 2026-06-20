@@ -6,16 +6,19 @@ Update this at end of every session.
 When developer says good night — update everything done today and what to start tomorrow.
 
 ## Current Status
-Date: 2026-06-20 Late Evening — LEAD DETAIL PAGE COMPLETE ✅
-Active milestone: M4 ✅ COMPLETE — Dashboard + Lead Detail + Mobile + Scalability
-Next action: M5 Deliver — Hetzner deployment + expand to 1000+ companies
+Date: 2026-06-20 Very Late Evening — NEWS SPIDER + ENRICHMENT COMPLETE ✅
+Active milestone: M2 IN PROGRESS — Scraping + Enrichment (3 of 16 issues done)
+Next action: Continue M2 scrapers + M5 Hetzner deployment
 Demo deadline: June 20 — ✅ DELIVERED 2 DAYS EARLY + EXCEEDED ALL GOALS
-Delivery deadline: June 30
+Delivery deadline: June 30 (10 days remaining)
 Database: 121 companies, 93 unique sectors, 1,694 scores calculated
+High-Value Leads: 9 multinationals detected (ABBK's best converters)
 High Priority Leads: 10 companies (score 70+)
 Medium Priority Leads: 61 companies (score 50-69)
 Dashboard: ✅ LIVE — ranked leads with pagination
 Lead Detail: ✅ COMPLETE — full company profile, scores, signals, best deal
+Enrichment: ✅ COMPLETE — multinational, exporter, audit detection
+News Spider: ✅ COMPLETE — business news signal extraction
 Mobile Access: ✅ Works on any device (laptop, phone, tablet)
 Scalability: ✅ 10,000+ companies ready (API: 9-12ms, pagination: 50/page)
 
@@ -36,23 +39,23 @@ Known issues carried to next milestones:
 
 ## M2 — Scraping engine IN PROGRESS
 Total issues: 16
-Closed: 2
-Open: 14
+Closed: 5
+Open: 11
 
 Priority queue in order:
 [✓] 20 — POST /api/leads/import CSV import — DONE
 [✓] 10 — Spider 1 directories annuaire.tn — DONE
+[✓] 12 — Spider 3 news businessnews.com.tn — DONE
+[✓] 17 — Multinational detection — DONE
+[✓] 18 — Audit pressure detection — DONE
 [ ] 23 — Deduplication pipeline — START HERE
 [ ] 25 — GET /api/leads with filters and pagination
 [ ] 19 — Apify LinkedIn connector
 [ ] 11 — Spider 2 job boards emploi.tn keejob.com
-[ ] 12 — Spider 3 news businessnews.com.tn
 [ ] 16 — Logo detection Playwright
 [ ] 13 — Spider 4 training history
 [ ] 14 — Spider 5 bailleurs de fonds
 [ ] 15 — Spider 6 ministeres tenders
-[ ] 17 — Multinational detection
-[ ] 18 — Audit pressure detection
 [ ] 21 — Company enrichment fiscalite actualite employes
 [ ] 22 — Event signals
 [ ] 24 — Celery Beat all scrapers scheduled
@@ -60,6 +63,9 @@ Priority queue in order:
 Done in M2:
 - Issue 20: CSV import endpoint - 7 companies imported
 - Issue 10: Directory spider - 22 companies scraped (29 total in DB)
+- Issue 12: News spider - businessnews.com.tn, managers.com.tn, tekiano.com
+- Issue 17: Multinational detection - 9 multinationals detected from 121 leads
+- Issue 18: Audit pressure detection - ISO/certification/compliance keyword detection
 
 Blocked: nothing
 Notes: DirectoriesSpider ready for annuaire.tn, pagesjaunes.tn, kompass.tn
@@ -97,6 +103,60 @@ Next: Hetzner deployment + Flower fix + Nginx fix
 ## M5 — Deliver NOT STARTED
 
 ## Daily Log
+
+### 2026-06-20 Very Late Evening Session 3 — NEWS SPIDER + ENRICHMENT COMPLETE ✅
+- Built 3 critical M2 features for ABBK's highest converting leads
+- Spider 3 - Business News (340 lines):
+  * Scrapes businessnews.com.tn, managers.com.tn, tekiano.com
+  * Detects: funding, expansion, exports, partnerships, ISO certifications
+  * Extracts company names using regex (3 patterns)
+  * Creates signals: news, funding, export_signal, audit_signal, multinational_signal
+  * Keywords: 5 categories (funding, expansion, export, audit, multinational)
+  * Respectful scraping: 3s delay, auto-throttle, robots.txt compliant
+- Lead Enrichment Detection (321 lines):
+  * Created LeadDetector class in detection.py
+  * 3 detection methods:
+    1. detect_multinational() - international groups, known names
+    2. detect_exporter() - export keywords, foreign countries
+    3. detect_audit_pressure() - ISO, certifications, compliance
+  * Each returns (bool, reason) with full explanation
+  * enrich_lead() runs all 3 detections
+- Enrichment Tasks (218 lines):
+  * detect_all_flags_task() - Celery task to enrich all leads
+  * detect_single_lead_task() - enrich one lead
+  * Creates LeadSignal for each flag with reason
+  * Updates Lead.is_multinational, is_exporter, under_audit
+- Signals Pipeline Updated:
+  * Now handles all signal types (not just new_hire)
+  * Accepts: new_hire, news, funding, export_signal, audit_signal, etc.
+  * Deduplication by lead_id + signal_type + title
+  * Truncates to DB limits (500 chars title, 1000 chars detail)
+- Standalone Script (66 lines):
+  * run_enrichment.py - runs enrichment on all leads
+  * Pretty output with stats and emojis
+- Testing Results:
+  * Ran enrichment on 121 existing leads
+  * Detected 9 multinationals:
+    - Poulina Group, STMicroelectronics Tunisia, Leoni Tunisia
+    - Telnet Holding, Délice Danone, Ooredoo Tunisia, Orange Tunisie
+    - All flagged is_multinational=true
+  * Created multinational_signal for each with reason
+  * Signals visible in lead detail page
+- Business Impact:
+  * Multinationals = HIGHEST priority (international clients = must use licensed SW)
+  * Exporters = must pass audits (cannot use cracked)
+  * Under audit = ready to buy NOW (compliance pressure)
+  * These 3 flags are ABBK's best conversion indicators
+- Files changed:
+  * 5 files: 984 insertions(+), 25 deletions(-)
+  * news_spider.py (340 lines)
+  * detection.py (321 lines)
+  * enrichment.py (218 lines)
+  * pipelines_signals.py (updated for all signal types)
+  * run_enrichment.py (66 lines)
+- Commit a3c15ac pushed to develop
+- Issues closed: #12 (news spider), #17 (multinational), #18 (audit)
+- M2 progress: 5 of 16 issues complete (31%)
 
 ### 2026-06-20 Late Evening Session 2 — LEAD DETAIL PAGE COMPLETE ✅
 - Built the most critical page for sales conversion
