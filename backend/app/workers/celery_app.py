@@ -11,6 +11,8 @@ celery_app = Celery(
         "app.workers.tasks.scraping",
         "app.workers.tasks.scoring",
         "app.workers.tasks.enrichment",
+        "app.workers.tasks.logo_detection",
+        "app.workers.tasks.maintenance",
     ],
 )
 
@@ -26,25 +28,69 @@ celery_app.conf.update(
 )
 
 # ─── Scheduled jobs (Celery Beat) ─────────────────────────────────────────────
+# All scrapers auto-scheduled to keep data fresh
 celery_app.conf.beat_schedule = {
-    # LinkedIn scrape every 48 hours (Apify quota friendly)
-    "scrape-linkedin-companies": {
-        "task": "app.workers.tasks.scraping.scrape_linkedin_companies",
-        "schedule": crontab(hour="*/48"),
-    },
-    # News + job boards every 6 hours
-    "scrape-news-and-jobs": {
-        "task": "app.workers.tasks.scraping.scrape_news_and_jobs",
-        "schedule": crontab(hour="*/6"),
-    },
-    # Tunisian directories daily at 2am
-    "scrape-directories": {
+    # ═══ DATA COLLECTION (Scrapers) ═══
+
+    # Tunisian business directories - Daily at 2am
+    "scrape-directories-daily": {
         "task": "app.workers.tasks.scraping.scrape_directories",
         "schedule": crontab(hour=2, minute=0),
+        "options": {"queue": "scrapers"},
     },
-    # Recalculate all lead scores nightly at 3am
-    "recalculate-all-scores": {
+
+    # Business news - Every 6 hours
+    "scrape-news-6h": {
+        "task": "app.workers.tasks.scraping.scrape_news",
+        "schedule": crontab(minute=0, hour="*/6"),  # 00:00, 06:00, 12:00, 18:00
+        "options": {"queue": "scrapers"},
+    },
+
+    # Job boards hiring signals - Every 12 hours
+    "scrape-jobs-12h": {
+        "task": "app.workers.tasks.scraping.scrape_jobs",
+        "schedule": crontab(minute=0, hour="*/12"),  # 00:00, 12:00
+        "options": {"queue": "scrapers"},
+    },
+
+    # LinkedIn company data - Every 48 hours (Apify quota friendly)
+    "scrape-linkedin-48h": {
+        "task": "app.workers.tasks.scraping.scrape_linkedin",
+        "schedule": crontab(minute=0, hour=0, day_of_week="*/2"),  # Every 2 days
+        "options": {"queue": "scrapers"},
+    },
+
+    # ═══ ENRICHMENT (Detection & Analysis) ═══
+
+    # Multinational/exporter/audit detection - Daily at 1am
+    "enrichment-flags-daily": {
+        "task": "enrichment.detect_all_flags",
+        "schedule": crontab(hour=1, minute=0),
+        "options": {"queue": "enrichment"},
+    },
+
+    # Logo detection on websites - Weekly on Sunday at 3am
+    "logo-detection-weekly": {
+        "task": "logo_detection.detect_all_websites",
+        "schedule": crontab(hour=3, minute=0, day_of_week=0),  # Sunday
+        "options": {"queue": "enrichment"},
+    },
+
+    # ═══ SCORING & RANKING ═══
+
+    # Recalculate all lead scores - Daily at 4am (after enrichment)
+    "recalculate-scores-daily": {
         "task": "app.workers.tasks.scoring.recalculate_all_scores",
-        "schedule": crontab(hour=3, minute=0),
+        "schedule": crontab(hour=4, minute=0),
+        "options": {"queue": "scoring"},
+    },
+
+    # ═══ MAINTENANCE ═══
+
+    # Clean old signals - Weekly on Monday at 5am
+    "cleanup-old-signals-weekly": {
+        "task": "app.workers.tasks.maintenance.cleanup_old_signals",
+        "schedule": crontab(hour=5, minute=0, day_of_week=1),  # Monday
+        "options": {"queue": "maintenance"},
     },
 }

@@ -7,18 +7,80 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-@celery_app.task(name="app.workers.tasks.scraping.scrape_linkedin_companies")
-def scrape_linkedin_companies():
+@celery_app.task(name="app.workers.tasks.scraping.scrape_linkedin")
+def scrape_linkedin():
     """Scrape LinkedIn companies using Apify."""
-    logger.info("TODO: Implement LinkedIn scraping")
+    logger.info("TODO: Implement LinkedIn scraping with Apify")
     return {"status": "not_implemented"}
 
 
-@celery_app.task(name="app.workers.tasks.scraping.scrape_news_and_jobs")
-def scrape_news_and_jobs():
-    """Scrape news and job boards."""
-    logger.info("TODO: Implement news and jobs scraping")
-    return {"status": "not_implemented"}
+@celery_app.task(name="app.workers.tasks.scraping.scrape_news")
+def scrape_news():
+    """
+    Scrape Tunisian business news.
+
+    Runs BusinessNewsSpider to collect signals from:
+    - businessnews.com.tn
+    - managers.com.tn
+    - tekiano.com
+
+    Returns count of signals created.
+    """
+    try:
+        from app.scrapers.spiders.news_spider import BusinessNewsSpider
+        from scrapy.crawler import CrawlerProcess
+        from app.scrapers import settings as scrapy_settings
+
+        settings_dict = {
+            key: getattr(scrapy_settings, key)
+            for key in dir(scrapy_settings)
+            if key.isupper()
+        }
+
+        process = CrawlerProcess(settings_dict)
+        process.crawl(BusinessNewsSpider)
+        process.start()
+
+        logger.info("News spider completed successfully")
+        return {"status": "completed", "spider": "news"}
+
+    except Exception as e:
+        logger.error(f"Error running news spider: {e}")
+        return {"status": "error", "error": str(e)}
+
+
+@celery_app.task(name="app.workers.tasks.scraping.scrape_jobs")
+def scrape_jobs():
+    """
+    Scrape job boards for hiring signals.
+
+    Runs JobsBoardsSpider to collect hiring signals from:
+    - emploi.tn
+    - keejob.com
+
+    Returns count of signals created.
+    """
+    try:
+        from app.scrapers.spiders.jobs_spider import JobsBoardsSpider
+        from scrapy.crawler import CrawlerProcess
+        from app.scrapers import settings as scrapy_settings
+
+        settings_dict = {
+            key: getattr(scrapy_settings, key)
+            for key in dir(scrapy_settings)
+            if key.isupper()
+        }
+
+        process = CrawlerProcess(settings_dict)
+        process.crawl(JobsBoardsSpider)
+        process.start()
+
+        logger.info("Jobs spider completed successfully")
+        return {"status": "completed", "spider": "jobs"}
+
+    except Exception as e:
+        logger.error(f"Error running jobs spider: {e}")
+        return {"status": "error", "error": str(e)}
 
 
 @celery_app.task(name="app.workers.tasks.scraping.scrape_directories")
