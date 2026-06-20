@@ -120,21 +120,5 @@ class SignalsPipeline:
                 spider.logger.error(f"Error creating signal: {e}")
                 return None
 
-    # Sync wrappers for Scrapy
-    def open_spider(self, spider):
-        loop = asyncio.new_event_loop()
-        asyncio.set_event_loop(loop)
-        self.loop = loop
-        loop.run_until_complete(self.async_open_spider(spider))
-
-    def close_spider(self, spider):
-        if hasattr(self, 'loop'):
-            self.loop.run_until_complete(self.async_close_spider(spider))
-            self.loop.close()
-
-    def process_item(self, item, spider):
-        if hasattr(self, 'loop'):
-            return self.loop.run_until_complete(
-                self.async_process_item(item, spider)
-            )
-        return item
+    # Scrapy will call async methods directly if they exist
+    # No sync wrappers needed - Scrapy detects and uses async_* methods automatically

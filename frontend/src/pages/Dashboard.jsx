@@ -15,7 +15,7 @@ export default function Dashboard() {
     setLoading(true);
     setError('');
     try {
-      const data = await getRankedLeads(50, minScore);
+      const data = await getRankedLeads(100, minScore); // Request 100 scores (API limit) to get unique leads
       // Deduplicate leads by lead_id, keeping highest score
       const uniqueLeads = [];
       const seen = new Set();
