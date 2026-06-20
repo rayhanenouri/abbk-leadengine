@@ -2,36 +2,53 @@ import { useState, useEffect } from 'react';
 import { getRankedLeads, logout } from '../services/api';
 
 export default function Dashboard() {
-  const [leads, setLeads] = useState([]);
+  const [allLeads, setAllLeads] = useState([]); // All leads from API
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [minScore, setMinScore] = useState(0);
 
+  // Pagination state
+  const [currentPage, setCurrentPage] = useState(1);
+  const leadsPerPage = 50;
+
   useEffect(() => {
     loadLeads();
+  }, [minScore]);
+
+  // Reset to page 1 when filter changes
+  useEffect(() => {
+    setCurrentPage(1);
   }, [minScore]);
 
   const loadLeads = async () => {
     setLoading(true);
     setError('');
     try {
-      const data = await getRankedLeads(200, minScore); // Request 200 to get all ~121 leads
-      // Deduplicate leads by lead_id, keeping highest score
-      const uniqueLeads = [];
-      const seen = new Set();
-      data.forEach(lead => {
-        if (!seen.has(lead.lead_id)) {
-          uniqueLeads.push(lead);
-          seen.add(lead.lead_id);
-        }
-      });
-      setLeads(uniqueLeads);
+      // Fetch all leads - designed for 10,000+ scale
+      const data = await getRankedLeads(10000, minScore);
+      setAllLeads(data);
     } catch (err) {
       setError(err.message || 'Failed to load leads');
     } finally {
       setLoading(false);
     }
   };
+
+  // Pagination calculations
+  const totalLeads = allLeads.length;
+  const totalPages = Math.ceil(totalLeads / leadsPerPage);
+  const startIndex = (currentPage - 1) * leadsPerPage;
+  const endIndex = startIndex + leadsPerPage;
+  const currentLeads = allLeads.slice(startIndex, endIndex);
+
+  // Pagination handlers
+  const goToPage = (page) => {
+    setCurrentPage(Math.max(1, Math.min(page, totalPages)));
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const nextPage = () => goToPage(currentPage + 1);
+  const prevPage = () => goToPage(currentPage - 1);
 
   const getScoreColor = (score) => {
     if (score >= 70) return '#10b981'; // green
@@ -63,20 +80,26 @@ export default function Dashboard() {
       {/* Stats Bar */}
       <div style={styles.statsBar}>
         <div style={styles.statCard}>
-          <div style={styles.statNumber}>{leads.length}</div>
+          <div style={styles.statNumber}>{totalLeads}</div>
           <div style={styles.statLabel}>Total Leads</div>
         </div>
         <div style={styles.statCard}>
           <div style={styles.statNumber}>
-            {leads.filter(l => l.best_score >= 70).length}
+            {allLeads.filter(l => l.best_score >= 70).length}
           </div>
           <div style={styles.statLabel}>High Priority</div>
         </div>
         <div style={styles.statCard}>
           <div style={styles.statNumber}>
-            {leads.filter(l => l.best_score >= 50 && l.best_score < 70).length}
+            {allLeads.filter(l => l.best_score >= 50 && l.best_score < 70).length}
           </div>
           <div style={styles.statLabel}>Medium Priority</div>
+        </div>
+        <div style={styles.statCard}>
+          <div style={styles.statNumber}>
+            Page {currentPage} of {totalPages || 1}
+          </div>
+          <div style={styles.statLabel}>Viewing {currentLeads.length} leads</div>
         </div>
         <div style={styles.filterCard}>
           <label style={styles.filterLabel}>Min Score:</label>
@@ -103,15 +126,16 @@ export default function Dashboard() {
           <div style={styles.error}>{error}</div>
         )}
 
-        {!loading && !error && leads.length === 0 && (
+        {!loading && !error && totalLeads === 0 && (
           <div style={styles.empty}>
             No leads found. Try lowering the minimum score filter.
           </div>
         )}
 
-        {!loading && !error && leads.length > 0 && (
-          <div style={styles.leadsGrid}>
-            {leads.map((lead) => {
+        {!loading && !error && totalLeads > 0 && (
+          <>
+            <div style={styles.leadsGrid}>
+              {currentLeads.map((lead) => {
               const badge = getPriorityBadge(lead.best_score);
               return (
                 <div key={lead.lead_id} style={styles.leadCard}>
@@ -173,6 +197,70 @@ export default function Dashboard() {
               );
             })}
           </div>
+
+          {/* Pagination Controls */}
+          {totalPages > 1 && (
+            <div style={styles.pagination}>
+              <button
+                onClick={prevPage}
+                disabled={currentPage === 1}
+                style={{
+                  ...styles.paginationButton,
+                  ...(currentPage === 1 ? styles.paginationButtonDisabled : {}),
+                }}
+              >
+                ← Previous
+              </button>
+
+              <div style={styles.paginationInfo}>
+                <span style={styles.paginationText}>
+                  Showing {startIndex + 1}-{Math.min(endIndex, totalLeads)} of {totalLeads} leads
+                </span>
+                <div style={styles.pageNumbers}>
+                  {/* Show page numbers with ellipsis for large page counts */}
+                  {Array.from({ length: Math.min(totalPages, 7) }, (_, i) => {
+                    let pageNum;
+                    if (totalPages <= 7) {
+                      pageNum = i + 1;
+                    } else if (currentPage <= 4) {
+                      pageNum = i + 1;
+                    } else if (currentPage >= totalPages - 3) {
+                      pageNum = totalPages - 6 + i;
+                    } else {
+                      pageNum = currentPage - 3 + i;
+                    }
+
+                    if (pageNum < 1 || pageNum > totalPages) return null;
+
+                    return (
+                      <button
+                        key={pageNum}
+                        onClick={() => goToPage(pageNum)}
+                        style={{
+                          ...styles.pageButton,
+                          ...(currentPage === pageNum ? styles.pageButtonActive : {}),
+                        }}
+                      >
+                        {pageNum}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              <button
+                onClick={nextPage}
+                disabled={currentPage === totalPages}
+                style={{
+                  ...styles.paginationButton,
+                  ...(currentPage === totalPages ? styles.paginationButtonDisabled : {}),
+                }}
+              >
+                Next →
+              </button>
+            </div>
+          )}
+        </>
         )}
       </main>
     </div>
@@ -387,5 +475,71 @@ const styles = {
     fontSize: '14px',
     fontWeight: '600',
     cursor: 'pointer',
+  },
+  // Pagination styles
+  pagination: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginTop: '40px',
+    padding: '20px',
+    backgroundColor: 'white',
+    borderRadius: '12px',
+    boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
+    gap: '20px',
+    flexWrap: 'wrap',
+  },
+  paginationButton: {
+    padding: '10px 20px',
+    backgroundColor: '#667eea',
+    color: 'white',
+    border: 'none',
+    borderRadius: '6px',
+    fontSize: '14px',
+    fontWeight: '600',
+    cursor: 'pointer',
+    transition: 'background-color 0.2s',
+    minWidth: '120px',
+  },
+  paginationButtonDisabled: {
+    backgroundColor: '#d1d5db',
+    cursor: 'not-allowed',
+    opacity: 0.6,
+  },
+  paginationInfo: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    gap: '10px',
+    flex: 1,
+  },
+  paginationText: {
+    fontSize: '14px',
+    color: '#374151',
+    fontWeight: '500',
+  },
+  pageNumbers: {
+    display: 'flex',
+    gap: '8px',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+  },
+  pageButton: {
+    padding: '8px 12px',
+    backgroundColor: 'white',
+    color: '#374151',
+    border: '1px solid #d1d5db',
+    borderRadius: '6px',
+    fontSize: '14px',
+    fontWeight: '500',
+    cursor: 'pointer',
+    minWidth: '40px',
+    transition: 'all 0.2s',
+  },
+  pageButtonActive: {
+    backgroundColor: '#667eea',
+    color: 'white',
+    borderColor: '#667eea',
+    fontWeight: '600',
   },
 };

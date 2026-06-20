@@ -60,7 +60,7 @@ export const getLeads = async () => {
 };
 
 // Scores APIs
-export const getRankedLeads = async (limit = 20, minScore = 0) => {
+export const getRankedLeads = async (limit = 10000, minScore = 0) => {
   return apiCall(`/scores/ranked?limit=${limit}&min_score=${minScore}`);
 };
 

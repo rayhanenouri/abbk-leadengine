@@ -18,7 +18,7 @@ router = APIRouter()
 
 @router.get("/ranked", response_model=List[RankedLeadResponse])
 async def get_ranked_leads(
-    limit: int = Query(default=100, le=500),
+    limit: int = Query(default=1000, le=10000),
     min_score: float = Query(default=0, ge=0, le=100),
     db: AsyncSession = Depends(get_db),
     current_user: User = Depends(get_current_user),
@@ -29,8 +29,10 @@ async def get_ranked_leads(
     Returns leads sorted by highest score descending.
     Each lead shows its best-scoring service.
 
+    Designed for scale: handles 10,000+ companies efficiently.
+
     Query params:
-    - limit: Max number of unique leads to return (default 100, max 500)
+    - limit: Max number of unique leads to return (default 1000, max 10000)
     - min_score: Only show leads with score >= this (default 0)
     """
     # First get all leads with their best score
