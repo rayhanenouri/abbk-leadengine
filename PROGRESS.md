@@ -6,12 +6,13 @@ Update this at end of every session.
 When developer says good night — update everything done today and what to start tomorrow.
 
 ## Current Status
-Date: 2026-06-18 Evening
-Active milestone: M3 Scoring engine + M4 Dashboard
-Next action: React dashboard for ranked leads (CRITICAL FOR DEMO)
-Demo deadline: June 20 — 2 days away
+Date: 2026-06-20 — DEMO DAY
+Active milestone: M3 COMPLETE + M4 COMPLETE — DEMO READY
+Next action: Continue M2 scraping spiders (job boards, news, LinkedIn)
+Demo deadline: June 20 — TODAY — READY TO PRESENT
 Delivery deadline: June 30
 Database: 29 companies, 14 ABBK services, 406 scores calculated
+Dashboard: LIVE at localhost:5173 — Login working, ranked leads displaying
 
 ## M1 — Foundation COMPLETE 9 of 9 issues closed
 Done:
@@ -67,12 +68,41 @@ Done:
 - Top leads identified: BET-SCET, Groupe Chimique Tunisien (75/100)
 Next: Claude API signal extraction (after demo)
 
-## M4 — Dashboard and deploy IN PROGRESS
-Done: nothing yet
-Next: React ranked leads page (CRITICAL FOR DEMO)
+## M4 — Dashboard and deploy DEMO VERSION COMPLETE
+Done:
+- React dashboard with ranked leads WORKING
+- Login flow complete — JWT authentication
+- Lead cards showing: company name, score, sector, city, priority badge
+- Score visualization with color coding (green 70+, orange 50+, red 30+)
+- Stats bar: total leads, high priority count, medium priority count
+- Min score filter: All, 30+, 50+, 70+
+- Mobile responsive design
+- Top leads displaying: BET-SCET (95/100), Groupe Chimique Tunisien (95/100)
+- Playwright automated testing working
+- Screenshots captured for demo presentation
+Next: Hetzner deployment + Flower fix + Nginx fix (after demo)
 ## M5 — Deliver NOT STARTED
 
 ## Daily Log
+
+### 2026-06-20 — DEMO DAY — COMPLETE DASHBOARD READY
+- M4 Dashboard DEMO VERSION COMPLETE 2 days ahead of schedule
+- React dashboard fully functional with login and ranked leads
+- Login: admin@abbk.tn / admin123 working perfectly
+- Dashboard displays 10 unique leads (deduplicated from 29 in DB)
+- Lead cards with full details: company, score, sector, city, reasoning
+- Color-coded priority badges: HIGH (green 70+), MEDIUM (orange 50+), LOW (red 30+)
+- Score filtering: All leads, 30+, 50+, 70+ (high priority only)
+- Stats bar showing: Total Leads (10), High Priority (8), Medium Priority (2)
+- Top leads: BET-SCET Engineering Consulting 95/100, Groupe Chimique Tunisien 95/100
+- Mobile responsive — manager can use on phone
+- Playwright automated test passing — no console errors
+- Screenshots captured: login page + full dashboard
+- Frontend title updated to "ABBK LeadEngine - Sales Intelligence Platform"
+- Playwright added as dev dependency for testing
+- DEMO READY — all critical features working
+- Commit e1be2a8 — feat: complete demo MVP scoring engine + dashboard
+- Status: 2 days ahead of June 20 deadline, ready to present to ABBK manager
 
 ### 2026-06-18 Evening - MAJOR PROGRESS
 - M3 Scoring engine BASIC VERSION COMPLETE
