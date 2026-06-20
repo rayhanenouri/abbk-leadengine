@@ -68,6 +68,21 @@ export const getLeadScores = async (leadId) => {
   return apiCall(`/scores/${leadId}`);
 };
 
+// Signals APIs
+export const getLeadSignals = async (leadId) => {
+  return apiCall(`/signals/${leadId}`);
+};
+
+// Combined lead detail with scores and signals
+export const getLeadDetail = async (leadId) => {
+  const [lead, scores, signals] = await Promise.all([
+    apiCall(`/leads/${leadId}`),
+    apiCall(`/scores/${leadId}`),
+    apiCall(`/signals/${leadId}`),
+  ]);
+  return { lead, scores, signals };
+};
+
 // Health check
 export const checkHealth = async () => {
   const response = await fetch('http://localhost:8000/health');

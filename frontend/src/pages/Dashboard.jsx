@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react';
 import { getRankedLeads, logout } from '../services/api';
+import LeadDetail from './LeadDetail';
 
 export default function Dashboard() {
   const [allLeads, setAllLeads] = useState([]); // All leads from API
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [minScore, setMinScore] = useState(0);
+  const [selectedLeadId, setSelectedLeadId] = useState(null);
 
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
@@ -63,6 +65,16 @@ export default function Dashboard() {
     if (score >= 30) return { text: 'LOW', color: '#ef4444' };
     return { text: 'RESEARCH', color: '#6b7280' };
   };
+
+  // Show lead detail page if a lead is selected
+  if (selectedLeadId) {
+    return (
+      <LeadDetail
+        leadId={selectedLeadId}
+        onBack={() => setSelectedLeadId(null)}
+      />
+    );
+  }
 
   return (
     <div style={styles.container}>
@@ -189,7 +201,10 @@ export default function Dashboard() {
                     <button style={styles.actionButton}>
                       📞 Call Now
                     </button>
-                    <button style={styles.actionButtonSecondary}>
+                    <button
+                      style={styles.actionButtonSecondary}
+                      onClick={() => setSelectedLeadId(lead.lead_id)}
+                    >
                       View Details
                     </button>
                   </div>
