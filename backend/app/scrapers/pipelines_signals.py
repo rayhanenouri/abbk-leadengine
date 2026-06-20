@@ -1,7 +1,14 @@
 """
-Pipeline for storing hiring signals (new_hire) from job boards.
+Pipeline for storing all types of signals.
 
-Creates LeadSignal records when companies are hiring engineering roles.
+Creates LeadSignal records for:
+- new_hire: hiring signals from job boards
+- news: business news mentions
+- funding: funding announcements
+- export_signal: export contracts
+- audit_signal: ISO/certification mentions
+- multinational_signal: multinational company indicators
+
 Links signals to existing leads by matching company name.
 """
 import asyncio
@@ -16,12 +23,13 @@ from app.models.models import Lead, LeadSignal
 
 class SignalsPipeline:
     """
-    Pipeline to store hiring signals and link them to existing leads.
+    Pipeline to store all types of signals and link them to existing leads.
 
-    When a company is found hiring engineers:
+    Process flow:
     1. Try to match to existing lead by company name
-    2. Create LeadSignal with signal_type=new_hire
+    2. Create LeadSignal with appropriate signal_type
     3. If company doesn't exist, skip (will be created by directories spider)
+    4. Avoid duplicate signals for same company/type/title
     """
 
     def __init__(self):
@@ -50,15 +58,25 @@ class SignalsPipeline:
 
     async def async_process_item(self, item: Dict[str, Any], spider):
         """
-        Process hiring signal and create LeadSignal.
+        Process any type of signal and create LeadSignal.
 
         Item should have:
-        - signal_type: 'new_hire'
-        - company_name: name of hiring company
-        - job_title: role being hired
-        - source, source_url
+        - signal_type: 'new_hire', 'news', 'funding', 'export_signal', etc.
+        - company_name: name of company
+        - title: signal title
+        - detail: (optional) detailed description
+        - source_url: (optional) source URL
         """
-        if item.get('signal_type') != 'new_hire':
+        signal_type = item.get('signal_type')
+
+        # Valid signal types
+        valid_signals = [
+            'new_hire', 'news', 'funding', 'export_signal', 'audit_signal',
+            'multinational_signal', 'tender_detected', 'event_attendance',
+            'training_detected', 'logo_detected', 'role_detected',
+        ]
+
+        if signal_type not in valid_signals:
             # Not a signal item, pass through
             return item
 
@@ -85,23 +103,29 @@ class SignalsPipeline:
                     # Don't create signal if lead doesn't exist yet
                     return None
 
-                # Check if we already have this signal (avoid duplicates)
+                # Build signal title based on type
+                if signal_type == 'new_hire':
+                    title = f"Hiring {item.get('job_title', 'engineering role')}"
+                else:
+                    title = item.get('title', f"{signal_type.replace('_', ' ').title()} detected")
+
+                # Check if we already have similar signal (avoid duplicates)
                 existing_signal_query = select(LeadSignal).where(
                     LeadSignal.lead_id == lead.id,
-                    LeadSignal.signal_type == 'new_hire',
-                    LeadSignal.title.ilike(f"%{item.get('job_title', '')}%")
+                    LeadSignal.signal_type == signal_type,
+                    LeadSignal.title == title[:500]  # Match first 500 chars
                 )
                 existing = await session.execute(existing_signal_query)
                 if existing.scalar_one_or_none():
-                    spider.logger.debug(f"Signal already exists for {company_name}")
+                    spider.logger.debug(f"Signal already exists: {company_name} - {signal_type}")
                     return None
 
-                # Create new hiring signal
+                # Create new signal
                 signal = LeadSignal(
                     lead_id=lead.id,
-                    signal_type='new_hire',
-                    title=f"Hiring {item.get('job_title', 'engineering role')}",
-                    detail=item.get('detail', ''),
+                    signal_type=signal_type,
+                    title=title[:500],  # Truncate to 500 chars (DB limit)
+                    detail=item.get('detail', '')[:1000] if item.get('detail') else None,  # Truncate detail
                     source_url=item.get('source_url'),
                     detected_at=datetime.utcnow()
                 )
@@ -110,7 +134,7 @@ class SignalsPipeline:
                 await session.commit()
 
                 spider.logger.info(
-                    f"✅ Created hiring signal: {company_name} - {item.get('job_title')}"
+                    f"✅ Created {signal_type} signal: {company_name} - {title[:50]}"
                 )
 
                 return item
