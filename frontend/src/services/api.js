@@ -2,8 +2,7 @@
  * API service for ABBK LeadEngine
  */
 
-const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000';
-const API_BASE_URL = baseUrl.endsWith('/api') ? baseUrl : `${baseUrl}/api`;
+const API_BASE_URL = `http://${window.location.hostname}:8000/api`;
 
 // Get auth token from localStorage
 const getToken = () => localStorage.getItem('token');
