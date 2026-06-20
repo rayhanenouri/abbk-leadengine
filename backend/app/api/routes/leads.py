@@ -4,13 +4,14 @@ Leads management routes: import, list, get, update.
 import csv
 import io
 from datetime import datetime
-from typing import List
-from fastapi import APIRouter, Depends, HTTPException, status, UploadFile, File
+from typing import List, Optional
+from fastapi import APIRouter, Depends, HTTPException, status, UploadFile, File, Query
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select, or_
+from sqlalchemy import select, or_, func, and_
+from sqlalchemy.orm import selectinload
 
-from app.schemas.leads import LeadResponse, CSVImportResponse
-from app.models.models import Lead, LeadStatus
+from app.schemas.leads import LeadResponse, CSVImportResponse, LeadWithSignalsResponse, PaginatedLeadsResponse
+from app.models.models import Lead, LeadStatus, LeadSignal, LeadScore
 from app.core.deps import get_db, get_current_user
 from app.models.models import User
 
@@ -115,15 +116,176 @@ async def import_csv(
     )
 
 
-@router.get("/", response_model=List[LeadResponse])
+@router.get("/", response_model=PaginatedLeadsResponse)
 async def get_leads(
+    skip: int = Query(default=0, ge=0, description="Number of records to skip"),
+    limit: int = Query(default=50, ge=1, le=1000, description="Max records to return"),
+    sector: Optional[str] = Query(default=None, description="Filter by sector"),
+    city: Optional[str] = Query(default=None, description="Filter by city"),
+    country: Optional[str] = Query(default=None, description="Filter by country"),
+    is_multinational: Optional[bool] = Query(default=None, description="Filter multinational companies"),
+    is_exporter: Optional[bool] = Query(default=None, description="Filter exporters"),
+    under_audit: Optional[bool] = Query(default=None, description="Filter companies under audit"),
+    has_signals: Optional[bool] = Query(default=None, description="Filter leads with signals"),
+    min_score: Optional[float] = Query(default=None, ge=0, le=100, description="Minimum score filter"),
+    search: Optional[str] = Query(default=None, description="Search by company name"),
+    sort_by: str = Query(default="created_at", description="Sort field: created_at, company_name, score"),
+    sort_order: str = Query(default="desc", description="Sort order: asc or desc"),
+    include_signals: bool = Query(default=False, description="Include signals in response"),
+    include_scores: bool = Query(default=False, description="Include scores in response"),
     db: AsyncSession = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
-    """Get all leads (paginated in future)."""
-    result = await db.execute(select(Lead))
+    """
+    Get leads with advanced filtering, pagination, sorting, and optional signals/scores.
+
+    Query parameters:
+    - skip, limit: Pagination
+    - sector, city, country: Basic filters
+    - is_multinational, is_exporter, under_audit: Boolean flags
+    - has_signals: Only leads with detected signals
+    - min_score: Filter by minimum score
+    - search: Search company name (case-insensitive)
+    - sort_by: created_at, company_name, or score
+    - sort_order: asc or desc
+    - include_signals: Add signals array to each lead
+    - include_scores: Add scores array to each lead
+
+    Returns:
+    - leads: Array of lead objects
+    - total: Total count (before pagination)
+    - skip, limit: Pagination params
+    - has_more: Whether more results exist
+    """
+    # Build base query
+    query = select(Lead)
+
+    # Apply filters
+    filters = []
+
+    if sector:
+        filters.append(Lead.sector.ilike(f"%{sector}%"))
+
+    if city:
+        filters.append(Lead.city.ilike(f"%{city}%"))
+
+    if country:
+        filters.append(Lead.country.ilike(f"%{country}%"))
+
+    if is_multinational is not None:
+        filters.append(Lead.is_multinational == is_multinational)
+
+    if is_exporter is not None:
+        filters.append(Lead.is_exporter == is_exporter)
+
+    if under_audit is not None:
+        filters.append(Lead.under_audit == under_audit)
+
+    if search:
+        filters.append(Lead.company_name.ilike(f"%{search}%"))
+
+    if filters:
+        query = query.where(and_(*filters))
+
+    # Filter by signals
+    if has_signals is not None:
+        if has_signals:
+            # Only leads with at least one signal
+            query = query.join(LeadSignal).group_by(Lead.id)
+        else:
+            # Only leads without signals
+            subq = select(LeadSignal.lead_id).distinct()
+            query = query.where(Lead.id.notin_(subq))
+
+    # Filter by minimum score
+    if min_score is not None:
+        # Join with scores and filter by max score
+        score_subq = (
+            select(LeadScore.lead_id)
+            .where(LeadScore.score >= min_score)
+            .group_by(LeadScore.lead_id)
+            .subquery()
+        )
+        query = query.where(Lead.id.in_(select(score_subq.c.lead_id)))
+
+    # Get total count before pagination
+    count_query = select(func.count()).select_from(query.subquery())
+    total_result = await db.execute(count_query)
+    total = total_result.scalar() or 0
+
+    # Apply sorting
+    if sort_by == "company_name":
+        order_col = Lead.company_name
+    elif sort_by == "score":
+        # Sort by best score (requires subquery)
+        score_subq = (
+            select(LeadScore.lead_id, func.max(LeadScore.score).label('best_score'))
+            .group_by(LeadScore.lead_id)
+            .subquery()
+        )
+        query = query.outerjoin(score_subq, Lead.id == score_subq.c.lead_id)
+        order_col = score_subq.c.best_score
+    else:  # created_at or default
+        order_col = Lead.created_at
+
+    if sort_order.lower() == "asc":
+        query = query.order_by(order_col.asc())
+    else:
+        query = query.order_by(order_col.desc())
+
+    # Apply pagination
+    query = query.offset(skip).limit(limit)
+
+    # Execute query
+    result = await db.execute(query)
     leads = result.scalars().all()
-    return leads
+
+    # Optionally load signals and scores
+    response_leads = []
+    for lead in leads:
+        lead_data = {
+            "id": lead.id,
+            "company_name": lead.company_name,
+            "website": lead.website,
+            "linkedin_url": lead.linkedin_url,
+            "country": lead.country,
+            "city": lead.city,
+            "sector": lead.sector,
+            "employee_count": lead.employee_count,
+            "is_multinational": lead.is_multinational,
+            "is_exporter": lead.is_exporter,
+            "under_audit": lead.under_audit,
+            "scraped_data": lead.scraped_data,
+            "status": lead.status,
+            "created_at": lead.created_at,
+            "updated_at": lead.updated_at,
+        }
+
+        if include_signals:
+            signals_result = await db.execute(
+                select(LeadSignal)
+                .where(LeadSignal.lead_id == lead.id)
+                .order_by(LeadSignal.detected_at.desc())
+            )
+            lead_data["signals"] = signals_result.scalars().all()
+
+        if include_scores:
+            scores_result = await db.execute(
+                select(LeadScore)
+                .where(LeadScore.lead_id == lead.id)
+                .order_by(LeadScore.score.desc())
+            )
+            lead_data["scores"] = scores_result.scalars().all()
+
+        response_leads.append(lead_data)
+
+    return PaginatedLeadsResponse(
+        leads=response_leads,
+        total=total,
+        skip=skip,
+        limit=limit,
+        has_more=(skip + limit) < total,
+    )
 
 
 @router.get("/{lead_id}", response_model=LeadResponse)
