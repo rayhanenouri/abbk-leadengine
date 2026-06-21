@@ -196,3 +196,44 @@ def scrape_funders():
     except Exception as e:
         logger.error(f"Error running funders spider: {e}")
         return {"status": "error", "error": str(e)}
+
+
+@celery_app.task(name="app.workers.tasks.scraping.scrape_tenders")
+def scrape_tenders():
+    """
+    Scrape public tender platforms for engineering contract winners.
+
+    Runs TendersSpider to collect tender signals from:
+    - TUNEPS (Tunisia National Electronic Procurement System)
+    - Ministry of Industry tenders
+    - Ministry of Equipment tenders
+    - HAICOP (Haute Instance de la Commande Publique)
+    - Marchés Publics portal
+    - JORT (Journal Officiel)
+
+    Companies winning public tenders MUST use licensed software (transparency + audit).
+    Sets under_audit=True flag on leads.
+
+    Returns count of signals created.
+    """
+    try:
+        from app.scrapers.spiders.tenders_spider import TendersSpider
+        from scrapy.crawler import CrawlerProcess
+        from app.scrapers import settings as scrapy_settings
+
+        settings_dict = {
+            key: getattr(scrapy_settings, key)
+            for key in dir(scrapy_settings)
+            if key.isupper()
+        }
+
+        process = CrawlerProcess(settings_dict)
+        process.crawl(TendersSpider)
+        process.start()
+
+        logger.info("Tenders spider completed successfully")
+        return {"status": "completed", "spider": "tenders"}
+
+    except Exception as e:
+        logger.error(f"Error running tenders spider: {e}")
+        return {"status": "error", "error": str(e)}

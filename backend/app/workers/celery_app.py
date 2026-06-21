@@ -75,6 +75,13 @@ celery_app.conf.beat_schedule = {
         "options": {"queue": "scrapers"},
     },
 
+    # Public tenders - Weekly on Wednesday at 2am
+    "scrape-tenders-weekly": {
+        "task": "app.workers.tasks.scraping.scrape_tenders",
+        "schedule": crontab(hour=2, minute=0, day_of_week=3),  # Wednesday
+        "options": {"queue": "scrapers"},
+    },
+
     # ═══ ENRICHMENT (Detection & Analysis) ═══
 
     # Multinational/exporter/audit detection - Daily at 1am
