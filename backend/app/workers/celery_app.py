@@ -68,6 +68,13 @@ celery_app.conf.beat_schedule = {
         "options": {"queue": "scrapers"},
     },
 
+    # International funders - Weekly on Tuesday at 2am
+    "scrape-funders-weekly": {
+        "task": "app.workers.tasks.scraping.scrape_funders",
+        "schedule": crontab(hour=2, minute=0, day_of_week=2),  # Tuesday
+        "options": {"queue": "scrapers"},
+    },
+
     # ═══ ENRICHMENT (Detection & Analysis) ═══
 
     # Multinational/exporter/audit detection - Daily at 1am

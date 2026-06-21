@@ -154,3 +154,45 @@ def scrape_training():
     except Exception as e:
         logger.error(f"Error running training spider: {e}")
         return {"status": "error", "error": str(e)}
+
+
+@celery_app.task(name="app.workers.tasks.scraping.scrape_funders")
+def scrape_funders():
+    """
+    Scrape international funding organizations for funded Tunisian companies.
+
+    Runs FundersSpider to collect funding signals from:
+    - World Bank Tunisia projects
+    - AFD (Agence Française de Développement)
+    - EIB (European Investment Bank)
+    - EU funding programs
+    - USAID Tunisia
+    - GIZ (German development cooperation)
+    - African Development Bank
+
+    Companies with international funding MUST use licensed software (audit requirement).
+    Sets under_audit=True flag on leads.
+
+    Returns count of signals created.
+    """
+    try:
+        from app.scrapers.spiders.funders_spider import FundersSpider
+        from scrapy.crawler import CrawlerProcess
+        from app.scrapers import settings as scrapy_settings
+
+        settings_dict = {
+            key: getattr(scrapy_settings, key)
+            for key in dir(scrapy_settings)
+            if key.isupper()
+        }
+
+        process = CrawlerProcess(settings_dict)
+        process.crawl(FundersSpider)
+        process.start()
+
+        logger.info("Funders spider completed successfully")
+        return {"status": "completed", "spider": "funders"}
+
+    except Exception as e:
+        logger.error(f"Error running funders spider: {e}")
+        return {"status": "error", "error": str(e)}

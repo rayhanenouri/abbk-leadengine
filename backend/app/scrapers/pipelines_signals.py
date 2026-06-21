@@ -131,6 +131,20 @@ class SignalsPipeline:
                 )
 
                 session.add(signal)
+
+                # Special handling for funding signals with audit requirements
+                if signal_type == 'funding' and item.get('has_audit_requirement'):
+                    # Set under_audit flag on lead
+                    from sqlalchemy import update as sql_update
+                    await session.execute(
+                        sql_update(Lead)
+                        .where(Lead.id == lead.id)
+                        .values(under_audit=True)
+                    )
+                    spider.logger.info(
+                        f"🔍 Set under_audit=True for {company_name} (international funding detected)"
+                    )
+
                 await session.commit()
 
                 spider.logger.info(

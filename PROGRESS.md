@@ -6,9 +6,9 @@ Update this at end of every session.
 When developer says good night — update everything done today and what to start tomorrow.
 
 ## Current Status
-Date: 2026-06-21 — M2 NEARING COMPLETION ✅
-Active milestone: M2 IN PROGRESS — Scraping + Enrichment (12 of 16 issues complete - 75%)
-Next action: Continue M2 — bailleurs de fonds, tenders, enrichment, events
+Date: 2026-06-21 — M2 NEARING COMPLETION ✅  
+Active milestone: M2 IN PROGRESS — Scraping + Enrichment (13 of 16 issues complete - 81.25%)
+Next action: Continue M2 — tenders, enrichment, events (only 3 remaining!)
 Demo deadline: June 20 — ✅ DELIVERED 2 DAYS EARLY + EXCEEDED ALL GOALS
 Delivery deadline: June 30 (9 days remaining)
 
@@ -47,8 +47,8 @@ Known issues carried to next milestones:
 
 ## M2 — Scraping engine IN PROGRESS
 Total issues: 16
-Closed: 12 (75%)
-Open: 4 (25%)
+Closed: 13 (81.25%)
+Open: 3 (18.75%)
 
 Priority queue in order:
 [✓] 20 — POST /api/leads/import CSV import — DONE
@@ -62,9 +62,9 @@ Priority queue in order:
 [✓] 16 — Logo detection Playwright — DONE
 [✓] 24 — Celery Beat all scrapers scheduled — DONE
 [✓] 19 — Apify LinkedIn connector — DONE
-[✓] 13 — Spider 4 training history — DONE ✨ JUST COMPLETED
-[ ] 14 — Spider 5 bailleurs de fonds — START HERE NEXT
-[ ] 15 — Spider 6 ministeres tenders
+[✓] 13 — Spider 4 training history — DONE
+[✓] 14 — Spider 5 bailleurs de fonds — DONE ✨ JUST COMPLETED
+[ ] 15 — Spider 6 ministeres tenders — START HERE NEXT
 [ ] 21 — Company enrichment fiscalite actualite employes
 [ ] 22 — Event signals
 
@@ -80,7 +80,8 @@ Done in M2:
 - Issue 16: Logo detection - Playwright website scraping for SOLIDWORKS logos
 - Issue 24: Celery Beat - all scrapers auto-scheduled (directories, news, jobs, LinkedIn)
 - Issue 19: Apify LinkedIn connector - employee data, engineering roles detection
-- Issue 13: Training history spider - ISET campuses, engineering schools, ATFP ✨ NEW
+- Issue 13: Training history spider - ISET campuses, engineering schools, ATFP
+- Issue 14: Bailleurs de fonds spider - World Bank, AFD, EIB, EU, USAID, GIZ funding ✨ NEW
 
 Blocked: nothing
 Notes: DirectoriesSpider ready for annuaire.tn, pagesjaunes.tn, kompass.tn
