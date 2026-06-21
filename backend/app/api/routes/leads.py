@@ -305,3 +305,46 @@ async def get_lead(
         )
 
     return lead
+
+
+@router.post("/{lead_id}/enrich-linkedin")
+async def enrich_lead_linkedin(
+    lead_id: int,
+    db: AsyncSession = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    """
+    Trigger LinkedIn enrichment for a single lead.
+
+    This endpoint queues an Apify LinkedIn scraping task for the lead.
+    Requires APIFY_API_TOKEN to be set in environment.
+
+    Returns task ID for tracking.
+    """
+    # Check if lead exists
+    result = await db.execute(select(Lead).where(Lead.id == lead_id))
+    lead = result.scalar_one_or_none()
+
+    if not lead:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Lead not found"
+        )
+
+    if not lead.linkedin_url:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Lead has no LinkedIn URL"
+        )
+
+    # Import and trigger Celery task
+    from app.workers.tasks.apify_linkedin import enrich_single_lead_task
+
+    task = enrich_single_lead_task.delay(lead_id)
+
+    return {
+        "message": f"LinkedIn enrichment queued for {lead.company_name}",
+        "task_id": task.id,
+        "lead_id": lead_id,
+        "linkedin_url": lead.linkedin_url
+    }

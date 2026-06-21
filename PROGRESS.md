@@ -6,11 +6,11 @@ Update this at end of every session.
 When developer says good night — update everything done today and what to start tomorrow.
 
 ## Current Status
-Date: 2026-06-20 End of Day — MAJOR PROGRESS ON M2 ✅
-Active milestone: M2 IN PROGRESS — Scraping + Enrichment (5 of 16 issues complete)
-Next action: Continue M2 — job boards spider, logo detection, company enrichment, Celery scheduling
+Date: 2026-06-21 — M2 NEARING COMPLETION ✅
+Active milestone: M2 IN PROGRESS — Scraping + Enrichment (11 of 16 issues complete - 68.75%)
+Next action: Continue M2 — training spider, bailleurs de fonds, tenders, enrichment, events
 Demo deadline: June 20 — ✅ DELIVERED 2 DAYS EARLY + EXCEEDED ALL GOALS
-Delivery deadline: June 30 (10 days remaining)
+Delivery deadline: June 30 (9 days remaining)
 
 Tonight's accomplishments:
 - Lead Detail Page ✅ — full company profile with 5 sections
@@ -47,8 +47,8 @@ Known issues carried to next milestones:
 
 ## M2 — Scraping engine IN PROGRESS
 Total issues: 16
-Closed: 5
-Open: 11
+Closed: 11 (68.75%)
+Open: 5 (31.25%)
 
 Priority queue in order:
 [✓] 20 — POST /api/leads/import CSV import — DONE
@@ -56,17 +56,17 @@ Priority queue in order:
 [✓] 12 — Spider 3 news businessnews.com.tn — DONE
 [✓] 17 — Multinational detection — DONE
 [✓] 18 — Audit pressure detection — DONE
-[ ] 23 — Deduplication pipeline — START HERE
-[ ] 25 — GET /api/leads with filters and pagination
-[ ] 19 — Apify LinkedIn connector
-[ ] 11 — Spider 2 job boards emploi.tn keejob.com
-[ ] 16 — Logo detection Playwright
-[ ] 13 — Spider 4 training history
+[✓] 23 — Deduplication pipeline — DONE
+[✓] 25 — GET /api/leads with filters and pagination — DONE
+[✓] 11 — Spider 2 job boards emploi.tn keejob.com — DONE
+[✓] 16 — Logo detection Playwright — DONE
+[✓] 24 — Celery Beat all scrapers scheduled — DONE
+[✓] 19 — Apify LinkedIn connector — DONE ✨ JUST COMPLETED
+[ ] 13 — Spider 4 training history — START HERE NEXT
 [ ] 14 — Spider 5 bailleurs de fonds
 [ ] 15 — Spider 6 ministeres tenders
 [ ] 21 — Company enrichment fiscalite actualite employes
 [ ] 22 — Event signals
-[ ] 24 — Celery Beat all scrapers scheduled
 
 Done in M2:
 - Issue 20: CSV import endpoint - 7 companies imported
@@ -74,6 +74,12 @@ Done in M2:
 - Issue 12: News spider - businessnews.com.tn, managers.com.tn, tekiano.com
 - Issue 17: Multinational detection - 9 multinationals detected from 121 leads
 - Issue 18: Audit pressure detection - ISO/certification/compliance keyword detection
+- Issue 23: Deduplication pipeline - fuzzy matching on company names
+- Issue 25: GET /api/leads - pagination, filtering, sorting with signals
+- Issue 11: Jobs spider - emploi.tn, keejob.com hiring signals
+- Issue 16: Logo detection - Playwright website scraping for SOLIDWORKS logos
+- Issue 24: Celery Beat - all scrapers auto-scheduled (directories, news, jobs, LinkedIn)
+- Issue 19: Apify LinkedIn connector - employee data, engineering roles detection ✨ NEW
 
 Blocked: nothing
 Notes: DirectoriesSpider ready for annuaire.tn, pagesjaunes.tn, kompass.tn

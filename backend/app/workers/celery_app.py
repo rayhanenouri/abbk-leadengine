@@ -13,6 +13,7 @@ celery_app = Celery(
         "app.workers.tasks.enrichment",
         "app.workers.tasks.logo_detection",
         "app.workers.tasks.maintenance",
+        "app.workers.tasks.apify_linkedin",
     ],
 )
 
@@ -53,11 +54,11 @@ celery_app.conf.beat_schedule = {
         "options": {"queue": "scrapers"},
     },
 
-    # LinkedIn company data - Every 48 hours (Apify quota friendly)
-    "scrape-linkedin-48h": {
-        "task": "app.workers.tasks.scraping.scrape_linkedin",
+    # Apify LinkedIn enrichment - Every 48 hours (quota friendly)
+    "apify-linkedin-enrichment-48h": {
+        "task": "apify_linkedin.enrich_all_leads",
         "schedule": crontab(minute=0, hour=0, day_of_week="*/2"),  # Every 2 days
-        "options": {"queue": "scrapers"},
+        "options": {"queue": "enrichment"},
     },
 
     # ═══ ENRICHMENT (Detection & Analysis) ═══
