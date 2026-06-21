@@ -7,8 +7,8 @@ When developer says good night — update everything done today and what to star
 
 ## Current Status
 Date: 2026-06-21 — M2 NEARLY COMPLETE ✅  
-Active milestone: M2 IN PROGRESS — Scraping + Enrichment (14 of 16 issues complete - 87.5%)
-Next action: Finish M2 — enrichment, events (only 2 remaining!)
+Active milestone: M2 IN PROGRESS — Scraping + Enrichment (15 of 16 issues complete - 93.75%)
+Next action: Finish M2 — events (only 1 remaining!)
 Demo deadline: June 20 — ✅ DELIVERED 2 DAYS EARLY + EXCEEDED ALL GOALS
 Delivery deadline: June 30 (9 days remaining)
 
@@ -47,8 +47,8 @@ Known issues carried to next milestones:
 
 ## M2 — Scraping engine IN PROGRESS
 Total issues: 16
-Closed: 14 (87.5%)
-Open: 2 (12.5%)
+Closed: 15 (93.75%)
+Open: 1 (6.25%)
 
 Priority queue in order:
 [✓] 20 — POST /api/leads/import CSV import — DONE
@@ -64,9 +64,9 @@ Priority queue in order:
 [✓] 19 — Apify LinkedIn connector — DONE
 [✓] 13 — Spider 4 training history — DONE
 [✓] 14 — Spider 5 bailleurs de fonds — DONE
-[✓] 15 — Spider 6 ministeres tenders — DONE ✨ JUST COMPLETED
-[ ] 21 — Company enrichment fiscalite actualite employes — START HERE NEXT
-[ ] 22 — Event signals
+[✓] 15 — Spider 6 ministeres tenders — DONE
+[✓] 21 — Company enrichment fiscalite actualite employes — DONE ✨ JUST COMPLETED
+[ ] 22 — Event signals — LAST REMAINING ISSUE!
 
 Done in M2:
 - Issue 20: CSV import endpoint - 7 companies imported
@@ -82,7 +82,8 @@ Done in M2:
 - Issue 19: Apify LinkedIn connector - employee data, engineering roles detection
 - Issue 13: Training history spider - ISET campuses, engineering schools, ATFP
 - Issue 14: Bailleurs de fonds spider - World Bank, AFD, EIB, EU, USAID, GIZ funding
-- Issue 15: Ministères/tenders spider - TUNEPS, public sector engineering contracts ✨ NEW
+- Issue 15: Ministères/tenders spider - TUNEPS, public sector engineering contracts
+- Issue 21: Company enrichment - employee count, recent hires, news, fiscal sector, growth/compliance flags ✨ NEW
 
 Blocked: nothing
 Notes: DirectoriesSpider ready for annuaire.tn, pagesjaunes.tn, kompass.tn

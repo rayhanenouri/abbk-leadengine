@@ -14,6 +14,7 @@ celery_app = Celery(
         "app.workers.tasks.logo_detection",
         "app.workers.tasks.maintenance",
         "app.workers.tasks.apify_linkedin",
+        "app.workers.tasks.company_enrichment",
     ],
 )
 
@@ -95,6 +96,13 @@ celery_app.conf.beat_schedule = {
     "logo-detection-weekly": {
         "task": "logo_detection.detect_all_websites",
         "schedule": crontab(hour=3, minute=0, day_of_week=0),  # Sunday
+        "options": {"queue": "enrichment"},
+    },
+
+    # Company enrichment - Weekly on Thursday at 3am
+    "company-enrichment-weekly": {
+        "task": "company_enrichment.enrich_all_leads",
+        "schedule": crontab(hour=3, minute=0, day_of_week=4),  # Thursday
         "options": {"queue": "enrichment"},
     },
 
