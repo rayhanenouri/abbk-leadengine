@@ -83,6 +83,13 @@ celery_app.conf.beat_schedule = {
         "options": {"queue": "scrapers"},
     },
 
+    # Engineering events - Monthly on 1st at 2am
+    "scrape-events-monthly": {
+        "task": "app.workers.tasks.scraping.scrape_events",
+        "schedule": crontab(hour=2, minute=0, day_of_month=1),  # 1st of month
+        "options": {"queue": "scrapers"},
+    },
+
     # ═══ ENRICHMENT (Detection & Analysis) ═══
 
     # Multinational/exporter/audit detection - Daily at 1am

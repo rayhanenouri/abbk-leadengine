@@ -6,9 +6,9 @@ Update this at end of every session.
 When developer says good night — update everything done today and what to start tomorrow.
 
 ## Current Status
-Date: 2026-06-21 — M2 NEARLY COMPLETE ✅  
-Active milestone: M2 IN PROGRESS — Scraping + Enrichment (15 of 16 issues complete - 93.75%)
-Next action: Finish M2 — events (only 1 remaining!)
+Date: 2026-06-21 — M2 COMPLETE! 🎉🎉🎉
+Active milestone: M2 COMPLETE — Scraping + Enrichment (16 of 16 issues complete - 100%)
+Next action: M3 — Scoring engine
 Demo deadline: June 20 — ✅ DELIVERED 2 DAYS EARLY + EXCEEDED ALL GOALS
 Delivery deadline: June 30 (9 days remaining)
 
@@ -45,10 +45,10 @@ Known issues carried to next milestones:
 - Nginx port 80 conflict fix M4
 - Hetzner deploy pending M4
 
-## M2 — Scraping engine IN PROGRESS
+## M2 — Scraping engine ✅ COMPLETE!
 Total issues: 16
-Closed: 15 (93.75%)
-Open: 1 (6.25%)
+Closed: 16 (100%) 🎉
+Open: 0
 
 Priority queue in order:
 [✓] 20 — POST /api/leads/import CSV import — DONE
@@ -65,8 +65,8 @@ Priority queue in order:
 [✓] 13 — Spider 4 training history — DONE
 [✓] 14 — Spider 5 bailleurs de fonds — DONE
 [✓] 15 — Spider 6 ministeres tenders — DONE
-[✓] 21 — Company enrichment fiscalite actualite employes — DONE ✨ JUST COMPLETED
-[ ] 22 — Event signals — LAST REMAINING ISSUE!
+[✓] 21 — Company enrichment fiscalite actualite employes — DONE
+[✓] 22 — Event signals — DONE ✨ M2 COMPLETE! 🎉
 
 Done in M2:
 - Issue 20: CSV import endpoint - 7 companies imported
@@ -83,7 +83,8 @@ Done in M2:
 - Issue 13: Training history spider - ISET campuses, engineering schools, ATFP
 - Issue 14: Bailleurs de fonds spider - World Bank, AFD, EIB, EU, USAID, GIZ funding
 - Issue 15: Ministères/tenders spider - TUNEPS, public sector engineering contracts
-- Issue 21: Company enrichment - employee count, recent hires, news, fiscal sector, growth/compliance flags ✨ NEW
+- Issue 21: Company enrichment - employee count, recent hires, news, fiscal sector, growth/compliance flags
+- Issue 22: Events spider - SOLIDWORKS events, industry salons, trade shows, career fairs ✨ NEW - M2 100% COMPLETE!
 
 Blocked: nothing
 Notes: DirectoriesSpider ready for annuaire.tn, pagesjaunes.tn, kompass.tn

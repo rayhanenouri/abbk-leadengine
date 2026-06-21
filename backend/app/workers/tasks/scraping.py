@@ -237,3 +237,42 @@ def scrape_tenders():
     except Exception as e:
         logger.error(f"Error running tenders spider: {e}")
         return {"status": "error", "error": str(e)}
+
+
+@celery_app.task(name="app.workers.tasks.scraping.scrape_events")
+def scrape_events():
+    """
+    Scrape engineering event websites for participant/exhibitor companies.
+
+    Runs EventsSpider to collect event attendance signals from:
+    - SOLIDWORKS regional events
+    - Tunisia engineering salons
+    - Industry conferences
+    - Trade shows
+    - University career fairs
+
+    Companies attending engineering events = warm leads (actively engaged in engineering).
+
+    Returns count of signals created.
+    """
+    try:
+        from app.scrapers.spiders.events_spider import EventsSpider
+        from scrapy.crawler import CrawlerProcess
+        from app.scrapers import settings as scrapy_settings
+
+        settings_dict = {
+            key: getattr(scrapy_settings, key)
+            for key in dir(scrapy_settings)
+            if key.isupper()
+        }
+
+        process = CrawlerProcess(settings_dict)
+        process.crawl(EventsSpider)
+        process.start()
+
+        logger.info("Events spider completed successfully")
+        return {"status": "completed", "spider": "events"}
+
+    except Exception as e:
+        logger.error(f"Error running events spider: {e}")
+        return {"status": "error", "error": str(e)}
