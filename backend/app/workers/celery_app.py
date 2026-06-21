@@ -61,6 +61,13 @@ celery_app.conf.beat_schedule = {
         "options": {"queue": "enrichment"},
     },
 
+    # Training centers - Weekly on Monday at 1am
+    "scrape-training-weekly": {
+        "task": "app.workers.tasks.scraping.scrape_training",
+        "schedule": crontab(hour=1, minute=0, day_of_week=1),  # Monday
+        "options": {"queue": "scrapers"},
+    },
+
     # ═══ ENRICHMENT (Detection & Analysis) ═══
 
     # Multinational/exporter/audit detection - Daily at 1am

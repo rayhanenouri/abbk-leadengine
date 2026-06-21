@@ -118,3 +118,39 @@ def scrape_directories():
     except Exception as e:
         logger.error(f"Error running directories spider: {e}")
         return {"status": "error", "error": str(e)}
+
+
+@celery_app.task(name="app.workers.tasks.scraping.scrape_training")
+def scrape_training():
+    """
+    Scrape training centers for company participation signals.
+
+    Runs TrainingCentersSpider to collect training signals from:
+    - ISET websites (all regional campuses)
+    - University partner pages
+    - ATFP (Agence Tunisienne de la Formation Professionnelle)
+    - Professional training centers
+
+    Returns count of signals created.
+    """
+    try:
+        from app.scrapers.spiders.training_spider import TrainingCentersSpider
+        from scrapy.crawler import CrawlerProcess
+        from app.scrapers import settings as scrapy_settings
+
+        settings_dict = {
+            key: getattr(scrapy_settings, key)
+            for key in dir(scrapy_settings)
+            if key.isupper()
+        }
+
+        process = CrawlerProcess(settings_dict)
+        process.crawl(TrainingCentersSpider)
+        process.start()
+
+        logger.info("Training spider completed successfully")
+        return {"status": "completed", "spider": "training"}
+
+    except Exception as e:
+        logger.error(f"Error running training spider: {e}")
+        return {"status": "error", "error": str(e)}

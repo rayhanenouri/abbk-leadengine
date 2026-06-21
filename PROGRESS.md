@@ -7,8 +7,8 @@ When developer says good night — update everything done today and what to star
 
 ## Current Status
 Date: 2026-06-21 — M2 NEARING COMPLETION ✅
-Active milestone: M2 IN PROGRESS — Scraping + Enrichment (11 of 16 issues complete - 68.75%)
-Next action: Continue M2 — training spider, bailleurs de fonds, tenders, enrichment, events
+Active milestone: M2 IN PROGRESS — Scraping + Enrichment (12 of 16 issues complete - 75%)
+Next action: Continue M2 — bailleurs de fonds, tenders, enrichment, events
 Demo deadline: June 20 — ✅ DELIVERED 2 DAYS EARLY + EXCEEDED ALL GOALS
 Delivery deadline: June 30 (9 days remaining)
 
@@ -47,8 +47,8 @@ Known issues carried to next milestones:
 
 ## M2 — Scraping engine IN PROGRESS
 Total issues: 16
-Closed: 11 (68.75%)
-Open: 5 (31.25%)
+Closed: 12 (75%)
+Open: 4 (25%)
 
 Priority queue in order:
 [✓] 20 — POST /api/leads/import CSV import — DONE
@@ -61,9 +61,9 @@ Priority queue in order:
 [✓] 11 — Spider 2 job boards emploi.tn keejob.com — DONE
 [✓] 16 — Logo detection Playwright — DONE
 [✓] 24 — Celery Beat all scrapers scheduled — DONE
-[✓] 19 — Apify LinkedIn connector — DONE ✨ JUST COMPLETED
-[ ] 13 — Spider 4 training history — START HERE NEXT
-[ ] 14 — Spider 5 bailleurs de fonds
+[✓] 19 — Apify LinkedIn connector — DONE
+[✓] 13 — Spider 4 training history — DONE ✨ JUST COMPLETED
+[ ] 14 — Spider 5 bailleurs de fonds — START HERE NEXT
 [ ] 15 — Spider 6 ministeres tenders
 [ ] 21 — Company enrichment fiscalite actualite employes
 [ ] 22 — Event signals
@@ -79,7 +79,8 @@ Done in M2:
 - Issue 11: Jobs spider - emploi.tn, keejob.com hiring signals
 - Issue 16: Logo detection - Playwright website scraping for SOLIDWORKS logos
 - Issue 24: Celery Beat - all scrapers auto-scheduled (directories, news, jobs, LinkedIn)
-- Issue 19: Apify LinkedIn connector - employee data, engineering roles detection ✨ NEW
+- Issue 19: Apify LinkedIn connector - employee data, engineering roles detection
+- Issue 13: Training history spider - ISET campuses, engineering schools, ATFP ✨ NEW
 
 Blocked: nothing
 Notes: DirectoriesSpider ready for annuaire.tn, pagesjaunes.tn, kompass.tn
