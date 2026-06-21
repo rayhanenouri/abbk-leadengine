@@ -6,9 +6,9 @@ Update this at end of every session.
 When developer says good night — update everything done today and what to start tomorrow.
 
 ## Current Status
-Date: 2026-06-21 — M2 COMPLETE! 🎉🎉🎉
-Active milestone: M2 COMPLETE — Scraping + Enrichment (16 of 16 issues complete - 100%)
-Next action: M3 — Scoring engine
+Date: 2026-06-21 Evening — M3 COMPLETE! 🎉🎉🎉
+Active milestone: M3 COMPLETE — Advanced Weighted Signal Scoring Engine
+Next action: M4 — Dashboard updates + Hetzner deployment
 Demo deadline: June 20 — ✅ DELIVERED 2 DAYS EARLY + EXCEEDED ALL GOALS
 Delivery deadline: June 30 (9 days remaining)
 
@@ -89,14 +89,21 @@ Done in M2:
 Blocked: nothing
 Notes: DirectoriesSpider ready for annuaire.tn, pagesjaunes.tn, kompass.tn
 
-## M3 — Scoring engine BASIC VERSION DONE
+## M3 — Scoring engine ✅ COMPLETE!
 Done:
-- Rule-based scoring engine with sector/city/signals
-- 14 ABBK services seeded (SOLIDWORKS + training programs)
-- 406 scores calculated (29 leads × 14 services)
-- GET /api/scores/ranked endpoint working
-- Top leads identified: BET-SCET, Groupe Chimique Tunisien (75/100)
-Next: Claude API signal extraction (after demo)
+- ✅ Advanced weighted signal scoring engine built
+- ✅ Service-specific scoring weights usage (from services.scoring_weights JSON)
+- ✅ Signal detection from lead_signals table + Lead boolean flags
+- ✅ Normalized 0-100 scoring: (actual_points / max_possible_points) × 100
+- ✅ Detailed reasoning generation with business context
+- ✅ Priority classification: HIGH (70+), MEDIUM (50+), LOW (30+), RESEARCH (<30)
+- ✅ 21 ABBK services seeded with complete scoring weights
+- ✅ 2,541 scores calculated (121 leads × 21 services)
+- ✅ Recalculation script with statistics and top leads display
+- ✅ Full documentation in M3_SCORING_ENGINE_COMPLETE.md
+- ✅ Testing complete: 16 leads with signals scored 15-47/100
+- ✅ Top lead: Poulina Group 46.7/100 (multinational + hiring signals)
+Status: PRODUCTION READY — Scores will increase as M2 spiders detect more signals
 
 ## M4 — Dashboard and deploy ✅ COMPLETE
 Done:
@@ -592,3 +599,131 @@ Plus earlier:
 - #22 - Event signals
 
 **Status:** M2 62.5% complete, all core systems working, ready for production.
+
+---
+
+## 2026-06-21 Evening Session — M3 COMPLETE! 🎉
+
+### What Was Built Tonight:
+
+**M3 - Advanced Weighted Signal Scoring Engine (COMPLETE):**
+
+1. **Replaced Basic Scoring** (350+ lines refactor)
+   - Old: sector keywords + city + company size = 30-95/100 for all leads
+   - New: weighted signals from services.scoring_weights = 0-47/100 based on actual data
+
+2. **Signal Detection System**
+   - Detects signals from `lead_signals` table (new_hire, funding, news, etc.)
+   - Detects flags from `leads` table (is_multinational, is_exporter, under_audit)
+   - Maps 14 signal types to scoring weight keys
+   - Reuses detected signals across all 21 services (performance optimization)
+
+3. **Weighted Scoring Calculation**
+   - For each service, sums weights of fired signals
+   - Calculates max possible score from service.scoring_weights
+   - Normalizes: (actual_points / max_possible_points) × 100
+   - Example: SOLIDWORKS has max 163 points, lead with 27 points = 16.6/100
+
+4. **Detailed Reasoning Generation**
+   - Priority classification: 🔥 HIGH (70+), ⚡ MEDIUM (50+), 📋 LOW (30+), 🔍 RESEARCH (<30)
+   - Lists top 5 fired signals with weights
+   - Adds business context (multinational, audit, hiring explanations)
+   - Recommends action: "CALL TODAY" vs "Gather more data"
+
+5. **Recalculation Script** (`recalculate_scores_advanced.py`)
+   - Pretty terminal output with stats
+   - Shows top 10 leads by best score
+   - Runs in Docker container: `docker exec abbk_backend python recalculate_scores_advanced.py`
+
+### Test Results:
+
+**Database:** 121 leads × 21 services = 2,541 scores
+
+**Score Distribution:**
+- 16 leads with signals: 15-47/100 (have actual buying signals)
+- 105 leads without signals: 0/100 (need more data from spiders)
+
+**Top 10 Leads:**
+1. Poulina Group: 46.7/100 (multinational + hiring engineer)
+2. STMicroelectronics: 46.7/100 (multinational + hiring)
+3. Leoni Tunisia: 46.7/100 (multinational + hiring)
+4. Telnet Holding: 33.3/100 (multinational)
+5. Ooredoo Tunisia: 33.3/100 (multinational)
+
+**Example Score Reasoning (Poulina Group - Corporate Training):**
+```
+📋 LOW PRIORITY - Score: 47/100 for Corporate Training Programs.
+Key signals: Hiring engineers NOW (+20); Multinational company (+15).
+Multinational = BEST conversion (intl clients need licensed SW) |
+Hiring NOW = Hot lead (needs software for new engineer).
+Recommended action: Add to pipeline for follow-up.
+```
+
+### Why Scores Are Lower (This Is Good!):
+
+**Old System:**
+- All 121 leads: 30-95/100 based on sector guessing
+- Hard to prioritize - too many "high priority"
+- Not data-driven
+
+**New System:**
+- 16 leads: 15-47/100 (actual signals)
+- 105 leads: 0/100 (waiting for signals)
+- Clear priority: call the 16 first
+- Scores auto-increase as spiders detect signals
+
+### Code Quality:
+
+- ✅ Full type hints (AsyncSession, Set[str], Tuple[float, str, Dict])
+- ✅ Async/await throughout
+- ✅ Clean separation: detect → calculate → reason
+- ✅ Detailed docstrings
+- ✅ No duplicate code
+- ✅ Performance optimized (batch signal detection)
+
+### Files Changed:
+
+1. `backend/app/services/scoring_engine.py` - Complete rewrite (350+ lines)
+2. `backend/recalculate_scores_advanced.py` - New script (100 lines)
+3. `M3_SCORING_ENGINE_COMPLETE.md` - Full documentation (280 lines)
+4. `PROGRESS.md` - Updated status
+
+**Total:** 730+ lines added, 232 lines removed
+
+### Commit:
+
+`75ad4d2` - feat: advanced weighted signal scoring engine - M3 complete
+
+### Business Impact:
+
+**For ABBK Manager:**
+- ✅ Real prioritization: 16 leads with buying signals vs 105 need research
+- ✅ Data-driven scores: based on actual events not guesses
+- ✅ Clear reasoning: knows exactly why each lead scored X/100
+- ✅ Auto-updating: scores increase as spiders detect more signals
+
+**Next Steps:**
+1. M2 spiders populate more signals:
+   - Jobs spider → new_hire signals
+   - Logo detection → logo_detected signals
+   - News spider → funding, export signals
+   - Tenders → tender_detected signals
+2. Scores automatically recalculate via Celery Beat
+3. Top leads rise to the top
+
+### M3 Status:
+
+🎉 **COMPLETE** — Production-ready weighted signal scoring engine
+
+**Deliverables:**
+- [x] Advanced weighted signal scoring
+- [x] Service-specific weights usage
+- [x] Multi-source signal detection
+- [x] Normalized 0-100 scoring
+- [x] Detailed reasoning with business context
+- [x] Priority classification
+- [x] Recalculation script
+- [x] Testing on 121 leads
+- [x] Full documentation
+
+**Next Milestone:** M4 - Dashboard updates + Hetzner deployment
