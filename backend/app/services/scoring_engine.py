@@ -1,277 +1,259 @@
 """
 Lead scoring engine for ABBK LeadEngine.
 
-Rule-based scoring system that assigns 0-100 scores to each lead
-based on their fit for ABBK products and services.
+Advanced weighted signal scoring system that calculates 0-100 scores
+for each lead across all 21 ABBK services using:
+- Signal detection from lead data and signals table
+- Service-specific scoring weights from services table
+- Normalization to 0-100 scale
+- Detailed reasoning generation
 
-Scoring signals:
-- Sector match (engineering, manufacturing, industrial)
-- City (Tunis and major cities score higher)
-- Has website (company is established)
-- Has phone (can be contacted)
-- Company size indicators from name/description
+Scoring methodology:
+1. Detect all signals present for the lead (from signals table + lead boolean flags)
+2. For each service, sum weights of fired signals
+3. Calculate max possible score for that service
+4. Normalize: (actual_score / max_score) * 100
+5. Generate reasoning text explaining which signals contributed
 """
-from typing import Dict, List, Tuple
+from typing import Dict, List, Tuple, Set
 from datetime import datetime
 import logging
 
-from app.models.models import Lead, LeadScore, Service, ServiceType
+from app.models.models import Lead, LeadScore, Service, ServiceType, LeadSignal
+from sqlalchemy import select
+from sqlalchemy.ext.asyncio import AsyncSession
 
 logger = logging.getLogger(__name__)
 
 
-# High-value sectors for SOLIDWORKS and engineering software
-HIGH_VALUE_SECTORS = {
-    'engineering': 40,
-    'bureau d etudes': 40,
-    'ingenieur': 35,
-    'manufacturing': 35,
-    'fabrication': 35,
-    'industrial': 35,
-    'industrie': 35,
-    'construction': 30,
-    'btp': 30,
-    'automotive': 35,
-    'automobile': 35,
-    'mechanical': 35,
-    'mecanique': 35,
-    'steel': 30,
-    'metal': 30,
-    'cement': 25,
-    'ciment': 25,
-    'aluminum': 30,
-    'aluminium': 30,
-    'electronics': 30,
-    'electronique': 30,
-    'electrical': 28,
-    'electrique': 28,
-    'oil': 25,
-    'petrole': 25,
-    'chemical': 25,
-    'chimique': 25,
-}
+# Signal type mapping from database to scoring weights keys
+# Maps LeadSignal.signal_type and Lead boolean fields to scoring_weights keys
+SIGNAL_TYPE_MAPPING = {
+    # From lead_signals table
+    "new_hire": "new_hire",
+    "funding": "funding",
+    "news": "news",
+    "logo_detected": "logo_detected",
+    "role_detected": "role_detected",
+    "training_detected": "training_detected",
+    "event_attendance": "event_attendance",
+    "tender_detected": "tender_detected",
+    "audit_signal": "under_audit",  # Maps to under_audit weight
+    "export_signal": "is_exporter",  # Maps to is_exporter weight
+    "multinational_signal": "is_multinational",  # Maps to is_multinational weight
 
-# Medium-value sectors
-MEDIUM_VALUE_SECTORS = {
-    'energy': 20,
-    'utilities': 20,
-    'telecom': 15,
-    'aviation': 20,
-    'infrastructure': 20,
-    'water': 15,
-    'sanitation': 15,
-}
+    # From Lead boolean fields
+    "is_multinational_flag": "is_multinational",
+    "is_exporter_flag": "is_exporter",
+    "under_audit_flag": "under_audit",
 
-# Major cities with more engineering companies
-MAJOR_CITIES = {
-    'tunis': 10,
-    'sfax': 8,
-    'sousse': 7,
-    'ariana': 8,
-    'ben arous': 8,
-    'manouba': 7,
-    'bizerte': 6,
-    'gabes': 6,
-    'nabeul': 6,
+    # Catch-all for cracked software risk
+    "cracked_risk": "cracked_risk",
 }
 
 
-class ScoringEngine:
+class AdvancedScoringEngine:
     """
-    Main scoring engine that calculates lead scores for all ABBK services.
+    Advanced weighted signal scoring engine.
+
+    Uses service-specific scoring weights to calculate 0-100 scores
+    based on detected signals from the leads and lead_signals tables.
     """
 
     def __init__(self):
         self.logger = logging.getLogger(__name__)
 
+    async def detect_lead_signals(
+        self,
+        lead: Lead,
+        db_session: AsyncSession
+    ) -> Set[str]:
+        """
+        Detect all signals present for a lead.
+
+        Signals come from two sources:
+        1. LeadSignal records in lead_signals table
+        2. Boolean flags on Lead model (is_multinational, is_exporter, under_audit)
+
+        Returns:
+            Set of signal type keys matching scoring_weights keys
+        """
+        detected_signals = set()
+
+        # Load lead signals from database
+        result = await db_session.execute(
+            select(LeadSignal).where(LeadSignal.lead_id == lead.id)
+        )
+        lead_signals = result.scalars().all()
+
+        # Map signal types from lead_signals table
+        for signal in lead_signals:
+            signal_key = SIGNAL_TYPE_MAPPING.get(signal.signal_type)
+            if signal_key:
+                detected_signals.add(signal_key)
+
+        # Add boolean flags from Lead model
+        if lead.is_multinational:
+            detected_signals.add("is_multinational")
+
+        if lead.is_exporter:
+            detected_signals.add("is_exporter")
+
+        if lead.under_audit:
+            detected_signals.add("under_audit")
+
+        return detected_signals
+
     def calculate_lead_score(
         self,
         lead: Lead,
-        service: Service
+        service: Service,
+        detected_signals: Set[str]
     ) -> Tuple[float, str, Dict]:
         """
-        Calculate score for a lead-service pair.
+        Calculate weighted score for a lead-service pair.
 
         Args:
             lead: The lead to score
             service: The ABBK service to score for
+            detected_signals: Set of signal keys detected for this lead
 
         Returns:
             Tuple of (score, reasoning, signal_breakdown)
         """
-        score = 0.0
-        signals = {}
-        reasoning_parts = []
+        if not service.scoring_weights:
+            # Service has no weights - return 0
+            return 0.0, "No scoring weights configured for this service", {}
 
-        # Base score from sector match
-        sector_score = self._score_sector(lead.sector)
-        if sector_score > 0:
-            score += sector_score
-            signals['sector_match'] = sector_score
-            reasoning_parts.append(f"Sector '{lead.sector}' highly relevant (+{sector_score})")
+        # Calculate actual score: sum of weights for fired signals
+        actual_score = 0.0
+        signal_breakdown = {}
+        fired_signals = []
 
-        # City/location bonus
-        city_score = self._score_city(lead.city)
-        if city_score > 0:
-            score += city_score
-            signals['major_city'] = city_score
-            reasoning_parts.append(f"Located in {lead.city} (+{city_score})")
+        for signal_type, weight in service.scoring_weights.items():
+            if signal_type in detected_signals:
+                actual_score += weight
+                signal_breakdown[signal_type] = weight
+                fired_signals.append((signal_type, weight))
 
-        # Has website = established company
-        if lead.website:
-            score += 10
-            signals['has_website'] = 10
-            reasoning_parts.append("Has website - established company (+10)")
+        # Calculate max possible score for this service
+        max_possible_score = sum(service.scoring_weights.values())
 
-        # Has phone = contactable
-        phone = self._extract_phone(lead)
-        if phone:
-            score += 5
-            signals['has_phone'] = 5
-            reasoning_parts.append("Phone available (+5)")
-
-        # Company size indicators from name
-        if self._is_large_company(lead.company_name):
-            score += 15
-            signals['large_company'] = 15
-            reasoning_parts.append("Large/national company (+15)")
-
-        # Hiring signals - STRONG buying signal
-        hiring_signals = self._check_hiring_signals(lead)
-        if hiring_signals:
-            score += 20
-            signals['hiring_engineers'] = 20
-            reasoning_parts.append(f"🔥 Hiring engineers NOW - hot lead! (+20)")
-
-        # Service-specific scoring
-        service_bonus = self._score_for_service(lead, service)
-        if service_bonus > 0:
-            score += service_bonus
-            signals[f'{service.service_type}_fit'] = service_bonus
-            reasoning_parts.append(f"Good fit for {service.name} (+{service_bonus})")
-
-        # Cap at 100
-        score = min(score, 100.0)
-
-        # Generate reasoning text
-        if score >= 70:
-            priority = "HIGH PRIORITY"
-        elif score >= 50:
-            priority = "MEDIUM PRIORITY"
-        elif score >= 30:
-            priority = "LOW PRIORITY"
+        # Normalize to 0-100 scale
+        if max_possible_score > 0:
+            normalized_score = (actual_score / max_possible_score) * 100
         else:
-            priority = "RESEARCH NEEDED"
+            normalized_score = 0.0
 
-        reasoning = f"{priority} - Score: {score:.0f}/100. " + ". ".join(reasoning_parts)
-
-        return score, reasoning, signals
-
-    def _score_sector(self, sector: str) -> float:
-        """Score based on sector match."""
-        if not sector:
-            return 0.0
-
-        sector_lower = sector.lower()
-
-        # Check high-value sectors
-        for keyword, points in HIGH_VALUE_SECTORS.items():
-            if keyword in sector_lower:
-                return float(points)
-
-        # Check medium-value sectors
-        for keyword, points in MEDIUM_VALUE_SECTORS.items():
-            if keyword in sector_lower:
-                return float(points)
-
-        return 0.0
-
-    def _score_city(self, city: str) -> float:
-        """Score based on city (major cities have more opportunities)."""
-        if not city:
-            return 0.0
-
-        city_lower = city.lower()
-        for major_city, points in MAJOR_CITIES.items():
-            if major_city in city_lower:
-                return float(points)
-
-        return 0.0
-
-    def _extract_phone(self, lead: Lead) -> str:
-        """Extract phone from scraped_data."""
-        if not lead.scraped_data:
-            return None
-
-        # Check all sources in scraped_data
-        for source_data in lead.scraped_data.values():
-            if isinstance(source_data, dict) and source_data.get('phone'):
-                return source_data['phone']
-
-        return None
-
-    def _is_large_company(self, company_name: str) -> bool:
-        """Detect if company is likely large/national."""
-        if not company_name:
-            return False
-
-        name_lower = company_name.lower()
-
-        # National/international company indicators
-        indicators = [
-            'groupe', 'group', 'holding',
-            'societe nationale', 'national',
-            'international', 'multinational',
-            'office', 'steg', 'tunisie telecom',
-            'banque', 'bank', 'assurance',
-        ]
-
-        return any(indicator in name_lower for indicator in indicators)
-
-    def _check_hiring_signals(self, lead: Lead) -> bool:
-        """
-        Check if company has hiring signals (new_hire).
-
-        Hiring = immediate buying intent.
-        They need software for the new engineer starting soon.
-        """
-        if not hasattr(lead, 'signals') or not lead.signals:
-            return False
-
-        # Check if any signals are hiring-related
-        return any(
-            signal.signal_type == 'new_hire'
-            for signal in lead.signals
+        # Generate detailed reasoning
+        reasoning = self._generate_reasoning(
+            lead=lead,
+            service=service,
+            normalized_score=normalized_score,
+            fired_signals=fired_signals,
+            detected_signals=detected_signals
         )
 
-    def _score_for_service(self, lead: Lead, service: Service) -> float:
-        """Additional scoring based on specific service type."""
-        score = 0.0
+        return normalized_score, reasoning, signal_breakdown
 
-        if service.service_type == ServiceType.solidworks_license:
-            # SOLIDWORKS is for design, engineering, manufacturing
-            if lead.sector and any(kw in lead.sector.lower() for kw in
-                ['engineering', 'design', 'manufacturing', 'mechanical', 'bureau']):
-                score += 10
+    def _generate_reasoning(
+        self,
+        lead: Lead,
+        service: Service,
+        normalized_score: float,
+        fired_signals: List[Tuple[str, float]],
+        detected_signals: Set[str]
+    ) -> str:
+        """
+        Generate human-readable reasoning for the score.
 
-        elif service.service_type == ServiceType.training:
-            # Training fits education and companies with engineers
-            if lead.sector and any(kw in lead.sector.lower() for kw in
-                ['education', 'universite', 'engineering', 'industrial']):
-                score += 10
+        Explains:
+        - Priority level
+        - Which signals fired
+        - Business context (multinational, audit, etc.)
+        - Recommended action
+        """
+        # Priority classification
+        if normalized_score >= 70:
+            priority = "🔥 HIGH PRIORITY"
+            action = "CALL TODAY"
+        elif normalized_score >= 50:
+            priority = "⚡ MEDIUM PRIORITY"
+            action = "Schedule call this week"
+        elif normalized_score >= 30:
+            priority = "📋 LOW PRIORITY"
+            action = "Add to pipeline for follow-up"
+        else:
+            priority = "🔍 RESEARCH NEEDED"
+            action = "Gather more data before contact"
 
-        elif service.service_type == ServiceType.other_license:
-            # Simulia, Abaqus for advanced simulation
-            if lead.sector and any(kw in lead.sector.lower() for kw in
-                ['automotive', 'aerospace', 'mechanical', 'civil']):
-                score += 10
+        reasoning_parts = [
+            f"{priority} - Score: {normalized_score:.0f}/100 for {service.name}.",
+        ]
 
-        return score
+        # Explain fired signals
+        if fired_signals:
+            # Sort by weight descending
+            fired_signals.sort(key=lambda x: x[1], reverse=True)
+
+            signal_explanations = []
+            for signal_type, weight in fired_signals[:5]:  # Top 5 signals
+                explanation = self._explain_signal(signal_type, weight, lead)
+                signal_explanations.append(explanation)
+
+            reasoning_parts.append("Key signals: " + "; ".join(signal_explanations) + ".")
+
+        # Add business context
+        context_parts = []
+        if "is_multinational" in detected_signals:
+            context_parts.append("Multinational = BEST conversion (intl clients need licensed SW)")
+        if "under_audit" in detected_signals:
+            context_parts.append("Under audit = URGENT need (compliance deadline)")
+        if "is_exporter" in detected_signals:
+            context_parts.append("Exporter = Must pass audits (cannot use cracked)")
+        if "new_hire" in detected_signals:
+            context_parts.append("Hiring NOW = Hot lead (needs software for new engineer)")
+
+        if context_parts:
+            reasoning_parts.append(" | ".join(context_parts) + ".")
+
+        # Add recommended action
+        reasoning_parts.append(f"Recommended action: {action}.")
+
+        return " ".join(reasoning_parts)
+
+    def _explain_signal(self, signal_type: str, weight: float, lead: Lead) -> str:
+        """
+        Generate human-readable explanation for a signal.
+        """
+        explanations = {
+            "role_detected": f"Engineering roles detected (+{weight:.0f})",
+            "logo_detected": f"SOLIDWORKS/CAD logo on website (+{weight:.0f})",
+            "under_audit": f"Under audit/certification (+{weight:.0f})",
+            "funding": f"International funding received (+{weight:.0f})",
+            "tender_detected": f"Won public tender (+{weight:.0f})",
+            "is_multinational": f"Multinational company (+{weight:.0f})",
+            "new_hire": f"Hiring engineers NOW (+{weight:.0f})",
+            "training_detected": f"Employee training program (+{weight:.0f})",
+            "event_attendance": f"Attended engineering event (+{weight:.0f})",
+            "is_exporter": f"Exports internationally (+{weight:.0f})",
+            "news": f"Recent business news (+{weight:.0f})",
+            "cracked_risk": f"Potential cracked user (+{weight:.0f})",
+        }
+
+        return explanations.get(
+            signal_type,
+            f"{signal_type} (+{weight:.0f})"
+        )
 
 
-async def score_lead(lead: Lead, services: List[Service], db_session) -> List[LeadScore]:
+async def score_lead(
+    lead: Lead,
+    services: List[Service],
+    db_session: AsyncSession
+) -> List[LeadScore]:
     """
-    Score a single lead against all ABBK services.
+    Score a single lead against all ABBK services using advanced weighted scoring.
 
     Args:
         lead: Lead to score
@@ -281,17 +263,40 @@ async def score_lead(lead: Lead, services: List[Service], db_session) -> List[Le
     Returns:
         List of LeadScore objects created
     """
-    engine = ScoringEngine()
+    engine = AdvancedScoringEngine()
+
+    # Detect all signals for this lead once (reuse for all services)
+    detected_signals = await engine.detect_lead_signals(lead, db_session)
+
+    logger.info(
+        f"Detected {len(detected_signals)} signals for {lead.company_name}: "
+        f"{', '.join(sorted(detected_signals))}"
+    )
+
     scores_created = []
 
     for service in services:
         if not service.is_active:
             continue
 
-        # Calculate score
-        score_value, reasoning, signal_breakdown = engine.calculate_lead_score(lead, service)
+        # Calculate weighted score
+        score_value, reasoning, signal_breakdown = engine.calculate_lead_score(
+            lead=lead,
+            service=service,
+            detected_signals=detected_signals
+        )
 
-        # Create score record
+        # Delete old scores for this lead+service to avoid duplicates
+        from sqlalchemy import delete
+        await db_session.execute(
+            delete(LeadScore).where(
+                LeadScore.lead_id == lead.id,
+                LeadScore.service_type == service.service_type,
+                LeadScore.service_name == service.name
+            )
+        )
+
+        # Create new score record
         lead_score = LeadScore(
             lead_id=lead.id,
             service_type=service.service_type,
@@ -305,19 +310,24 @@ async def score_lead(lead: Lead, services: List[Service], db_session) -> List[Le
         db_session.add(lead_score)
         scores_created.append(lead_score)
 
-        logger.info(f"Scored {lead.company_name} for {service.name}: {score_value:.1f}/100")
+        logger.info(
+            f"Scored {lead.company_name} for {service.name}: "
+            f"{score_value:.1f}/100 ({len(signal_breakdown)} signals fired)"
+        )
 
     return scores_created
 
 
-async def score_all_leads(db_session) -> Dict[str, int]:
+async def score_all_leads(db_session: AsyncSession) -> Dict[str, int]:
     """
     Score all leads in the database against all active services.
+
+    Uses the advanced weighted signal scoring engine.
 
     Returns:
         Dictionary with counts of leads and scores created
     """
-    from sqlalchemy import select
+    from sqlalchemy import select, delete
 
     # Get all active services
     services_result = await db_session.execute(
@@ -333,17 +343,38 @@ async def score_all_leads(db_session) -> Dict[str, int]:
     leads_result = await db_session.execute(select(Lead))
     leads = leads_result.scalars().all()
 
+    logger.info(
+        f"Starting advanced weighted scoring: {len(leads)} leads × {len(services)} services"
+    )
+
+    # Clear all existing scores (fresh recalculation)
+    await db_session.execute(delete(LeadScore))
+    await db_session.flush()
+
     total_scores = 0
-    for lead in leads:
+    leads_with_signals = 0
+
+    for idx, lead in enumerate(leads, 1):
         scores = await score_lead(lead, services, db_session)
         total_scores += len(scores)
 
+        # Count leads with at least one non-zero score
+        if any(score.score > 0 for score in scores):
+            leads_with_signals += 1
+
+        if idx % 10 == 0:
+            logger.info(f"Progress: {idx}/{len(leads)} leads scored")
+
     await db_session.commit()
 
-    logger.info(f"Scored {len(leads)} leads against {len(services)} services, created {total_scores} scores")
+    logger.info(
+        f"✅ Advanced scoring complete: {len(leads)} leads × {len(services)} services = "
+        f"{total_scores} scores created. {leads_with_signals} leads have signals."
+    )
 
     return {
         "leads_scored": len(leads),
         "scores_created": total_scores,
-        "services": len(services)
+        "services": len(services),
+        "leads_with_signals": leads_with_signals
     }
