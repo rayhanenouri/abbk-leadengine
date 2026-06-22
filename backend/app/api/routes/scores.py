@@ -206,3 +206,29 @@ async def recalculate_score(
         "message": f"Recalculated {len(new_scores)} scores for {lead.company_name}",
         "scores_created": len(new_scores)
     }
+
+
+@router.post("/recalculate/all")
+async def trigger_batch_recalculation(
+    current_user: User = Depends(get_current_user),
+):
+    """
+    Trigger batch recalculation of all lead scores via Celery task.
+
+    This is asynchronous - the task runs in the background.
+    Useful for:
+    - After bulk data import
+    - After changing scoring weights
+    - Manual refresh of all scores
+
+    Returns task_id to track progress.
+    """
+    from app.workers.tasks.scoring import recalculate_all_scores
+
+    task = recalculate_all_scores.delay()
+
+    return {
+        "message": "Batch score recalculation queued",
+        "task_id": task.id,
+        "note": "Scores will be recalculated in the background. Check Flower for progress."
+    }

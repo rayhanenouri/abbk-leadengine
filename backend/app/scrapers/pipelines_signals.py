@@ -153,6 +153,14 @@ class SignalsPipeline:
                     f"✅ Created {signal_type} signal: {company_name} - {title[:50]}"
                 )
 
+                # Trigger automatic score recalculation for this lead
+                try:
+                    from app.workers.tasks.scoring import calculate_lead_score
+                    calculate_lead_score.delay(lead.id)
+                    spider.logger.info(f"🔄 Triggered score recalculation for lead {lead.id}")
+                except Exception as e:
+                    spider.logger.warning(f"Failed to trigger score recalculation: {e}")
+
                 return item
 
             except Exception as e:

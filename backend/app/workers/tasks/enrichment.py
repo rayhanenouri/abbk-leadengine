@@ -131,6 +131,15 @@ async def detect_all_flags():
                 if changed:
                     stats['updated'] += 1
 
+                    # Trigger score recalculation for this lead
+                    # Import inside loop to avoid circular imports
+                    from app.workers.tasks.scoring import calculate_lead_score
+                    try:
+                        calculate_lead_score.delay(lead.id)
+                        logger.info(f"🔄 Triggered score recalculation for {lead.company_name}")
+                    except Exception as e:
+                        logger.warning(f"Failed to trigger score recalculation: {e}")
+
             # Commit all changes
             await session.commit()
 
@@ -204,6 +213,14 @@ async def detect_single_lead(lead_id: int):
             await session.commit()
 
             logger.info(f"Enriched lead {lead.company_name}: {enrichment}")
+
+            # Trigger score recalculation
+            from app.workers.tasks.scoring import calculate_lead_score
+            try:
+                calculate_lead_score.delay(lead_id)
+                logger.info(f"🔄 Triggered score recalculation for lead {lead_id}")
+            except Exception as e:
+                logger.warning(f"Failed to trigger score recalculation: {e}")
 
             return enrichment
 

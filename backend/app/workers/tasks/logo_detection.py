@@ -70,6 +70,9 @@ async def detect_all_websites():
                         logger.warning(f"Error detecting on {lead.website}: {detection_result['error']}")
                         continue
 
+                    # Track if any signal was created
+                    signal_created = False
+
                     # Create signals for detected products
                     if detection_result['solidworks_detected']:
                         stats['solidworks_detected'] += 1
@@ -91,6 +94,7 @@ async def detect_all_websites():
                                 source_url=lead.website,
                             )
                             session.add(signal)
+                            signal_created = True
                             logger.info(f"✅ SOLIDWORKS detected on {lead.company_name}")
 
                     if detection_result['simulia_detected']:
@@ -112,6 +116,7 @@ async def detect_all_websites():
                                 source_url=lead.website,
                             )
                             session.add(signal)
+                            signal_created = True
                             logger.info(f"✅ Simulia detected on {lead.company_name}")
 
                     if detection_result['3dexperience_detected']:
@@ -133,12 +138,22 @@ async def detect_all_websites():
                                 source_url=lead.website,
                             )
                             session.add(signal)
+                            signal_created = True
                             logger.info(f"✅ 3DEXPERIENCE detected on {lead.company_name}")
 
                     # Competitor products (potential cracked SOLIDWORKS users)
                     if detection_result['competitor_products']:
                         stats['competitor_detected'] += 1
                         logger.info(f"ℹ️  Competitor products on {lead.company_name}: {detection_result['competitor_products']}")
+
+                    # Trigger score recalculation if any signal was created
+                    if signal_created:
+                        from app.workers.tasks.scoring import calculate_lead_score
+                        try:
+                            calculate_lead_score.delay(lead.id)
+                            logger.info(f"🔄 Triggered score recalculation for {lead.company_name}")
+                        except Exception as e:
+                            logger.warning(f"Failed to trigger score recalculation: {e}")
 
                     # Small delay between requests
                     await asyncio.sleep(3)
