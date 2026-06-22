@@ -7,7 +7,8 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, func, and_
 
 from app.schemas.scores import ScoreResponse, LeadWithScoresResponse, RankedLeadResponse
-from app.models.models import Lead, LeadScore, Service
+from app.schemas.score_history import ScoreHistoryResponse
+from app.models.models import Lead, LeadScore, Service, ScoreHistory
 from app.core.deps import get_db, get_current_user
 from app.models.models import User
 from app.services.scoring_engine import score_lead
@@ -257,3 +258,47 @@ async def trigger_batch_recalculation(
         "task_id": task.id,
         "note": "Scores will be recalculated in the background. Check Flower for progress."
     }
+
+
+@router.get("/{lead_id}/history", response_model=List[ScoreHistoryResponse])
+async def get_score_history(
+    lead_id: int,
+    service_name: str = Query(default=None, description="Filter by service name"),
+    limit: int = Query(default=50, le=200),
+    db: AsyncSession = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    """
+    Get score history for a lead.
+
+    Returns historical score changes ordered by time (newest first).
+
+    Query params:
+    - service_name: Filter by specific service (optional)
+    - limit: Max records to return (default: 50, max: 200)
+
+    Shows how lead score evolved over time.
+    """
+    # Verify lead exists
+    result = await db.execute(select(Lead).where(Lead.id == lead_id))
+    lead = result.scalar_one_or_none()
+
+    if not lead:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Lead {lead_id} not found"
+        )
+
+    # Build query
+    query = select(ScoreHistory).where(ScoreHistory.lead_id == lead_id)
+
+    if service_name:
+        query = query.where(ScoreHistory.service_name == service_name)
+
+    query = query.order_by(ScoreHistory.recorded_at.desc()).limit(limit)
+
+    # Execute
+    result = await db.execute(query)
+    history = result.scalars().all()
+
+    return history

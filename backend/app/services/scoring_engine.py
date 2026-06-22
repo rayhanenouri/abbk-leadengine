@@ -326,6 +326,26 @@ async def score_lead(
             f"{score_value:.1f}/100 ({len(signal_breakdown)} signals fired)"
         )
 
+        # Record score history if score changed significantly (> 5 points)
+        score_change = score_value - old_score
+        if abs(score_change) >= 5:
+            try:
+                from app.models.models import ScoreHistory
+
+                history = ScoreHistory(
+                    lead_id=lead.id,
+                    service_type=service.service_type,
+                    service_name=service.name,
+                    old_score=old_score,
+                    new_score=score_value,
+                    change=score_change,
+                    reason=f"{len(detected_signals)} signals detected" if score_change > 0 else "Signal removed or weight adjusted"
+                )
+                db_session.add(history)
+                logger.debug(f"Recorded score history: {lead.company_name} {score_change:+.1f}")
+            except Exception as e:
+                logger.warning(f"Failed to record score history: {e}")
+
         # Check for notification triggers (hot lead or score spike)
         # Only check after score is created to avoid unnecessary notifications
         try:

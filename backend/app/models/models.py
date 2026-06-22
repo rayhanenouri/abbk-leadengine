@@ -161,6 +161,24 @@ class Notification(Base):
     lead: Mapped["Lead"] = relationship("Lead")
 
 
+# ─── Score History (track score changes over time) ────────────────────────────
+
+class ScoreHistory(Base):
+    __tablename__ = "score_history"
+
+    id:           Mapped[int]         = mapped_column(Integer, primary_key=True)
+    lead_id:      Mapped[int]         = mapped_column(ForeignKey("leads.id"), index=True)
+    service_type: Mapped[ServiceType] = mapped_column(PgEnum(ServiceType))
+    service_name: Mapped[str]         = mapped_column(String(255))
+    old_score:    Mapped[float]       = mapped_column(Float)
+    new_score:    Mapped[float]       = mapped_column(Float)
+    change:       Mapped[float]       = mapped_column(Float)  # new_score - old_score
+    reason:       Mapped[str | None]  = mapped_column(Text)   # What triggered the change
+    recorded_at:  Mapped[datetime]    = mapped_column(DateTime, default=datetime.utcnow)
+
+    lead: Mapped["Lead"] = relationship("Lead")
+
+
 # ─── Services (what ABBK sells — drives scoring dimensions) ───────────────────
 
 class Service(Base):

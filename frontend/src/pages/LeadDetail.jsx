@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { getLeadDetail, updateLeadStatus } from '../services/api';
+import ScoreHistory from '../components/ScoreHistory';
 
 export default function LeadDetail({ leadId, onBack }) {
   const [data, setData] = useState(null);
@@ -336,6 +337,9 @@ export default function LeadDetail({ leadId, onBack }) {
           </div>
         )}
       </div>
+
+      {/* Score History */}
+      <ScoreHistory leadId={leadId} />
     </div>
   );
 }
