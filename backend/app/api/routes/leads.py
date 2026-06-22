@@ -485,3 +485,81 @@ async def get_lead_detail(
         )
 
     return lead
+
+
+@router.get("/search/quick")
+async def quick_search(
+    q: str = Query(..., min_length=1, description="Search query"),
+    limit: int = Query(default=10, le=50),
+    db: AsyncSession = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    """
+    Quick search for leads by company name.
+
+    Returns minimal lead info for autocomplete/typeahead.
+    Searches company name only for fast response.
+    """
+    query = (
+        select(Lead.id, Lead.company_name, Lead.city, Lead.sector)
+        .where(Lead.company_name.ilike(f"%{q}%"))
+        .limit(limit)
+    )
+
+    result = await db.execute(query)
+    leads = result.all()
+
+    return [
+        {
+            "id": lead.id,
+            "company_name": lead.company_name,
+            "city": lead.city,
+            "sector": lead.sector,
+        }
+        for lead in leads
+    ]
+
+
+@router.get("/filters/options")
+async def get_filter_options(
+    db: AsyncSession = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    """
+    Get all available filter options for dropdown menus.
+
+    Returns unique values for:
+    - sectors
+    - cities
+    - countries
+    - statuses
+
+    Used to populate filter dropdowns in UI.
+    """
+    # Get unique sectors
+    sectors_result = await db.execute(
+        select(Lead.sector).distinct().where(Lead.sector.isnot(None)).order_by(Lead.sector)
+    )
+    sectors = [s[0] for s in sectors_result.all()]
+
+    # Get unique cities
+    cities_result = await db.execute(
+        select(Lead.city).distinct().where(Lead.city.isnot(None)).order_by(Lead.city)
+    )
+    cities = [c[0] for c in cities_result.all()]
+
+    # Get unique countries
+    countries_result = await db.execute(
+        select(Lead.country).distinct().where(Lead.country.isnot(None)).order_by(Lead.country)
+    )
+    countries = [c[0] for c in countries_result.all()]
+
+    # Statuses (from enum)
+    statuses = [status.value for status in LeadStatus]
+
+    return {
+        "sectors": sectors,
+        "cities": cities,
+        "countries": countries,
+        "statuses": statuses,
+    }

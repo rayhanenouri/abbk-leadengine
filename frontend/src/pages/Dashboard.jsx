@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { getRankedLeads, logout, getUnreadCount, getNotifications, markNotificationRead } from '../services/api';
 import LeadDetail from './LeadDetail';
+import SearchBar from '../components/SearchBar';
+import FilterPanel from '../components/FilterPanel';
 
 export default function Dashboard() {
   const [allLeads, setAllLeads] = useState([]); // All leads from API
@@ -11,6 +13,7 @@ export default function Dashboard() {
   const [unreadCount, setUnreadCount] = useState(0);
   const [notifications, setNotifications] = useState([]);
   const [showNotifications, setShowNotifications] = useState(false);
+  const [appliedFilters, setAppliedFilters] = useState({});
 
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
@@ -33,9 +36,75 @@ export default function Dashboard() {
     setLoading(true);
     setError('');
     try {
-      // Fetch all leads - designed for 10,000+ scale
-      const data = await getRankedLeads(10000, minScore);
-      setAllLeads(data);
+      // Build query params with filters
+      const params = new URLSearchParams();
+      params.append('limit', '10000');
+
+      if (minScore > 0) params.append('min_score', minScore);
+      if (appliedFilters.sector) params.append('sector', appliedFilters.sector);
+      if (appliedFilters.city) params.append('city', appliedFilters.city);
+      if (appliedFilters.country) params.append('country', appliedFilters.country);
+      if (appliedFilters.status) params.append('status', appliedFilters.status);
+      if (appliedFilters.is_multinational) params.append('is_multinational', 'true');
+      if (appliedFilters.is_exporter) params.append('is_exporter', 'true');
+      if (appliedFilters.under_audit) params.append('under_audit', 'true');
+      if (appliedFilters.min_score && appliedFilters.min_score > 0) {
+        params.append('min_score', appliedFilters.min_score);
+      }
+
+      // Fetch filtered leads
+      const token = localStorage.getItem('token');
+      const response = await fetch(
+        `http://${window.location.hostname}:8000/api/leads/?${params.toString()}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (!response.ok) throw new Error('Failed to load leads');
+
+      const result = await response.json();
+
+      // Transform to match ranked leads format (add best_score from scores)
+      const leadsWithScores = await Promise.all(
+        result.leads.map(async (lead) => {
+          try {
+            const scoresResponse = await fetch(
+              `http://${window.location.hostname}:8000/api/scores/${lead.id}`,
+              {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                },
+              }
+            );
+            const scoresData = await scoresResponse.json();
+
+            if (scoresData.scores && scoresData.scores.length > 0) {
+              const bestScore = scoresData.scores[0];
+              return {
+                lead_id: lead.id,
+                company_name: lead.company_name,
+                city: lead.city,
+                sector: lead.sector,
+                country: lead.country,
+                status: lead.status,
+                best_score: bestScore.score,
+                best_service: bestScore.service_name,
+                best_reasoning: bestScore.reasoning,
+              };
+            }
+
+            return null;
+          } catch {
+            return null;
+          }
+        })
+      );
+
+      const validLeads = leadsWithScores.filter(l => l !== null);
+      setAllLeads(validLeads);
     } catch (err) {
       setError(err.message || 'Failed to load leads');
     } finally {
@@ -80,6 +149,19 @@ export default function Dashboard() {
     }
     setShowNotifications(!showNotifications);
   };
+
+  const handleFilterChange = (filters) => {
+    setAppliedFilters(filters);
+  };
+
+  const handleSearchSelect = (leadId) => {
+    setSelectedLeadId(leadId);
+  };
+
+  // Reload when filters change
+  useEffect(() => {
+    loadLeads();
+  }, [appliedFilters]);
 
   // Pagination calculations
   const totalLeads = allLeads.length;
@@ -190,6 +272,12 @@ export default function Dashboard() {
           </button>
         </div>
       </header>
+
+      {/* Search and Filters */}
+      <div style={styles.searchSection}>
+        <SearchBar onSelectLead={handleSearchSelect} />
+        <FilterPanel onFilterChange={handleFilterChange} />
+      </div>
 
       {/* Stats Bar */}
       <div style={styles.statsBar}>
@@ -763,5 +851,10 @@ const styles = {
     textAlign: 'center',
     color: '#9ca3af',
     fontSize: '14px',
+  },
+  searchSection: {
+    padding: '20px 40px',
+    backgroundColor: 'white',
+    borderBottom: '1px solid #e5e7eb',
   },
 };
