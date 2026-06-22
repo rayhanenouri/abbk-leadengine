@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { getRankedLeads, logout } from '../services/api';
+import { getRankedLeads, logout, getUnreadCount, getNotifications, markNotificationRead } from '../services/api';
 import LeadDetail from './LeadDetail';
 
 export default function Dashboard() {
@@ -8,6 +8,9 @@ export default function Dashboard() {
   const [error, setError] = useState('');
   const [minScore, setMinScore] = useState(0);
   const [selectedLeadId, setSelectedLeadId] = useState(null);
+  const [unreadCount, setUnreadCount] = useState(0);
+  const [notifications, setNotifications] = useState([]);
+  const [showNotifications, setShowNotifications] = useState(false);
 
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
@@ -15,6 +18,10 @@ export default function Dashboard() {
 
   useEffect(() => {
     loadLeads();
+    loadUnreadCount();
+    // Refresh notifications every 30 seconds
+    const interval = setInterval(loadUnreadCount, 30000);
+    return () => clearInterval(interval);
   }, [minScore]);
 
   // Reset to page 1 when filter changes
@@ -34,6 +41,44 @@ export default function Dashboard() {
     } finally {
       setLoading(false);
     }
+  };
+
+  const loadUnreadCount = async () => {
+    try {
+      const data = await getUnreadCount();
+      setUnreadCount(data.unread_count);
+    } catch (err) {
+      console.error('Failed to load notification count:', err);
+    }
+  };
+
+  const loadNotifications = async () => {
+    try {
+      const data = await getNotifications(false, 20);
+      setNotifications(data);
+    } catch (err) {
+      console.error('Failed to load notifications:', err);
+    }
+  };
+
+  const handleNotificationClick = async (notification) => {
+    // Mark as read
+    if (!notification.is_read) {
+      await markNotificationRead(notification.id);
+      loadUnreadCount();
+    }
+    // Navigate to lead if available
+    if (notification.lead_id) {
+      setSelectedLeadId(notification.lead_id);
+      setShowNotifications(false);
+    }
+  };
+
+  const toggleNotifications = async () => {
+    if (!showNotifications) {
+      await loadNotifications();
+    }
+    setShowNotifications(!showNotifications);
   };
 
   // Pagination calculations
@@ -95,9 +140,55 @@ export default function Dashboard() {
           <h1 style={styles.title}>ABBK LeadEngine</h1>
           <p style={styles.subtitle}>Ranked Leads - Who to Call Today</p>
         </div>
-        <button onClick={logout} style={styles.logoutButton}>
-          Logout
-        </button>
+        <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
+          {/* Notification Bell */}
+          <div style={{ position: 'relative' }}>
+            <button onClick={toggleNotifications} style={styles.notificationButton}>
+              🔔
+              {unreadCount > 0 && (
+                <span style={styles.notificationBadge}>{unreadCount}</span>
+              )}
+            </button>
+            {showNotifications && (
+              <div style={styles.notificationPanel}>
+                <div style={styles.notificationHeader}>
+                  <h3 style={styles.notificationTitle}>Notifications</h3>
+                  <button
+                    onClick={() => setShowNotifications(false)}
+                    style={styles.closeButton}
+                  >
+                    ✕
+                  </button>
+                </div>
+                <div style={styles.notificationList}>
+                  {notifications.length === 0 ? (
+                    <div style={styles.emptyNotifications}>No notifications</div>
+                  ) : (
+                    notifications.map((notif) => (
+                      <div
+                        key={notif.id}
+                        onClick={() => handleNotificationClick(notif)}
+                        style={{
+                          ...styles.notificationItem,
+                          backgroundColor: notif.is_read ? '#fff' : '#eff6ff',
+                        }}
+                      >
+                        <div style={styles.notificationItemTitle}>{notif.title}</div>
+                        <div style={styles.notificationItemMessage}>{notif.message}</div>
+                        <div style={styles.notificationItemTime}>
+                          {new Date(notif.created_at).toLocaleString()}
+                        </div>
+                      </div>
+                    ))
+                  )}
+                </div>
+              </div>
+            )}
+          </div>
+          <button onClick={logout} style={styles.logoutButton}>
+            Logout
+          </button>
+        </div>
       </header>
 
       {/* Stats Bar */}
@@ -584,5 +675,93 @@ const styles = {
     color: 'white',
     borderColor: '#667eea',
     fontWeight: '600',
+  },
+  // Notification styles
+  notificationButton: {
+    position: 'relative',
+    padding: '10px 16px',
+    backgroundColor: 'white',
+    border: '1px solid #d1d5db',
+    borderRadius: '8px',
+    fontSize: '20px',
+    cursor: 'pointer',
+    transition: 'all 0.2s',
+  },
+  notificationBadge: {
+    position: 'absolute',
+    top: '4px',
+    right: '4px',
+    backgroundColor: '#ef4444',
+    color: 'white',
+    fontSize: '11px',
+    fontWeight: 'bold',
+    padding: '2px 6px',
+    borderRadius: '10px',
+    minWidth: '18px',
+    textAlign: 'center',
+  },
+  notificationPanel: {
+    position: 'absolute',
+    top: '50px',
+    right: 0,
+    width: '400px',
+    maxHeight: '500px',
+    backgroundColor: 'white',
+    border: '1px solid #d1d5db',
+    borderRadius: '12px',
+    boxShadow: '0 10px 25px rgba(0,0,0,0.15)',
+    zIndex: 1000,
+    overflow: 'hidden',
+  },
+  notificationHeader: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: '16px',
+    borderBottom: '1px solid #e5e7eb',
+  },
+  notificationTitle: {
+    fontSize: '18px',
+    fontWeight: 'bold',
+    margin: 0,
+  },
+  closeButton: {
+    background: 'none',
+    border: 'none',
+    fontSize: '20px',
+    cursor: 'pointer',
+    color: '#6b7280',
+  },
+  notificationList: {
+    maxHeight: '440px',
+    overflowY: 'auto',
+  },
+  notificationItem: {
+    padding: '16px',
+    borderBottom: '1px solid #f3f4f6',
+    cursor: 'pointer',
+    transition: 'background-color 0.2s',
+  },
+  notificationItemTitle: {
+    fontSize: '14px',
+    fontWeight: '600',
+    marginBottom: '4px',
+    color: '#1a202c',
+  },
+  notificationItemMessage: {
+    fontSize: '13px',
+    color: '#4b5563',
+    marginBottom: '8px',
+    lineHeight: '1.4',
+  },
+  notificationItemTime: {
+    fontSize: '12px',
+    color: '#9ca3af',
+  },
+  emptyNotifications: {
+    padding: '40px',
+    textAlign: 'center',
+    color: '#9ca3af',
+    fontSize: '14px',
   },
 };

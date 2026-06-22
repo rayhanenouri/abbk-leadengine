@@ -153,6 +153,13 @@ class SignalsPipeline:
                     f"✅ Created {signal_type} signal: {company_name} - {title[:50]}"
                 )
 
+                # Create notification for high-value signals
+                try:
+                    from app.services.notification_service import create_new_signal_notification
+                    await create_new_signal_notification(session, lead.id, signal_type, title)
+                except Exception as e:
+                    spider.logger.warning(f"Failed to create notification: {e}")
+
                 # Trigger automatic score recalculation for this lead
                 try:
                     from app.workers.tasks.scoring import calculate_lead_score

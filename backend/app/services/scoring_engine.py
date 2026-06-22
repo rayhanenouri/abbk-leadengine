@@ -286,8 +286,19 @@ async def score_lead(
             detected_signals=detected_signals
         )
 
-        # Delete old scores for this lead+service to avoid duplicates
+        # Get old score before deleting (for notification comparison)
         from sqlalchemy import delete
+        old_score_result = await db_session.execute(
+            select(LeadScore).where(
+                LeadScore.lead_id == lead.id,
+                LeadScore.service_type == service.service_type,
+                LeadScore.service_name == service.name
+            )
+        )
+        old_score_record = old_score_result.scalar_one_or_none()
+        old_score = old_score_record.score if old_score_record else 0.0
+
+        # Delete old scores for this lead+service to avoid duplicates
         await db_session.execute(
             delete(LeadScore).where(
                 LeadScore.lead_id == lead.id,
@@ -314,6 +325,31 @@ async def score_lead(
             f"Scored {lead.company_name} for {service.name}: "
             f"{score_value:.1f}/100 ({len(signal_breakdown)} signals fired)"
         )
+
+        # Check for notification triggers (hot lead or score spike)
+        # Only check after score is created to avoid unnecessary notifications
+        try:
+            from app.services.notification_service import (
+                create_hot_lead_notification,
+                create_score_spike_notification
+            )
+
+            # Hot lead: score jumped to 70+
+            if score_value >= 70 and old_score < 70:
+                await create_hot_lead_notification(
+                    db_session, lead.id, score_value, old_score, service.name
+                )
+                logger.info(f"🔥 Created hot lead notification for {lead.company_name}")
+
+            # Score spike: increased by 30+ points
+            elif score_value - old_score >= 30:
+                await create_score_spike_notification(
+                    db_session, lead.id, score_value, old_score, service.name
+                )
+                logger.info(f"📈 Created score spike notification for {lead.company_name}")
+
+        except Exception as e:
+            logger.warning(f"Failed to create notification: {e}")
 
     return scores_created
 

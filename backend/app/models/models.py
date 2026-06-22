@@ -36,6 +36,13 @@ class LeadStatus(str, enum.Enum):
     lost       = "lost"
 
 
+class NotificationType(str, enum.Enum):
+    hot_lead = "hot_lead"              # Score jumped to 70+
+    score_spike = "score_spike"        # Score increased by 30+ points
+    new_signal = "new_signal"          # New high-value signal detected
+    status_change = "status_change"    # Lead status changed
+
+
 # ─── Users & RBAC ─────────────────────────────────────────────────────────────
 
 class User(Base):
@@ -133,6 +140,25 @@ class LeadStatusHistory(Base):
 
     lead: Mapped["Lead"] = relationship("Lead", back_populates="status_history")
     changed_by: Mapped["User"] = relationship("User")
+
+
+# ─── Notifications (alerts for hot leads and score spikes) ────────────────────
+
+class Notification(Base):
+    __tablename__ = "notifications"
+
+    id:               Mapped[int]              = mapped_column(Integer, primary_key=True)
+    user_id:          Mapped[int]              = mapped_column(ForeignKey("users.id"), index=True)
+    notification_type:Mapped[NotificationType] = mapped_column(PgEnum(NotificationType))
+    title:            Mapped[str]              = mapped_column(String(500))
+    message:          Mapped[str]              = mapped_column(Text)
+    lead_id:          Mapped[int | None]       = mapped_column(ForeignKey("leads.id"))
+    extra_data:       Mapped[dict]             = mapped_column(JSON, default=dict)  # Extra data (old_score, new_score, etc.)
+    is_read:          Mapped[bool]             = mapped_column(Boolean, default=False)
+    created_at:       Mapped[datetime]         = mapped_column(DateTime, default=datetime.utcnow)
+
+    user: Mapped["User"] = relationship("User")
+    lead: Mapped["Lead"] = relationship("Lead")
 
 
 # ─── Services (what ABBK sells — drives scoring dimensions) ───────────────────

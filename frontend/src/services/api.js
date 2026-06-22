@@ -100,3 +100,30 @@ export const updateLeadStatus = async (leadId, status, notes = null) => {
 export const getLeadStatusHistory = async (leadId) => {
   return apiCall(`/leads/${leadId}/status/history`);
 };
+
+// Notifications APIs
+export const getNotifications = async (unreadOnly = false, limit = 50) => {
+  return apiCall(`/notifications/?unread_only=${unreadOnly}&limit=${limit}`);
+};
+
+export const getUnreadCount = async () => {
+  return apiCall('/notifications/unread-count');
+};
+
+export const markNotificationRead = async (notificationId) => {
+  return apiCall(`/notifications/${notificationId}/read`, {
+    method: 'PATCH',
+  });
+};
+
+export const markAllRead = async () => {
+  return apiCall('/notifications/mark-all-read', {
+    method: 'POST',
+  });
+};
+
+export const deleteNotification = async (notificationId) => {
+  return apiCall(`/notifications/${notificationId}`, {
+    method: 'DELETE',
+  });
+};
