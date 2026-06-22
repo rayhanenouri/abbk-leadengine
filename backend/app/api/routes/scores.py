@@ -20,11 +20,18 @@ router = APIRouter()
 async def get_ranked_leads(
     limit: int = Query(default=1000, le=10000),
     min_score: float = Query(default=0, ge=0, le=100),
+    sector: str = Query(default=None),
+    city: str = Query(default=None),
+    country: str = Query(default=None),
+    status: str = Query(default=None),
+    is_multinational: bool = Query(default=None),
+    is_exporter: bool = Query(default=None),
+    under_audit: bool = Query(default=None),
     db: AsyncSession = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
     """
-    Get ranked list of leads by their best score.
+    Get ranked list of leads by their best score with optional filters.
 
     Returns leads sorted by highest score descending.
     Each lead shows its best-scoring service.
@@ -34,6 +41,8 @@ async def get_ranked_leads(
     Query params:
     - limit: Max number of unique leads to return (default 1000, max 10000)
     - min_score: Only show leads with score >= this (default 0)
+    - sector, city, country, status: Filter by these fields
+    - is_multinational, is_exporter, under_audit: Filter by flags
     """
     # First get all leads with their best score
     # Then join to get the details of one service with that best score
@@ -85,9 +94,25 @@ async def get_ranked_leads(
             Lead.id == best_scores_subq.c.lead_id
         )
         .where(best_scores_subq.c.best_score >= min_score)
-        .order_by(best_scores_subq.c.best_score.desc(), Lead.id.asc())
-        .limit(limit)
     )
+
+    # Apply filters
+    if sector:
+        query = query.where(Lead.sector.ilike(f"%{sector}%"))
+    if city:
+        query = query.where(Lead.city.ilike(f"%{city}%"))
+    if country:
+        query = query.where(Lead.country.ilike(f"%{country}%"))
+    if status:
+        query = query.where(Lead.status == status)
+    if is_multinational is not None:
+        query = query.where(Lead.is_multinational == is_multinational)
+    if is_exporter is not None:
+        query = query.where(Lead.is_exporter == is_exporter)
+    if under_audit is not None:
+        query = query.where(Lead.under_audit == under_audit)
+
+    query = query.order_by(best_scores_subq.c.best_score.desc(), Lead.id.asc()).limit(limit)
 
     result = await db.execute(query)
     rows = result.all()

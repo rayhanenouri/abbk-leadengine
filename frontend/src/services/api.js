@@ -60,8 +60,20 @@ export const getLeads = async () => {
 };
 
 // Scores APIs
-export const getRankedLeads = async (limit = 10000, minScore = 0) => {
-  return apiCall(`/scores/ranked?limit=${limit}&min_score=${minScore}`);
+export const getRankedLeads = async (limit = 10000, minScore = 0, filters = {}) => {
+  const params = new URLSearchParams();
+  params.append('limit', limit);
+  params.append('min_score', minScore);
+
+  if (filters.sector) params.append('sector', filters.sector);
+  if (filters.city) params.append('city', filters.city);
+  if (filters.country) params.append('country', filters.country);
+  if (filters.status) params.append('status', filters.status);
+  if (filters.is_multinational) params.append('is_multinational', 'true');
+  if (filters.is_exporter) params.append('is_exporter', 'true');
+  if (filters.under_audit) params.append('under_audit', 'true');
+
+  return apiCall(`/scores/ranked?${params.toString()}`);
 };
 
 export const getLeadScores = async (leadId) => {
