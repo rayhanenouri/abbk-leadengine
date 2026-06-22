@@ -4,7 +4,7 @@ import LeadDetail from './LeadDetail';
 import SearchBar from '../components/SearchBar';
 import FilterPanel from '../components/FilterPanel';
 
-export default function Dashboard() {
+export default function Dashboard({ onNavigateToAnalytics }) {
   const [allLeads, setAllLeads] = useState([]); // All leads from API
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -207,6 +207,10 @@ export default function Dashboard() {
           <p style={styles.subtitle}>Ranked Leads - Who to Call Today</p>
         </div>
         <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
+          {/* Analytics Button */}
+          <button onClick={onNavigateToAnalytics} style={styles.analyticsButton}>
+            📊 Analytics
+          </button>
           {/* Notification Bell */}
           <div style={{ position: 'relative' }}>
             <button onClick={toggleNotifications} style={styles.notificationButton}>
@@ -504,6 +508,16 @@ const styles = {
   logoutButton: {
     padding: '8px 16px',
     backgroundColor: '#ef4444',
+    color: 'white',
+    border: 'none',
+    borderRadius: '6px',
+    fontSize: '14px',
+    cursor: 'pointer',
+    fontWeight: '600',
+  },
+  analyticsButton: {
+    padding: '8px 16px',
+    backgroundColor: '#8b5cf6',
     color: 'white',
     border: 'none',
     borderRadius: '6px',

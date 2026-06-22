@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react'
 import Login from './pages/Login'
 import Dashboard from './pages/Dashboard'
+import Analytics from './pages/Analytics'
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [currentView, setCurrentView] = useState('dashboard')
 
   useEffect(() => {
     // Check if user has a token
@@ -19,7 +21,11 @@ function App() {
     return <Login onLoginSuccess={handleLoginSuccess} />
   }
 
-  return <Dashboard />
+  if (currentView === 'analytics') {
+    return <Analytics onBack={() => setCurrentView('dashboard')} />
+  }
+
+  return <Dashboard onNavigateToAnalytics={() => setCurrentView('analytics')} />
 }
 
 export default App
