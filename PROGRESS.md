@@ -6,9 +6,9 @@ Update this at end of every session.
 When developer says good night — update everything done today and what to start tomorrow.
 
 ## Current Status
-Date: 2026-06-22 Afternoon — M3 IN PROGRESS — 3 of 8 issues complete! 🚀🚀🚀
-Active milestone: M3 — Scoring Engine Enhancements
-Next action: Issue #35 — Lead search and filtering
+Date: 2026-06-22 Afternoon — M3 IN PROGRESS — 4 of 8 issues complete! 🚀🚀🚀🚀
+Active milestone: M3 — Scoring Engine Enhancements (50% complete!)
+Next action: Issue #37 — Export leads to CSV/Excel
 Demo deadline: June 20 — ✅ DELIVERED 2 DAYS EARLY + EXCEEDED ALL GOALS
 Delivery deadline: June 30 (8 days remaining)
 
@@ -43,6 +43,17 @@ Today's accomplishments (June 22):
   * Auto-refresh every 30 seconds
   * 11 files changed, 687 lines added
   * Backend and frontend fully integrated
+
+- ✅ Issue #35 — Lead Search and Advanced Filtering — COMPLETE!
+  * Instant company search with autocomplete
+  * 8 filter types: sector, city, country, status, min score, multinational, exporter, audit
+  * Quick search endpoint (debounced, top 10 results)
+  * Filter options endpoint (unique values for dropdowns)
+  * SearchBar and FilterPanel components
+  * Active filter count badge
+  * Clear all filters button
+  * 4 files changed, 624 lines added
+  * Tested with 93 sectors, 18 cities
 
 Tonight's accomplishments:
 - Lead Detail Page ✅ — full company profile with 5 sections
