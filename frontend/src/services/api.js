@@ -88,3 +88,15 @@ export const checkHealth = async () => {
   const response = await fetch('http://localhost:8000/health');
   return response.json();
 };
+
+// Status Management APIs
+export const updateLeadStatus = async (leadId, status, notes = null) => {
+  return apiCall(`/leads/${leadId}/status`, {
+    method: 'PATCH',
+    body: JSON.stringify({ status, notes }),
+  });
+};
+
+export const getLeadStatusHistory = async (leadId) => {
+  return apiCall(`/leads/${leadId}/status/history`);
+};

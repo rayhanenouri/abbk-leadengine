@@ -71,11 +71,17 @@ class Lead(Base):
     # All raw scraped data stored as JSON — flexible, no schema migration needed
     scraped_data:    Mapped[dict]       = mapped_column(JSON, default=dict)
     status:          Mapped[LeadStatus] = mapped_column(PgEnum(LeadStatus), default=LeadStatus.new)
+    # Status management fields
+    assigned_to_id:  Mapped[int | None] = mapped_column(ForeignKey("users.id"))
+    status_notes:    Mapped[str | None] = mapped_column(Text)  # Latest notes on this lead
+    last_contacted:  Mapped[datetime | None] = mapped_column(DateTime)
     created_at:      Mapped[datetime]   = mapped_column(DateTime, default=datetime.utcnow)
     updated_at:      Mapped[datetime]   = mapped_column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
     scores:  Mapped[list["LeadScore"]]  = relationship("LeadScore", back_populates="lead")
     signals: Mapped[list["LeadSignal"]] = relationship("LeadSignal", back_populates="lead")
+    status_history: Mapped[list["LeadStatusHistory"]] = relationship("LeadStatusHistory", back_populates="lead")
+    assigned_to: Mapped["User"] = relationship("User", foreign_keys=[assigned_to_id])
 
 
 # ─── Scores (one row per lead per service) ────────────────────────────────────
@@ -110,6 +116,23 @@ class LeadSignal(Base):
     detected_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
 
     lead: Mapped["Lead"] = relationship("Lead", back_populates="signals")
+
+
+# ─── Lead Status History (audit trail of status changes) ──────────────────────
+
+class LeadStatusHistory(Base):
+    __tablename__ = "lead_status_history"
+
+    id:           Mapped[int]        = mapped_column(Integer, primary_key=True)
+    lead_id:      Mapped[int]        = mapped_column(ForeignKey("leads.id"), index=True)
+    old_status:   Mapped[LeadStatus | None] = mapped_column(PgEnum(LeadStatus))
+    new_status:   Mapped[LeadStatus] = mapped_column(PgEnum(LeadStatus))
+    changed_by_id:Mapped[int]        = mapped_column(ForeignKey("users.id"))
+    notes:        Mapped[str | None] = mapped_column(Text)  # Why was status changed
+    changed_at:   Mapped[datetime]   = mapped_column(DateTime, default=datetime.utcnow)
+
+    lead: Mapped["Lead"] = relationship("Lead", back_populates="status_history")
+    changed_by: Mapped["User"] = relationship("User")
 
 
 # ─── Services (what ABBK sells — drives scoring dimensions) ───────────────────

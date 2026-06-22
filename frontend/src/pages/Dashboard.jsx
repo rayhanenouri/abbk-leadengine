@@ -66,6 +66,17 @@ export default function Dashboard() {
     return { text: 'RESEARCH', color: '#6b7280' };
   };
 
+  const getStatusBadge = (status) => {
+    const statusMap = {
+      new: { text: 'NEW', emoji: '🆕', color: '#3b82f6' },
+      contacted: { text: 'CONTACTED', emoji: '📞', color: '#8b5cf6' },
+      qualified: { text: 'QUALIFIED', emoji: '⭐', color: '#10b981' },
+      converted: { text: 'CONVERTED', emoji: '✅', color: '#059669' },
+      lost: { text: 'LOST', emoji: '❌', color: '#6b7280' },
+    };
+    return statusMap[status] || statusMap.new;
+  };
+
   // Show lead detail page if a lead is selected
   if (selectedLeadId) {
     return (
@@ -149,6 +160,7 @@ export default function Dashboard() {
             <div style={styles.leadsGrid}>
               {currentLeads.map((lead) => {
               const badge = getPriorityBadge(lead.best_score);
+              const statusBadge = getStatusBadge(lead.status);
               return (
                 <div key={lead.lead_id} style={styles.leadCard}>
                   {/* Header */}
@@ -159,12 +171,21 @@ export default function Dashboard() {
                         {lead.city} {lead.city && lead.sector && '•'} {lead.sector}
                       </p>
                     </div>
-                    <div style={{
-                      ...styles.priorityBadge,
-                      backgroundColor: `${badge.color}20`,
-                      color: badge.color,
-                    }}>
-                      {badge.text}
+                    <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                      <div style={{
+                        ...styles.statusBadge,
+                        backgroundColor: `${statusBadge.color}20`,
+                        color: statusBadge.color,
+                      }}>
+                        {statusBadge.emoji} {statusBadge.text}
+                      </div>
+                      <div style={{
+                        ...styles.priorityBadge,
+                        backgroundColor: `${badge.color}20`,
+                        color: badge.color,
+                      }}>
+                        {badge.text}
+                      </div>
                     </div>
                   </div>
 
@@ -419,6 +440,13 @@ const styles = {
     borderRadius: '12px',
     fontSize: '12px',
     fontWeight: 'bold',
+  },
+  statusBadge: {
+    padding: '4px 12px',
+    borderRadius: '12px',
+    fontSize: '12px',
+    fontWeight: '600',
+    whiteSpace: 'nowrap',
   },
   scoreSection: {
     display: 'flex',

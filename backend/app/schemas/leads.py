@@ -77,3 +77,30 @@ class PaginatedLeadsResponse(BaseModel):
     skip: int
     limit: int
     has_more: bool
+
+
+class LeadStatusUpdate(BaseModel):
+    """Schema for updating lead status."""
+    status: LeadStatus
+    notes: Optional[str] = None
+    assigned_to_id: Optional[int] = None
+
+
+class LeadStatusHistoryResponse(BaseModel):
+    """Lead status history entry."""
+    model_config = ConfigDict(from_attributes=True)
+
+    id: int
+    lead_id: int
+    old_status: Optional[LeadStatus] = None
+    new_status: LeadStatus
+    changed_by_id: int
+    notes: Optional[str] = None
+    changed_at: datetime
+
+
+class LeadDetailResponse(LeadResponse):
+    """Extended lead response with status tracking fields."""
+    assigned_to_id: Optional[int] = None
+    status_notes: Optional[str] = None
+    last_contacted: Optional[datetime] = None

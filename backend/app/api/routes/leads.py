@@ -10,8 +10,12 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, or_, func, and_
 from sqlalchemy.orm import selectinload
 
-from app.schemas.leads import LeadResponse, CSVImportResponse, LeadWithSignalsResponse, PaginatedLeadsResponse
-from app.models.models import Lead, LeadStatus, LeadSignal, LeadScore
+from app.schemas.leads import (
+    LeadResponse, CSVImportResponse, LeadWithSignalsResponse,
+    PaginatedLeadsResponse, LeadStatusUpdate, LeadStatusHistoryResponse,
+    LeadDetailResponse
+)
+from app.models.models import Lead, LeadStatus, LeadSignal, LeadScore, LeadStatusHistory
 from app.core.deps import get_db, get_current_user
 from app.models.models import User
 
@@ -348,3 +352,136 @@ async def enrich_lead_linkedin(
         "lead_id": lead_id,
         "linkedin_url": lead.linkedin_url
     }
+
+
+# ─── Status Management ────────────────────────────────────────────────────────
+
+
+@router.patch("/{lead_id}/status", response_model=LeadDetailResponse)
+async def update_lead_status(
+    lead_id: int,
+    status_update: LeadStatusUpdate,
+    db: AsyncSession = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    """
+    Update lead status with audit trail.
+
+    Creates a status history record and updates lead fields:
+    - status: new status value
+    - status_notes: latest notes about this lead
+    - assigned_to_id: who is responsible for this lead
+    - last_contacted: auto-set to now if status is 'contacted'
+    - updated_at: auto-updated
+
+    Returns updated lead with all status tracking fields.
+    """
+    # Load lead
+    result = await db.execute(select(Lead).where(Lead.id == lead_id))
+    lead = result.scalar_one_or_none()
+
+    if not lead:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Lead {lead_id} not found"
+        )
+
+    # Save old status for history
+    old_status = lead.status
+
+    # Update lead fields
+    lead.status = status_update.status
+
+    if status_update.notes:
+        lead.status_notes = status_update.notes
+
+    if status_update.assigned_to_id is not None:
+        # Verify user exists
+        user_result = await db.execute(
+            select(User).where(User.id == status_update.assigned_to_id)
+        )
+        if not user_result.scalar_one_or_none():
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail=f"User {status_update.assigned_to_id} not found"
+            )
+        lead.assigned_to_id = status_update.assigned_to_id
+
+    # Auto-set last_contacted if status is 'contacted'
+    if status_update.status == LeadStatus.contacted:
+        lead.last_contacted = datetime.utcnow()
+
+    # Create status history record
+    history = LeadStatusHistory(
+        lead_id=lead_id,
+        old_status=old_status,
+        new_status=status_update.status,
+        changed_by_id=current_user.id,
+        notes=status_update.notes
+    )
+    db.add(history)
+
+    await db.commit()
+    await db.refresh(lead)
+
+    return lead
+
+
+@router.get("/{lead_id}/status/history", response_model=List[LeadStatusHistoryResponse])
+async def get_lead_status_history(
+    lead_id: int,
+    db: AsyncSession = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    """
+    Get complete status history for a lead.
+
+    Returns all status changes in chronological order (oldest first).
+    Useful for seeing full sales pipeline journey.
+    """
+    # Verify lead exists
+    result = await db.execute(select(Lead).where(Lead.id == lead_id))
+    lead = result.scalar_one_or_none()
+
+    if not lead:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Lead {lead_id} not found"
+        )
+
+    # Load status history
+    result = await db.execute(
+        select(LeadStatusHistory)
+        .where(LeadStatusHistory.lead_id == lead_id)
+        .order_by(LeadStatusHistory.changed_at.asc())
+    )
+    history = result.scalars().all()
+
+    return history
+
+
+@router.get("/{lead_id}/detail", response_model=LeadDetailResponse)
+async def get_lead_detail(
+    lead_id: int,
+    db: AsyncSession = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    """
+    Get full lead details including status tracking fields.
+
+    Returns:
+    - All basic lead fields
+    - Status and status_notes
+    - assigned_to_id (who owns this lead)
+    - last_contacted (when they were last contacted)
+    """
+    result = await db.execute(select(Lead).where(Lead.id == lead_id))
+    lead = result.scalar_one_or_none()
+
+    if not lead:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Lead {lead_id} not found"
+        )
+
+    return lead

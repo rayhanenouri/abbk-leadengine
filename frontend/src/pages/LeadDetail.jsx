@@ -1,10 +1,13 @@
 import { useState, useEffect } from 'react';
-import { getLeadDetail } from '../services/api';
+import { getLeadDetail, updateLeadStatus } from '../services/api';
 
 export default function LeadDetail({ leadId, onBack }) {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [showStatusModal, setShowStatusModal] = useState(false);
+  const [newStatus, setNewStatus] = useState('');
+  const [statusNotes, setStatusNotes] = useState('');
 
   useEffect(() => {
     loadLeadDetail();
@@ -54,6 +57,31 @@ export default function LeadDetail({ leadId, onBack }) {
       month: 'short',
       year: 'numeric',
     });
+  };
+
+  const getStatusBadge = (status) => {
+    const statusMap = {
+      new: { text: 'NEW', emoji: '🆕', color: '#3b82f6' },
+      contacted: { text: 'CONTACTED', emoji: '📞', color: '#8b5cf6' },
+      qualified: { text: 'QUALIFIED', emoji: '⭐', color: '#10b981' },
+      converted: { text: 'CONVERTED', emoji: '✅', color: '#059669' },
+      lost: { text: 'LOST', emoji: '❌', color: '#6b7280' },
+    };
+    return statusMap[status] || statusMap.new;
+  };
+
+  const handleStatusUpdate = async () => {
+    if (!newStatus) return;
+
+    try {
+      await updateLeadStatus(leadId, newStatus, statusNotes || null);
+      setShowStatusModal(false);
+      setStatusNotes('');
+      // Reload lead data to reflect changes
+      await loadLeadDetail();
+    } catch (err) {
+      alert('Failed to update status: ' + err.message);
+    }
   };
 
   if (loading) {
@@ -129,6 +157,84 @@ export default function LeadDetail({ leadId, onBack }) {
           )}
         </div>
       </div>
+
+      {/* Status Management Section */}
+      <div style={styles.statusSection}>
+        <div style={styles.statusHeader}>
+          <div style={styles.statusLeft}>
+            <span style={styles.statusLabel}>Current Status:</span>
+            <div style={{
+              ...styles.statusBadgeLarge,
+              backgroundColor: `${getStatusBadge(lead.status).color}20`,
+              color: getStatusBadge(lead.status).color,
+            }}>
+              {getStatusBadge(lead.status).emoji} {getStatusBadge(lead.status).text}
+            </div>
+            {lead.last_contacted && (
+              <span style={styles.lastContacted}>
+                Last contacted: {formatDate(lead.last_contacted)}
+              </span>
+            )}
+          </div>
+          <button
+            onClick={() => {
+              setShowStatusModal(true);
+              setNewStatus(lead.status);
+            }}
+            style={styles.changeStatusButton}
+          >
+            Change Status
+          </button>
+        </div>
+        {lead.status_notes && (
+          <div style={styles.statusNotes}>
+            <strong>Notes:</strong> {lead.status_notes}
+          </div>
+        )}
+      </div>
+
+      {/* Status Update Modal */}
+      {showStatusModal && (
+        <div style={styles.modalOverlay} onClick={() => setShowStatusModal(false)}>
+          <div style={styles.modal} onClick={(e) => e.stopPropagation()}>
+            <h3 style={styles.modalTitle}>Update Lead Status</h3>
+            <div style={styles.modalBody}>
+              <label style={styles.label}>
+                New Status:
+                <select
+                  value={newStatus}
+                  onChange={(e) => setNewStatus(e.target.value)}
+                  style={styles.select}
+                >
+                  <option value="new">🆕 New</option>
+                  <option value="contacted">📞 Contacted</option>
+                  <option value="qualified">⭐ Qualified</option>
+                  <option value="converted">✅ Converted</option>
+                  <option value="lost">❌ Lost</option>
+                </select>
+              </label>
+              <label style={styles.label}>
+                Notes (optional):
+                <textarea
+                  value={statusNotes}
+                  onChange={(e) => setStatusNotes(e.target.value)}
+                  placeholder="Add notes about this status change..."
+                  style={styles.textarea}
+                  rows={4}
+                />
+              </label>
+            </div>
+            <div style={styles.modalActions}>
+              <button onClick={() => setShowStatusModal(false)} style={styles.cancelButton}>
+                Cancel
+              </button>
+              <button onClick={handleStatusUpdate} style={styles.saveButton}>
+                Update Status
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Best Deal Recommendation */}
       <div style={styles.bestDeal}>
@@ -520,5 +626,140 @@ const styles = {
     textAlign: 'center',
     color: '#718096',
     fontSize: '16px',
+  },
+  // Status Management Styles
+  statusSection: {
+    backgroundColor: '#f8fafc',
+    border: '2px solid #e2e8f0',
+    borderRadius: '12px',
+    padding: '24px',
+    marginBottom: '30px',
+  },
+  statusHeader: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: '12px',
+  },
+  statusLeft: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '12px',
+  },
+  statusLabel: {
+    fontSize: '16px',
+    fontWeight: '600',
+    color: '#374151',
+  },
+  statusBadgeLarge: {
+    padding: '8px 16px',
+    borderRadius: '12px',
+    fontSize: '14px',
+    fontWeight: 'bold',
+  },
+  lastContacted: {
+    fontSize: '14px',
+    color: '#6b7280',
+    marginLeft: '12px',
+  },
+  changeStatusButton: {
+    padding: '10px 20px',
+    backgroundColor: '#3b82f6',
+    color: 'white',
+    border: 'none',
+    borderRadius: '8px',
+    fontSize: '14px',
+    fontWeight: '600',
+    cursor: 'pointer',
+  },
+  statusNotes: {
+    marginTop: '12px',
+    fontSize: '14px',
+    color: '#4b5563',
+    backgroundColor: 'white',
+    padding: '12px',
+    borderRadius: '6px',
+    borderLeft: '3px solid #3b82f6',
+  },
+  // Modal Styles
+  modalOverlay: {
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    zIndex: 1000,
+  },
+  modal: {
+    backgroundColor: 'white',
+    borderRadius: '12px',
+    padding: '24px',
+    maxWidth: '500px',
+    width: '90%',
+    boxShadow: '0 20px 25px -5px rgba(0,0,0,0.1)',
+  },
+  modalTitle: {
+    fontSize: '20px',
+    fontWeight: 'bold',
+    marginBottom: '20px',
+    color: '#1a202c',
+  },
+  modalBody: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '16px',
+  },
+  label: {
+    fontSize: '14px',
+    fontWeight: '600',
+    color: '#374151',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '8px',
+  },
+  select: {
+    padding: '10px',
+    fontSize: '14px',
+    border: '1px solid #d1d5db',
+    borderRadius: '6px',
+    backgroundColor: 'white',
+  },
+  textarea: {
+    padding: '10px',
+    fontSize: '14px',
+    border: '1px solid #d1d5db',
+    borderRadius: '6px',
+    fontFamily: 'inherit',
+    resize: 'vertical',
+  },
+  modalActions: {
+    display: 'flex',
+    gap: '12px',
+    justifyContent: 'flex-end',
+    marginTop: '24px',
+  },
+  cancelButton: {
+    padding: '10px 20px',
+    backgroundColor: 'white',
+    color: '#374151',
+    border: '1px solid #d1d5db',
+    borderRadius: '8px',
+    fontSize: '14px',
+    fontWeight: '600',
+    cursor: 'pointer',
+  },
+  saveButton: {
+    padding: '10px 20px',
+    backgroundColor: '#10b981',
+    color: 'white',
+    border: 'none',
+    borderRadius: '8px',
+    fontSize: '14px',
+    fontWeight: '600',
+    cursor: 'pointer',
   },
 };
