@@ -6,7 +6,10 @@ import io
 from datetime import datetime
 from typing import List, Optional
 from fastapi import APIRouter, Depends, HTTPException, status, UploadFile, File, Query
+from fastapi.responses import StreamingResponse
 from sqlalchemy.ext.asyncio import AsyncSession
+from openpyxl import Workbook
+from openpyxl.styles import Font, PatternFill, Alignment
 from sqlalchemy import select, or_, func, and_
 from sqlalchemy.orm import selectinload
 
@@ -563,3 +566,296 @@ async def get_filter_options(
         "countries": countries,
         "statuses": statuses,
     }
+
+
+@router.get("/export/csv")
+async def export_leads_csv(
+    sector: Optional[str] = Query(default=None),
+    city: Optional[str] = Query(default=None),
+    country: Optional[str] = Query(default=None),
+    status: Optional[str] = Query(default=None),
+    is_multinational: Optional[bool] = Query(default=None),
+    is_exporter: Optional[bool] = Query(default=None),
+    under_audit: Optional[bool] = Query(default=None),
+    min_score: Optional[float] = Query(default=None, ge=0, le=100),
+    include_scores: bool = Query(default=True),
+    db: AsyncSession = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    """
+    Export leads to CSV file with optional filters.
+
+    Applies same filters as GET /api/leads endpoint.
+    Returns CSV file with all lead data.
+
+    Query params:
+    - All filter params (sector, city, country, status, flags, min_score)
+    - include_scores: Add best score column (default: True)
+
+    Returns:
+    - CSV file download with filename: leads_export_YYYY-MM-DD.csv
+    """
+    # Build query with filters
+    query = select(Lead)
+    filters = []
+
+    if sector:
+        filters.append(Lead.sector.ilike(f"%{sector}%"))
+    if city:
+        filters.append(Lead.city.ilike(f"%{city}%"))
+    if country:
+        filters.append(Lead.country.ilike(f"%{country}%"))
+    if status:
+        filters.append(Lead.status == status)
+    if is_multinational is not None:
+        filters.append(Lead.is_multinational == is_multinational)
+    if is_exporter is not None:
+        filters.append(Lead.is_exporter == is_exporter)
+    if under_audit is not None:
+        filters.append(Lead.under_audit == under_audit)
+
+    if filters:
+        query = query.where(and_(*filters))
+
+    # Filter by min score if requested
+    if min_score is not None:
+        score_subq = (
+            select(LeadScore.lead_id)
+            .where(LeadScore.score >= min_score)
+            .distinct()
+            .subquery()
+        )
+        query = query.where(Lead.id.in_(select(score_subq)))
+
+    # Execute query
+    result = await db.execute(query.order_by(Lead.company_name))
+    leads = result.scalars().all()
+
+    # Get scores if requested
+    scores_map = {}
+    if include_scores:
+        for lead in leads:
+            score_result = await db.execute(
+                select(LeadScore)
+                .where(LeadScore.lead_id == lead.id)
+                .order_by(LeadScore.score.desc())
+                .limit(1)
+            )
+            best_score = score_result.scalar_one_or_none()
+            if best_score:
+                scores_map[lead.id] = {
+                    'score': best_score.score,
+                    'service': best_score.service_name
+                }
+
+    # Create CSV
+    output = io.StringIO()
+    writer = csv.writer(output)
+
+    # Header row
+    headers = [
+        'Company Name', 'Sector', 'City', 'Country', 'Website', 'LinkedIn',
+        'Employee Count', 'Status', 'Multinational', 'Exporter', 'Under Audit',
+        'Created Date'
+    ]
+    if include_scores:
+        headers.extend(['Best Score', 'Best Service'])
+
+    writer.writerow(headers)
+
+    # Data rows
+    for lead in leads:
+        row = [
+            lead.company_name,
+            lead.sector or '',
+            lead.city or '',
+            lead.country or '',
+            lead.website or '',
+            lead.linkedin_url or '',
+            lead.employee_count or '',
+            lead.status.value if lead.status else '',
+            'Yes' if lead.is_multinational else 'No',
+            'Yes' if lead.is_exporter else 'No',
+            'Yes' if lead.under_audit else 'No',
+            lead.created_at.strftime('%Y-%m-%d') if lead.created_at else ''
+        ]
+
+        if include_scores:
+            if lead.id in scores_map:
+                row.append(f"{scores_map[lead.id]['score']:.1f}")
+                row.append(scores_map[lead.id]['service'])
+            else:
+                row.extend(['', ''])
+
+        writer.writerow(row)
+
+    # Prepare response
+    output.seek(0)
+    filename = f"leads_export_{datetime.now().strftime('%Y-%m-%d')}.csv"
+
+    return StreamingResponse(
+        iter([output.getvalue()]),
+        media_type="text/csv",
+        headers={"Content-Disposition": f"attachment; filename={filename}"}
+    )
+
+
+@router.get("/export/excel")
+async def export_leads_excel(
+    sector: Optional[str] = Query(default=None),
+    city: Optional[str] = Query(default=None),
+    country: Optional[str] = Query(default=None),
+    status: Optional[str] = Query(default=None),
+    is_multinational: Optional[bool] = Query(default=None),
+    is_exporter: Optional[bool] = Query(default=None),
+    under_audit: Optional[bool] = Query(default=None),
+    min_score: Optional[float] = Query(default=None, ge=0, le=100),
+    include_scores: bool = Query(default=True),
+    db: AsyncSession = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    """
+    Export leads to Excel file with optional filters and formatting.
+
+    Same filters as CSV export but with Excel formatting:
+    - Styled header row (bold, colored)
+    - Auto-sized columns
+    - Freeze header row
+    - Conditional formatting for scores
+
+    Returns:
+    - Excel file download with filename: leads_export_YYYY-MM-DD.xlsx
+    """
+    # Build query (same as CSV export)
+    query = select(Lead)
+    filters = []
+
+    if sector:
+        filters.append(Lead.sector.ilike(f"%{sector}%"))
+    if city:
+        filters.append(Lead.city.ilike(f"%{city}%"))
+    if country:
+        filters.append(Lead.country.ilike(f"%{country}%"))
+    if status:
+        filters.append(Lead.status == status)
+    if is_multinational is not None:
+        filters.append(Lead.is_multinational == is_multinational)
+    if is_exporter is not None:
+        filters.append(Lead.is_exporter == is_exporter)
+    if under_audit is not None:
+        filters.append(Lead.under_audit == under_audit)
+
+    if filters:
+        query = query.where(and_(*filters))
+
+    if min_score is not None:
+        score_subq = (
+            select(LeadScore.lead_id)
+            .where(LeadScore.score >= min_score)
+            .distinct()
+            .subquery()
+        )
+        query = query.where(Lead.id.in_(select(score_subq)))
+
+    result = await db.execute(query.order_by(Lead.company_name))
+    leads = result.scalars().all()
+
+    # Get scores if requested
+    scores_map = {}
+    if include_scores:
+        for lead in leads:
+            score_result = await db.execute(
+                select(LeadScore)
+                .where(LeadScore.lead_id == lead.id)
+                .order_by(LeadScore.score.desc())
+                .limit(1)
+            )
+            best_score = score_result.scalar_one_or_none()
+            if best_score:
+                scores_map[lead.id] = {
+                    'score': best_score.score,
+                    'service': best_score.service_name
+                }
+
+    # Create Excel workbook
+    wb = Workbook()
+    ws = wb.active
+    ws.title = "Leads Export"
+
+    # Header styling
+    header_fill = PatternFill(start_color="667eea", end_color="667eea", fill_type="solid")
+    header_font = Font(bold=True, color="FFFFFF", size=12)
+    header_alignment = Alignment(horizontal="center", vertical="center")
+
+    # Headers
+    headers = [
+        'Company Name', 'Sector', 'City', 'Country', 'Website', 'LinkedIn',
+        'Employee Count', 'Status', 'Multinational', 'Exporter', 'Under Audit',
+        'Created Date'
+    ]
+    if include_scores:
+        headers.extend(['Best Score', 'Best Service'])
+
+    for col_num, header in enumerate(headers, 1):
+        cell = ws.cell(row=1, column=col_num, value=header)
+        cell.fill = header_fill
+        cell.font = header_font
+        cell.alignment = header_alignment
+
+    # Data rows
+    for row_num, lead in enumerate(leads, 2):
+        ws.cell(row=row_num, column=1, value=lead.company_name)
+        ws.cell(row=row_num, column=2, value=lead.sector or '')
+        ws.cell(row=row_num, column=3, value=lead.city or '')
+        ws.cell(row=row_num, column=4, value=lead.country or '')
+        ws.cell(row=row_num, column=5, value=lead.website or '')
+        ws.cell(row=row_num, column=6, value=lead.linkedin_url or '')
+        ws.cell(row=row_num, column=7, value=lead.employee_count or '')
+        ws.cell(row=row_num, column=8, value=lead.status.value if lead.status else '')
+        ws.cell(row=row_num, column=9, value='Yes' if lead.is_multinational else 'No')
+        ws.cell(row=row_num, column=10, value='Yes' if lead.is_exporter else 'No')
+        ws.cell(row=row_num, column=11, value='Yes' if lead.under_audit else 'No')
+        ws.cell(row=row_num, column=12, value=lead.created_at.strftime('%Y-%m-%d') if lead.created_at else '')
+
+        if include_scores:
+            if lead.id in scores_map:
+                score_cell = ws.cell(row=row_num, column=13, value=scores_map[lead.id]['score'])
+                # Color code scores
+                score_val = scores_map[lead.id]['score']
+                if score_val >= 70:
+                    score_cell.fill = PatternFill(start_color="d1fae5", end_color="d1fae5", fill_type="solid")  # green
+                elif score_val >= 50:
+                    score_cell.fill = PatternFill(start_color="fed7aa", end_color="fed7aa", fill_type="solid")  # orange
+                elif score_val >= 30:
+                    score_cell.fill = PatternFill(start_color="fecaca", end_color="fecaca", fill_type="solid")  # red
+
+                ws.cell(row=row_num, column=14, value=scores_map[lead.id]['service'])
+
+    # Auto-size columns
+    for column in ws.columns:
+        max_length = 0
+        column_letter = column[0].column_letter
+        for cell in column:
+            try:
+                if len(str(cell.value)) > max_length:
+                    max_length = len(str(cell.value))
+            except:
+                pass
+        adjusted_width = min(max_length + 2, 50)
+        ws.column_dimensions[column_letter].width = adjusted_width
+
+    # Freeze header row
+    ws.freeze_panes = "A2"
+
+    # Save to bytes
+    output = io.BytesIO()
+    wb.save(output)
+    output.seek(0)
+
+    filename = f"leads_export_{datetime.now().strftime('%Y-%m-%d')}.xlsx"
+
+    return StreamingResponse(
+        output,
+        media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        headers={"Content-Disposition": f"attachment; filename={filename}"}
+    )

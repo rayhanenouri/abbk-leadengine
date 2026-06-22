@@ -44,6 +44,7 @@ dependencies = [
   # Data processing
   "pandas>=2.2.0",
   "numpy>=1.26.0",
+  "openpyxl>=3.1.0",  # Excel export
 
   # Utilities
   "python-dotenv>=1.0.1",

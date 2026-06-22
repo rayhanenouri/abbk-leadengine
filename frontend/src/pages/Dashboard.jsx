@@ -99,6 +99,49 @@ export default function Dashboard() {
     setSelectedLeadId(leadId);
   };
 
+  const handleExport = async (format) => {
+    try {
+      const token = localStorage.getItem('token');
+      const params = new URLSearchParams();
+
+      // Apply current filters
+      if (minScore > 0) params.append('min_score', minScore);
+      if (appliedFilters.sector) params.append('sector', appliedFilters.sector);
+      if (appliedFilters.city) params.append('city', appliedFilters.city);
+      if (appliedFilters.country) params.append('country', appliedFilters.country);
+      if (appliedFilters.status) params.append('status', appliedFilters.status);
+      if (appliedFilters.is_multinational) params.append('is_multinational', 'true');
+      if (appliedFilters.is_exporter) params.append('is_exporter', 'true');
+      if (appliedFilters.under_audit) params.append('under_audit', 'true');
+      if (appliedFilters.min_score && appliedFilters.min_score > 0) {
+        params.append('min_score', appliedFilters.min_score);
+      }
+
+      const url = `http://${window.location.hostname}:8000/api/leads/export/${format}?${params.toString()}`;
+
+      // Download file
+      const response = await fetch(url, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) throw new Error('Export failed');
+
+      const blob = await response.blob();
+      const downloadUrl = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = downloadUrl;
+      a.download = `leads_export_${new Date().toISOString().split('T')[0]}.${format === 'csv' ? 'csv' : 'xlsx'}`;
+      document.body.appendChild(a);
+      a.click();
+      window.URL.revokeObjectURL(downloadUrl);
+      document.body.removeChild(a);
+    } catch (err) {
+      alert('Export failed: ' + err.message);
+    }
+  };
+
   // Reload when filters change
   useEffect(() => {
     loadLeads();
@@ -216,7 +259,17 @@ export default function Dashboard() {
 
       {/* Search and Filters */}
       <div style={styles.searchSection}>
-        <SearchBar onSelectLead={handleSearchSelect} />
+        <div style={styles.searchRow}>
+          <SearchBar onSelectLead={handleSearchSelect} />
+          <div style={styles.exportButtons}>
+            <button onClick={() => handleExport('csv')} style={styles.exportButton}>
+              📊 Export CSV
+            </button>
+            <button onClick={() => handleExport('excel')} style={styles.exportButton}>
+              📈 Export Excel
+            </button>
+          </div>
+        </div>
         <FilterPanel onFilterChange={handleFilterChange} />
       </div>
 
@@ -797,5 +850,27 @@ const styles = {
     padding: '20px 40px',
     backgroundColor: 'white',
     borderBottom: '1px solid #e5e7eb',
+  },
+  searchRow: {
+    display: 'flex',
+    gap: '20px',
+    alignItems: 'center',
+    marginBottom: '20px',
+  },
+  exportButtons: {
+    display: 'flex',
+    gap: '12px',
+  },
+  exportButton: {
+    padding: '12px 20px',
+    backgroundColor: '#10b981',
+    color: 'white',
+    border: 'none',
+    borderRadius: '8px',
+    fontSize: '14px',
+    fontWeight: '600',
+    cursor: 'pointer',
+    whiteSpace: 'nowrap',
+    transition: 'background-color 0.2s',
   },
 };
