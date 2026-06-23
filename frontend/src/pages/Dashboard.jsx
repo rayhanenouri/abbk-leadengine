@@ -1,11 +1,34 @@
+/**
+ * ABBK LeadEngine Dashboard - Professional Design
+ * Modern Tailwind-based UI with microinteractions and premium feel
+ */
+
 import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import {
+  Bell,
+  LogOut,
+  BarChart3,
+  FileDown,
+  Phone,
+  Eye,
+  ChevronLeft,
+  ChevronRight,
+  Loader2,
+  AlertCircle,
+  Inbox,
+  TrendingUp,
+  Users,
+  Target,
+  X
+} from 'lucide-react';
 import { getRankedLeads, logout, getUnreadCount, getNotifications, markNotificationRead } from '../services/api';
 import LeadDetail from './LeadDetail';
 import SearchBar from '../components/SearchBar';
 import FilterPanel from '../components/FilterPanel';
 
 export default function Dashboard({ onNavigateToAnalytics }) {
-  const [allLeads, setAllLeads] = useState([]); // All leads from API
+  const [allLeads, setAllLeads] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [minScore, setMinScore] = useState(0);
@@ -14,20 +37,16 @@ export default function Dashboard({ onNavigateToAnalytics }) {
   const [notifications, setNotifications] = useState([]);
   const [showNotifications, setShowNotifications] = useState(false);
   const [appliedFilters, setAppliedFilters] = useState({});
-
-  // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
   const leadsPerPage = 50;
 
   useEffect(() => {
     loadLeads();
     loadUnreadCount();
-    // Refresh notifications every 30 seconds
     const interval = setInterval(loadUnreadCount, 30000);
     return () => clearInterval(interval);
   }, [minScore]);
 
-  // Reset to page 1 when filter changes
   useEffect(() => {
     setCurrentPage(1);
   }, [minScore]);
@@ -36,14 +55,10 @@ export default function Dashboard({ onNavigateToAnalytics }) {
     setLoading(true);
     setError('');
     try {
-      // Use the ranked leads endpoint which now supports all filters
       let effectiveMinScore = minScore;
-
-      // Apply filter min_score if higher than global minScore
       if (appliedFilters.min_score && appliedFilters.min_score > effectiveMinScore) {
         effectiveMinScore = appliedFilters.min_score;
       }
-
       const data = await getRankedLeads(10000, effectiveMinScore, appliedFilters);
       setAllLeads(data);
     } catch (err) {
@@ -72,12 +87,10 @@ export default function Dashboard({ onNavigateToAnalytics }) {
   };
 
   const handleNotificationClick = async (notification) => {
-    // Mark as read
     if (!notification.is_read) {
       await markNotificationRead(notification.id);
       loadUnreadCount();
     }
-    // Navigate to lead if available
     if (notification.lead_id) {
       setSelectedLeadId(notification.lead_id);
       setShowNotifications(false);
@@ -103,8 +116,6 @@ export default function Dashboard({ onNavigateToAnalytics }) {
     try {
       const token = localStorage.getItem('token');
       const params = new URLSearchParams();
-
-      // Apply current filters
       if (minScore > 0) params.append('min_score', minScore);
       if (appliedFilters.sector) params.append('sector', appliedFilters.sector);
       if (appliedFilters.city) params.append('city', appliedFilters.city);
@@ -118,12 +129,8 @@ export default function Dashboard({ onNavigateToAnalytics }) {
       }
 
       const url = `http://${window.location.hostname}:8000/api/leads/export/${format}?${params.toString()}`;
-
-      // Download file
       const response = await fetch(url, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        headers: { Authorization: `Bearer ${token}` },
       });
 
       if (!response.ok) throw new Error('Export failed');
@@ -142,53 +149,55 @@ export default function Dashboard({ onNavigateToAnalytics }) {
     }
   };
 
-  // Reload when filters change
   useEffect(() => {
     loadLeads();
   }, [appliedFilters]);
 
-  // Pagination calculations
+  // Pagination
   const totalLeads = allLeads.length;
   const totalPages = Math.ceil(totalLeads / leadsPerPage);
   const startIndex = (currentPage - 1) * leadsPerPage;
   const endIndex = startIndex + leadsPerPage;
   const currentLeads = allLeads.slice(startIndex, endIndex);
 
-  // Pagination handlers
   const goToPage = (page) => {
     setCurrentPage(Math.max(1, Math.min(page, totalPages)));
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const nextPage = () => goToPage(currentPage + 1);
-  const prevPage = () => goToPage(currentPage - 1);
-
   const getScoreColor = (score) => {
-    if (score >= 70) return '#10b981'; // green
-    if (score >= 50) return '#f59e0b'; // orange
-    if (score >= 30) return '#ef4444'; // red
-    return '#6b7280'; // gray
+    if (score >= 70) return 'text-success-600';
+    if (score >= 50) return 'text-warning-600';
+    if (score >= 30) return 'text-error-600';
+    return 'text-neutral-400';
+  };
+
+  const getScoreBg = (score) => {
+    if (score >= 70) return 'bg-success-500/10';
+    if (score >= 50) return 'bg-warning-500/10';
+    if (score >= 30) return 'bg-error-500/10';
+    return 'bg-neutral-500/10';
   };
 
   const getPriorityBadge = (score) => {
-    if (score >= 70) return { text: 'HIGH', color: '#10b981' };
-    if (score >= 50) return { text: 'MEDIUM', color: '#f59e0b' };
-    if (score >= 30) return { text: 'LOW', color: '#ef4444' };
-    return { text: 'RESEARCH', color: '#6b7280' };
+    if (score >= 70) return { text: 'HIGH', color: 'bg-success-500/10 text-success-600 ring-success-500/20' };
+    if (score >= 50) return { text: 'MEDIUM', color: 'bg-warning-500/10 text-warning-600 ring-warning-500/20' };
+    if (score >= 30) return { text: 'LOW', color: 'bg-error-500/10 text-error-600 ring-error-500/20' };
+    return { text: 'RESEARCH', color: 'bg-neutral-500/10 text-neutral-400 ring-neutral-500/20' };
   };
 
   const getStatusBadge = (status) => {
     const statusMap = {
-      new: { text: 'NEW', emoji: '🆕', color: '#3b82f6' },
-      contacted: { text: 'CONTACTED', emoji: '📞', color: '#8b5cf6' },
-      qualified: { text: 'QUALIFIED', emoji: '⭐', color: '#10b981' },
-      converted: { text: 'CONVERTED', emoji: '✅', color: '#059669' },
-      lost: { text: 'LOST', emoji: '❌', color: '#6b7280' },
+      new: { text: 'NEW', emoji: '🆕', color: 'bg-accent-500/10 text-accent-600 ring-accent-500/20' },
+      contacted: { text: 'CONTACTED', emoji: '📞', color: 'bg-purple-500/10 text-purple-600 ring-purple-500/20' },
+      qualified: { text: 'QUALIFIED', emoji: '⭐', color: 'bg-success-500/10 text-success-600 ring-success-500/20' },
+      converted: { text: 'CONVERTED', emoji: '✅', color: 'bg-success-600/10 text-success-700 ring-success-600/20' },
+      lost: { text: 'LOST', emoji: '❌', color: 'bg-neutral-500/10 text-neutral-500 ring-neutral-500/20' },
     };
     return statusMap[status] || statusMap.new;
   };
 
-  // Show lead detail page if a lead is selected
+  // Show lead detail
   if (selectedLeadId) {
     return (
       <LeadDetail
@@ -199,692 +208,424 @@ export default function Dashboard({ onNavigateToAnalytics }) {
   }
 
   return (
-    <div style={styles.container}>
+    <div className="min-h-screen bg-neutral-50">
       {/* Header */}
-      <header style={styles.header}>
-        <div>
-          <h1 style={styles.title}>ABBK LeadEngine</h1>
-          <p style={styles.subtitle}>Ranked Leads - Who to Call Today</p>
-        </div>
-        <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
-          {/* Analytics Button */}
-          <button onClick={onNavigateToAnalytics} style={styles.analyticsButton}>
-            📊 Analytics
-          </button>
-          {/* Notification Bell */}
-          <div style={{ position: 'relative' }}>
-            <button onClick={toggleNotifications} style={styles.notificationButton}>
-              🔔
-              {unreadCount > 0 && (
-                <span style={styles.notificationBadge}>{unreadCount}</span>
-              )}
-            </button>
-            {showNotifications && (
-              <div style={styles.notificationPanel}>
-                <div style={styles.notificationHeader}>
-                  <h3 style={styles.notificationTitle}>Notifications</h3>
-                  <button
-                    onClick={() => setShowNotifications(false)}
-                    style={styles.closeButton}
-                  >
-                    ✕
-                  </button>
-                </div>
-                <div style={styles.notificationList}>
-                  {notifications.length === 0 ? (
-                    <div style={styles.emptyNotifications}>No notifications</div>
-                  ) : (
-                    notifications.map((notif) => (
-                      <div
-                        key={notif.id}
-                        onClick={() => handleNotificationClick(notif)}
-                        style={{
-                          ...styles.notificationItem,
-                          backgroundColor: notif.is_read ? '#fff' : '#eff6ff',
-                        }}
-                      >
-                        <div style={styles.notificationItemTitle}>{notif.title}</div>
-                        <div style={styles.notificationItemMessage}>{notif.message}</div>
-                        <div style={styles.notificationItemTime}>
-                          {new Date(notif.created_at).toLocaleString()}
-                        </div>
-                      </div>
-                    ))
+      <header className="sticky top-0 z-50 bg-white border-b border-neutral-200 shadow-sm backdrop-blur-xl bg-white/95">
+        <div className="max-w-[1600px] mx-auto px-6 py-4">
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-2xl font-bold text-neutral-900">ABBK LeadEngine</h1>
+              <p className="text-sm text-neutral-500 mt-0.5">Ranked Leads • Who to Call Today</p>
+            </div>
+
+            <div className="flex items-center gap-3">
+              {/* Analytics Button */}
+              <motion.button
+                onClick={onNavigateToAnalytics}
+                className="flex items-center gap-2 px-4 py-2.5 bg-purple-600 text-white rounded-xl font-semibold text-sm hover:bg-purple-700 transition-all shadow-lg shadow-purple-600/25 hover:shadow-xl hover:shadow-purple-600/30 hover:-translate-y-0.5 active:translate-y-0"
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                <BarChart3 className="w-4 h-4" />
+                Analytics
+              </motion.button>
+
+              {/* Notification Bell */}
+              <div className="relative">
+                <motion.button
+                  onClick={toggleNotifications}
+                  className="relative p-2.5 bg-neutral-100 hover:bg-neutral-200 rounded-xl transition-colors"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <Bell className="w-5 h-5 text-neutral-700" />
+                  {unreadCount > 0 && (
+                    <span className="absolute -top-1 -right-1 bg-primary-600 text-white text-xs font-bold px-1.5 py-0.5 rounded-full min-w-[20px] text-center">
+                      {unreadCount}
+                    </span>
                   )}
-                </div>
+                </motion.button>
+
+                {/* Notification Panel */}
+                <AnimatePresence>
+                  {showNotifications && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                      transition={{ duration: 0.2 }}
+                      className="absolute top-14 right-0 w-[400px] max-h-[500px] bg-white border border-neutral-200 rounded-2xl shadow-2xl overflow-hidden"
+                    >
+                      <div className="flex items-center justify-between px-6 py-4 border-b border-neutral-200 bg-neutral-50">
+                        <h3 className="font-bold text-lg text-neutral-900">Notifications</h3>
+                        <button
+                          onClick={() => setShowNotifications(false)}
+                          className="p-1 hover:bg-neutral-200 rounded-lg transition-colors"
+                        >
+                          <X className="w-5 h-5 text-neutral-500" />
+                        </button>
+                      </div>
+                      <div className="max-h-[440px] overflow-y-auto">
+                        {notifications.length === 0 ? (
+                          <div className="flex flex-col items-center justify-center py-16 px-6 text-center">
+                            <Inbox className="w-12 h-12 text-neutral-300 mb-3" />
+                            <p className="text-neutral-500 text-sm">No notifications yet</p>
+                          </div>
+                        ) : (
+                          notifications.map((notif) => (
+                            <motion.div
+                              key={notif.id}
+                              onClick={() => handleNotificationClick(notif)}
+                              className={`px-6 py-4 border-b border-neutral-100 cursor-pointer transition-colors ${
+                                notif.is_read ? 'bg-white hover:bg-neutral-50' : 'bg-accent-50/50 hover:bg-accent-50'
+                              }`}
+                              whileHover={{ x: 4 }}
+                            >
+                              <div className="font-semibold text-sm text-neutral-900 mb-1">{notif.title}</div>
+                              <div className="text-sm text-neutral-600 mb-2 line-clamp-2">{notif.message}</div>
+                              <div className="text-xs text-neutral-400">
+                                {new Date(notif.created_at).toLocaleString()}
+                              </div>
+                            </motion.div>
+                          ))
+                        )}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
-            )}
+
+              {/* Logout Button */}
+              <motion.button
+                onClick={logout}
+                className="flex items-center gap-2 px-4 py-2.5 bg-neutral-100 hover:bg-neutral-200 text-neutral-700 rounded-xl font-semibold text-sm transition-colors"
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                <LogOut className="w-4 h-4" />
+                Logout
+              </motion.button>
+            </div>
           </div>
-          <button onClick={logout} style={styles.logoutButton}>
-            Logout
-          </button>
         </div>
       </header>
 
-      {/* Search and Filters */}
-      <div style={styles.searchSection}>
-        <div style={styles.searchRow}>
-          <SearchBar onSelectLead={handleSearchSelect} />
-          <div style={styles.exportButtons}>
-            <button onClick={() => handleExport('csv')} style={styles.exportButton}>
-              📊 Export CSV
-            </button>
-            <button onClick={() => handleExport('excel')} style={styles.exportButton}>
-              📈 Export Excel
-            </button>
+      {/* Stats Bar */}
+      <div className="bg-white border-b border-neutral-200">
+        <div className="max-w-[1600px] mx-auto px-6 py-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+            {/* Total Leads */}
+            <div className="bg-gradient-to-br from-neutral-50 to-white p-5 rounded-2xl border border-neutral-200">
+              <div className="flex items-center gap-3">
+                <div className="p-2.5 bg-neutral-900 rounded-xl">
+                  <Users className="w-5 h-5 text-white" />
+                </div>
+                <div>
+                  <div className="text-2xl font-bold text-neutral-900">{totalLeads}</div>
+                  <div className="text-xs text-neutral-500 font-medium">Total Leads</div>
+                </div>
+              </div>
+            </div>
+
+            {/* High Priority */}
+            <div className="bg-gradient-to-br from-success-50 to-white p-5 rounded-2xl border border-success-200">
+              <div className="flex items-center gap-3">
+                <div className="p-2.5 bg-success-600 rounded-xl">
+                  <Target className="w-5 h-5 text-white" />
+                </div>
+                <div>
+                  <div className="text-2xl font-bold text-success-700">
+                    {allLeads.filter(l => l.best_score >= 70).length}
+                  </div>
+                  <div className="text-xs text-success-600 font-medium">High Priority</div>
+                </div>
+              </div>
+            </div>
+
+            {/* Medium Priority */}
+            <div className="bg-gradient-to-br from-warning-50 to-white p-5 rounded-2xl border border-warning-200">
+              <div className="flex items-center gap-3">
+                <div className="p-2.5 bg-warning-600 rounded-xl">
+                  <TrendingUp className="w-5 h-5 text-white" />
+                </div>
+                <div>
+                  <div className="text-2xl font-bold text-warning-700">
+                    {allLeads.filter(l => l.best_score >= 50 && l.best_score < 70).length}
+                  </div>
+                  <div className="text-xs text-warning-600 font-medium">Medium Priority</div>
+                </div>
+              </div>
+            </div>
+
+            {/* Pagination Info */}
+            <div className="bg-gradient-to-br from-accent-50 to-white p-5 rounded-2xl border border-accent-200">
+              <div className="text-sm text-accent-600 font-medium mb-1">Page {currentPage} of {totalPages || 1}</div>
+              <div className="text-xs text-accent-500">Viewing {currentLeads.length} leads</div>
+            </div>
+
+            {/* Min Score Filter */}
+            <div className="bg-gradient-to-br from-purple-50 to-white p-5 rounded-2xl border border-purple-200">
+              <label className="block text-xs text-purple-600 font-medium mb-2">Min Score</label>
+              <select
+                value={minScore}
+                onChange={(e) => setMinScore(Number(e.target.value))}
+                className="w-full px-3 py-2 bg-white border border-purple-200 rounded-xl text-sm font-medium text-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 cursor-pointer"
+              >
+                <option value={0}>All Leads</option>
+                <option value={30}>30+</option>
+                <option value={50}>50+</option>
+                <option value={70}>70+ (High)</option>
+              </select>
+            </div>
           </div>
         </div>
-        <FilterPanel onFilterChange={handleFilterChange} />
       </div>
 
-      {/* Stats Bar */}
-      <div style={styles.statsBar}>
-        <div style={styles.statCard}>
-          <div style={styles.statNumber}>{totalLeads}</div>
-          <div style={styles.statLabel}>Total Leads</div>
-        </div>
-        <div style={styles.statCard}>
-          <div style={styles.statNumber}>
-            {allLeads.filter(l => l.best_score >= 70).length}
+      {/* Search and Filters */}
+      <div className="bg-white border-b border-neutral-200">
+        <div className="max-w-[1600px] mx-auto px-6 py-4">
+          <div className="flex flex-col lg:flex-row gap-4 mb-4">
+            <div className="flex-1">
+              <SearchBar onSelectLead={handleSearchSelect} />
+            </div>
+            <div className="flex gap-3">
+              <motion.button
+                onClick={() => handleExport('csv')}
+                className="flex items-center gap-2 px-4 py-2.5 bg-success-600 text-white rounded-xl font-semibold text-sm hover:bg-success-700 transition-all shadow-lg shadow-success-600/25"
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                <FileDown className="w-4 h-4" />
+                CSV
+              </motion.button>
+              <motion.button
+                onClick={() => handleExport('excel')}
+                className="flex items-center gap-2 px-4 py-2.5 bg-success-600 text-white rounded-xl font-semibold text-sm hover:bg-success-700 transition-all shadow-lg shadow-success-600/25"
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                <FileDown className="w-4 h-4" />
+                Excel
+              </motion.button>
+            </div>
           </div>
-          <div style={styles.statLabel}>High Priority</div>
-        </div>
-        <div style={styles.statCard}>
-          <div style={styles.statNumber}>
-            {allLeads.filter(l => l.best_score >= 50 && l.best_score < 70).length}
-          </div>
-          <div style={styles.statLabel}>Medium Priority</div>
-        </div>
-        <div style={styles.statCard}>
-          <div style={styles.statNumber}>
-            Page {currentPage} of {totalPages || 1}
-          </div>
-          <div style={styles.statLabel}>Viewing {currentLeads.length} leads</div>
-        </div>
-        <div style={styles.filterCard}>
-          <label style={styles.filterLabel}>Min Score:</label>
-          <select
-            value={minScore}
-            onChange={(e) => setMinScore(Number(e.target.value))}
-            style={styles.filterSelect}
-          >
-            <option value={0}>All Leads</option>
-            <option value={30}>30+</option>
-            <option value={50}>50+</option>
-            <option value={70}>70+ (High Priority)</option>
-          </select>
+          <FilterPanel onFilterChange={handleFilterChange} />
         </div>
       </div>
 
       {/* Main Content */}
-      <main style={styles.main}>
+      <main className="max-w-[1600px] mx-auto px-6 py-8">
+        {/* Loading State */}
         {loading && (
-          <div style={styles.loading}>Loading leads...</div>
-        )}
-
-        {error && (
-          <div style={styles.error}>{error}</div>
-        )}
-
-        {!loading && !error && totalLeads === 0 && (
-          <div style={styles.empty}>
-            No leads found. Try lowering the minimum score filter.
+          <div className="flex flex-col items-center justify-center py-24">
+            <Loader2 className="w-12 h-12 text-primary-600 animate-spin mb-4" />
+            <p className="text-neutral-600 font-medium">Loading leads...</p>
           </div>
         )}
 
+        {/* Error State */}
+        {error && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="bg-error-50 border border-error-200 rounded-2xl p-6 mb-6"
+          >
+            <div className="flex items-start gap-3">
+              <AlertCircle className="w-6 h-6 text-error-600 flex-shrink-0 mt-0.5" />
+              <div>
+                <h3 className="font-bold text-error-900 mb-1">Error Loading Leads</h3>
+                <p className="text-error-700">{error}</p>
+              </div>
+            </div>
+          </motion.div>
+        )}
+
+        {/* Empty State */}
+        {!loading && !error && totalLeads === 0 && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="flex flex-col items-center justify-center py-24 bg-white rounded-3xl border border-neutral-200"
+          >
+            <Inbox className="w-16 h-16 text-neutral-300 mb-4" />
+            <h3 className="text-xl font-bold text-neutral-900 mb-2">No Leads Found</h3>
+            <p className="text-neutral-500">Try lowering the minimum score filter</p>
+          </motion.div>
+        )}
+
+        {/* Leads Grid */}
         {!loading && !error && totalLeads > 0 && (
           <>
-            <div style={styles.leadsGrid}>
+            <motion.div
+              className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6"
+              initial="hidden"
+              animate="visible"
+              variants={{
+                visible: {
+                  transition: {
+                    staggerChildren: 0.05
+                  }
+                }
+              }}
+            >
               {currentLeads.map((lead) => {
-              const badge = getPriorityBadge(lead.best_score);
-              const statusBadge = getStatusBadge(lead.status);
-              return (
-                <div key={lead.lead_id} style={styles.leadCard}>
-                  {/* Header */}
-                  <div style={styles.leadHeader}>
-                    <div>
-                      <h3 style={styles.leadName}>{lead.company_name}</h3>
-                      <p style={styles.leadLocation}>
-                        {lead.city} {lead.city && lead.sector && '•'} {lead.sector}
-                      </p>
+                const priorityBadge = getPriorityBadge(lead.best_score);
+                const statusBadge = getStatusBadge(lead.status);
+
+                return (
+                  <motion.div
+                    key={lead.lead_id}
+                    variants={{
+                      hidden: { opacity: 0, y: 20 },
+                      visible: { opacity: 1, y: 0 }
+                    }}
+                    className="bg-white rounded-2xl border border-neutral-200 p-6 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer group"
+                  >
+                    {/* Header */}
+                    <div className="flex items-start justify-between mb-4">
+                      <div className="flex-1 min-w-0">
+                        <h3 className="font-bold text-lg text-neutral-900 mb-1 truncate group-hover:text-primary-600 transition-colors">
+                          {lead.company_name}
+                        </h3>
+                        <p className="text-sm text-neutral-500 truncate">
+                          {lead.city} {lead.city && lead.sector && '•'} {lead.sector}
+                        </p>
+                      </div>
                     </div>
-                    <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-                      <div style={{
-                        ...styles.statusBadge,
-                        backgroundColor: `${statusBadge.color}20`,
-                        color: statusBadge.color,
-                      }}>
+
+                    {/* Badges */}
+                    <div className="flex gap-2 mb-4">
+                      <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-bold ring-1 ${statusBadge.color}`}>
                         {statusBadge.emoji} {statusBadge.text}
-                      </div>
-                      <div style={{
-                        ...styles.priorityBadge,
-                        backgroundColor: `${badge.color}20`,
-                        color: badge.color,
-                      }}>
-                        {badge.text}
-                      </div>
+                      </span>
+                      <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-bold ring-1 ${priorityBadge.color}`}>
+                        {priorityBadge.text}
+                      </span>
                     </div>
-                  </div>
 
-                  {/* Score */}
-                  <div style={styles.scoreSection}>
-                    <div style={styles.scoreCircle}>
-                      <div
-                        style={{
-                          ...styles.scoreNumber,
-                          color: getScoreColor(lead.best_score),
-                        }}
-                      >
-                        {Math.round(lead.best_score)}
+                    {/* Score */}
+                    <div className="flex items-center gap-4 mb-4 pb-4 border-b border-neutral-100">
+                      <div className={`flex items-center justify-center w-20 h-20 rounded-2xl ${getScoreBg(lead.best_score)}`}>
+                        <div className="text-center">
+                          <div className={`text-3xl font-bold ${getScoreColor(lead.best_score)}`}>
+                            {Math.round(lead.best_score)}
+                          </div>
+                          <div className="text-xs text-neutral-400 font-medium">Score</div>
+                        </div>
                       </div>
-                      <div style={styles.scoreLabel}>Score</div>
-                    </div>
-                    <div style={styles.scoreDetails}>
-                      <div style={styles.scoreDetailItem}>
-                        <span style={styles.scoreDetailLabel}>Best Service:</span>
-                        <span style={styles.scoreDetailValue}>
+                      <div className="flex-1 min-w-0">
+                        <div className="text-xs text-neutral-500 mb-1">Best Service</div>
+                        <div className="font-semibold text-sm text-neutral-900 truncate">
                           {lead.best_service}
-                        </span>
+                        </div>
                       </div>
                     </div>
-                  </div>
 
-                  {/* Reasoning */}
-                  <div style={styles.reasoning}>
-                    <p style={styles.reasoningText}>{lead.best_reasoning}</p>
-                  </div>
+                    {/* Reasoning */}
+                    <p className="text-sm text-neutral-600 mb-4 line-clamp-2 leading-relaxed">
+                      {lead.best_reasoning}
+                    </p>
 
-                  {/* Actions */}
-                  <div style={styles.actions}>
-                    <button style={styles.actionButton}>
-                      📞 Call Now
-                    </button>
-                    <button
-                      style={styles.actionButtonSecondary}
-                      onClick={() => setSelectedLeadId(lead.lead_id)}
-                    >
-                      View Details
-                    </button>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-
-          {/* Pagination Controls */}
-          {totalPages > 1 && (
-            <div style={styles.pagination}>
-              <button
-                onClick={prevPage}
-                disabled={currentPage === 1}
-                style={{
-                  ...styles.paginationButton,
-                  ...(currentPage === 1 ? styles.paginationButtonDisabled : {}),
-                }}
-              >
-                ← Previous
-              </button>
-
-              <div style={styles.paginationInfo}>
-                <span style={styles.paginationText}>
-                  Showing {startIndex + 1}-{Math.min(endIndex, totalLeads)} of {totalLeads} leads
-                </span>
-                <div style={styles.pageNumbers}>
-                  {/* Show page numbers with ellipsis for large page counts */}
-                  {Array.from({ length: Math.min(totalPages, 7) }, (_, i) => {
-                    let pageNum;
-                    if (totalPages <= 7) {
-                      pageNum = i + 1;
-                    } else if (currentPage <= 4) {
-                      pageNum = i + 1;
-                    } else if (currentPage >= totalPages - 3) {
-                      pageNum = totalPages - 6 + i;
-                    } else {
-                      pageNum = currentPage - 3 + i;
-                    }
-
-                    if (pageNum < 1 || pageNum > totalPages) return null;
-
-                    return (
-                      <button
-                        key={pageNum}
-                        onClick={() => goToPage(pageNum)}
-                        style={{
-                          ...styles.pageButton,
-                          ...(currentPage === pageNum ? styles.pageButtonActive : {}),
-                        }}
+                    {/* Actions */}
+                    <div className="flex gap-3">
+                      <motion.button
+                        className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 bg-primary-600 text-white rounded-xl font-semibold text-sm hover:bg-primary-700 transition-colors"
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
                       >
-                        {pageNum}
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
+                        <Phone className="w-4 h-4" />
+                        Call Now
+                      </motion.button>
+                      <motion.button
+                        onClick={() => setSelectedLeadId(lead.lead_id)}
+                        className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 bg-neutral-100 text-neutral-700 rounded-xl font-semibold text-sm hover:bg-neutral-200 transition-colors"
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                      >
+                        <Eye className="w-4 h-4" />
+                        Details
+                      </motion.button>
+                    </div>
+                  </motion.div>
+                );
+              })}
+            </motion.div>
 
-              <button
-                onClick={nextPage}
-                disabled={currentPage === totalPages}
-                style={{
-                  ...styles.paginationButton,
-                  ...(currentPage === totalPages ? styles.paginationButtonDisabled : {}),
-                }}
-              >
-                Next →
-              </button>
-            </div>
-          )}
-        </>
+            {/* Pagination */}
+            {totalPages > 1 && (
+              <div className="flex items-center justify-between mt-8 p-6 bg-white rounded-2xl border border-neutral-200">
+                <motion.button
+                  onClick={() => goToPage(currentPage - 1)}
+                  disabled={currentPage === 1}
+                  className={`flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm transition-all ${
+                    currentPage === 1
+                      ? 'bg-neutral-100 text-neutral-400 cursor-not-allowed'
+                      : 'bg-primary-600 text-white hover:bg-primary-700 shadow-lg shadow-primary-600/25'
+                  }`}
+                  whileHover={currentPage !== 1 ? { scale: 1.02 } : {}}
+                  whileTap={currentPage !== 1 ? { scale: 0.98 } : {}}
+                >
+                  <ChevronLeft className="w-4 h-4" />
+                  Previous
+                </motion.button>
+
+                <div className="flex flex-col items-center gap-2">
+                  <span className="text-sm text-neutral-600 font-medium">
+                    Showing {startIndex + 1}-{Math.min(endIndex, totalLeads)} of {totalLeads} leads
+                  </span>
+                  <div className="flex gap-2">
+                    {Array.from({ length: Math.min(totalPages, 7) }, (_, i) => {
+                      let pageNum;
+                      if (totalPages <= 7) {
+                        pageNum = i + 1;
+                      } else if (currentPage <= 4) {
+                        pageNum = i + 1;
+                      } else if (currentPage >= totalPages - 3) {
+                        pageNum = totalPages - 6 + i;
+                      } else {
+                        pageNum = currentPage - 3 + i;
+                      }
+
+                      if (pageNum < 1 || pageNum > totalPages) return null;
+
+                      return (
+                        <motion.button
+                          key={pageNum}
+                          onClick={() => goToPage(pageNum)}
+                          className={`min-w-[40px] px-3 py-2 rounded-xl font-semibold text-sm transition-all ${
+                            currentPage === pageNum
+                              ? 'bg-primary-600 text-white shadow-lg shadow-primary-600/25'
+                              : 'bg-neutral-100 text-neutral-700 hover:bg-neutral-200'
+                          }`}
+                          whileHover={{ scale: 1.05 }}
+                          whileTap={{ scale: 0.95 }}
+                        >
+                          {pageNum}
+                        </motion.button>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                <motion.button
+                  onClick={() => goToPage(currentPage + 1)}
+                  disabled={currentPage === totalPages}
+                  className={`flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm transition-all ${
+                    currentPage === totalPages
+                      ? 'bg-neutral-100 text-neutral-400 cursor-not-allowed'
+                      : 'bg-primary-600 text-white hover:bg-primary-700 shadow-lg shadow-primary-600/25'
+                  }`}
+                  whileHover={currentPage !== totalPages ? { scale: 1.02 } : {}}
+                  whileTap={currentPage !== totalPages ? { scale: 0.98 } : {}}
+                >
+                  Next
+                  <ChevronRight className="w-4 h-4" />
+                </motion.button>
+              </div>
+            )}
+          </>
         )}
       </main>
     </div>
   );
 }
-
-const styles = {
-  container: {
-    minHeight: '100vh',
-    backgroundColor: '#f3f4f6',
-  },
-  header: {
-    backgroundColor: 'white',
-    padding: '20px 40px',
-    borderBottom: '1px solid #e5e7eb',
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
-  },
-  title: {
-    fontSize: '24px',
-    fontWeight: 'bold',
-    color: '#1a202c',
-    margin: 0,
-  },
-  subtitle: {
-    color: '#718096',
-    fontSize: '14px',
-    margin: '4px 0 0 0',
-  },
-  logoutButton: {
-    padding: '8px 16px',
-    backgroundColor: '#ef4444',
-    color: 'white',
-    border: 'none',
-    borderRadius: '6px',
-    fontSize: '14px',
-    cursor: 'pointer',
-    fontWeight: '600',
-  },
-  analyticsButton: {
-    padding: '8px 16px',
-    backgroundColor: '#8b5cf6',
-    color: 'white',
-    border: 'none',
-    borderRadius: '6px',
-    fontSize: '14px',
-    cursor: 'pointer',
-    fontWeight: '600',
-  },
-  statsBar: {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-    gap: '20px',
-    padding: '20px 40px',
-    backgroundColor: 'white',
-    borderBottom: '1px solid #e5e7eb',
-  },
-  statCard: {
-    textAlign: 'center',
-  },
-  statNumber: {
-    fontSize: '32px',
-    fontWeight: 'bold',
-    color: '#1a202c',
-  },
-  statLabel: {
-    fontSize: '14px',
-    color: '#718096',
-    marginTop: '4px',
-  },
-  filterCard: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: '10px',
-    justifyContent: 'center',
-  },
-  filterLabel: {
-    fontSize: '14px',
-    fontWeight: '600',
-    color: '#374151',
-  },
-  filterSelect: {
-    padding: '8px 12px',
-    border: '1px solid #d1d5db',
-    borderRadius: '6px',
-    fontSize: '14px',
-    cursor: 'pointer',
-  },
-  main: {
-    padding: '40px',
-    maxWidth: '1400px',
-    margin: '0 auto',
-  },
-  loading: {
-    textAlign: 'center',
-    padding: '60px',
-    fontSize: '18px',
-    color: '#718096',
-  },
-  error: {
-    backgroundColor: '#fee2e2',
-    color: '#dc2626',
-    padding: '16px',
-    borderRadius: '8px',
-    marginBottom: '20px',
-  },
-  empty: {
-    textAlign: 'center',
-    padding: '60px',
-    fontSize: '16px',
-    color: '#718096',
-  },
-  leadsGrid: {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fill, minmax(400px, 1fr))',
-    gap: '20px',
-  },
-  leadCard: {
-    backgroundColor: 'white',
-    borderRadius: '12px',
-    padding: '24px',
-    boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
-    transition: 'transform 0.2s, box-shadow 0.2s',
-    cursor: 'pointer',
-    ':hover': {
-      transform: 'translateY(-2px)',
-      boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
-    },
-  },
-  leadHeader: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'flex-start',
-    marginBottom: '16px',
-  },
-  leadName: {
-    fontSize: '18px',
-    fontWeight: 'bold',
-    color: '#1a202c',
-    margin: '0 0 4px 0',
-  },
-  leadLocation: {
-    fontSize: '14px',
-    color: '#718096',
-    margin: 0,
-  },
-  priorityBadge: {
-    padding: '4px 12px',
-    borderRadius: '12px',
-    fontSize: '12px',
-    fontWeight: 'bold',
-  },
-  statusBadge: {
-    padding: '4px 12px',
-    borderRadius: '12px',
-    fontSize: '12px',
-    fontWeight: '600',
-    whiteSpace: 'nowrap',
-  },
-  scoreSection: {
-    display: 'flex',
-    gap: '20px',
-    alignItems: 'center',
-    marginBottom: '16px',
-    paddingBottom: '16px',
-    borderBottom: '1px solid #e5e7eb',
-  },
-  scoreCircle: {
-    textAlign: 'center',
-  },
-  scoreNumber: {
-    fontSize: '36px',
-    fontWeight: 'bold',
-  },
-  scoreLabel: {
-    fontSize: '12px',
-    color: '#718096',
-    marginTop: '4px',
-  },
-  scoreDetails: {
-    flex: 1,
-  },
-  scoreDetailItem: {
-    marginBottom: '8px',
-  },
-  scoreDetailLabel: {
-    fontSize: '12px',
-    color: '#718096',
-    display: 'block',
-  },
-  scoreDetailValue: {
-    fontSize: '14px',
-    fontWeight: '600',
-    color: '#1a202c',
-  },
-  reasoning: {
-    marginBottom: '16px',
-  },
-  reasoningText: {
-    fontSize: '14px',
-    color: '#374151',
-    lineHeight: '1.5',
-    margin: 0,
-  },
-  actions: {
-    display: 'flex',
-    gap: '10px',
-  },
-  actionButton: {
-    flex: 1,
-    padding: '10px',
-    backgroundColor: '#667eea',
-    color: 'white',
-    border: 'none',
-    borderRadius: '6px',
-    fontSize: '14px',
-    fontWeight: '600',
-    cursor: 'pointer',
-  },
-  actionButtonSecondary: {
-    flex: 1,
-    padding: '10px',
-    backgroundColor: 'transparent',
-    color: '#667eea',
-    border: '1px solid #667eea',
-    borderRadius: '6px',
-    fontSize: '14px',
-    fontWeight: '600',
-    cursor: 'pointer',
-  },
-  // Pagination styles
-  pagination: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginTop: '40px',
-    padding: '20px',
-    backgroundColor: 'white',
-    borderRadius: '12px',
-    boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
-    gap: '20px',
-    flexWrap: 'wrap',
-  },
-  paginationButton: {
-    padding: '10px 20px',
-    backgroundColor: '#667eea',
-    color: 'white',
-    border: 'none',
-    borderRadius: '6px',
-    fontSize: '14px',
-    fontWeight: '600',
-    cursor: 'pointer',
-    transition: 'background-color 0.2s',
-    minWidth: '120px',
-  },
-  paginationButtonDisabled: {
-    backgroundColor: '#d1d5db',
-    cursor: 'not-allowed',
-    opacity: 0.6,
-  },
-  paginationInfo: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    gap: '10px',
-    flex: 1,
-  },
-  paginationText: {
-    fontSize: '14px',
-    color: '#374151',
-    fontWeight: '500',
-  },
-  pageNumbers: {
-    display: 'flex',
-    gap: '8px',
-    flexWrap: 'wrap',
-    justifyContent: 'center',
-  },
-  pageButton: {
-    padding: '8px 12px',
-    backgroundColor: 'white',
-    color: '#374151',
-    border: '1px solid #d1d5db',
-    borderRadius: '6px',
-    fontSize: '14px',
-    fontWeight: '500',
-    cursor: 'pointer',
-    minWidth: '40px',
-    transition: 'all 0.2s',
-  },
-  pageButtonActive: {
-    backgroundColor: '#667eea',
-    color: 'white',
-    borderColor: '#667eea',
-    fontWeight: '600',
-  },
-  // Notification styles
-  notificationButton: {
-    position: 'relative',
-    padding: '10px 16px',
-    backgroundColor: 'white',
-    border: '1px solid #d1d5db',
-    borderRadius: '8px',
-    fontSize: '20px',
-    cursor: 'pointer',
-    transition: 'all 0.2s',
-  },
-  notificationBadge: {
-    position: 'absolute',
-    top: '4px',
-    right: '4px',
-    backgroundColor: '#ef4444',
-    color: 'white',
-    fontSize: '11px',
-    fontWeight: 'bold',
-    padding: '2px 6px',
-    borderRadius: '10px',
-    minWidth: '18px',
-    textAlign: 'center',
-  },
-  notificationPanel: {
-    position: 'absolute',
-    top: '50px',
-    right: 0,
-    width: '400px',
-    maxHeight: '500px',
-    backgroundColor: 'white',
-    border: '1px solid #d1d5db',
-    borderRadius: '12px',
-    boxShadow: '0 10px 25px rgba(0,0,0,0.15)',
-    zIndex: 1000,
-    overflow: 'hidden',
-  },
-  notificationHeader: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    padding: '16px',
-    borderBottom: '1px solid #e5e7eb',
-  },
-  notificationTitle: {
-    fontSize: '18px',
-    fontWeight: 'bold',
-    margin: 0,
-  },
-  closeButton: {
-    background: 'none',
-    border: 'none',
-    fontSize: '20px',
-    cursor: 'pointer',
-    color: '#6b7280',
-  },
-  notificationList: {
-    maxHeight: '440px',
-    overflowY: 'auto',
-  },
-  notificationItem: {
-    padding: '16px',
-    borderBottom: '1px solid #f3f4f6',
-    cursor: 'pointer',
-    transition: 'background-color 0.2s',
-  },
-  notificationItemTitle: {
-    fontSize: '14px',
-    fontWeight: '600',
-    marginBottom: '4px',
-    color: '#1a202c',
-  },
-  notificationItemMessage: {
-    fontSize: '13px',
-    color: '#4b5563',
-    marginBottom: '8px',
-    lineHeight: '1.4',
-  },
-  notificationItemTime: {
-    fontSize: '12px',
-    color: '#9ca3af',
-  },
-  emptyNotifications: {
-    padding: '40px',
-    textAlign: 'center',
-    color: '#9ca3af',
-    fontSize: '14px',
-  },
-  searchSection: {
-    padding: '20px 40px',
-    backgroundColor: 'white',
-    borderBottom: '1px solid #e5e7eb',
-  },
-  searchRow: {
-    display: 'flex',
-    gap: '20px',
-    alignItems: 'center',
-    marginBottom: '20px',
-  },
-  exportButtons: {
-    display: 'flex',
-    gap: '12px',
-  },
-  exportButton: {
-    padding: '12px 20px',
-    backgroundColor: '#10b981',
-    color: 'white',
-    border: 'none',
-    borderRadius: '8px',
-    fontSize: '14px',
-    fontWeight: '600',
-    cursor: 'pointer',
-    whiteSpace: 'nowrap',
-    transition: 'background-color 0.2s',
-  },
-};
