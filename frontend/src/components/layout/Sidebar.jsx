@@ -8,26 +8,38 @@ import {
   LayoutDashboard,
   Users,
   BarChart3,
-  Filter,
-  Settings,
   Target,
   TrendingUp,
   LogOut,
   Bell,
-  Search
+  Search,
+  UserCircle,
+  Zap,
+  Phone,
+  FileText,
+  Database,
+  Calendar
 } from 'lucide-react';
 
-const Sidebar = ({ currentView, onViewChange, onLogout, unreadCount = 0 }) => {
+const Sidebar = ({ currentView, onViewChange, onLogout, unreadCount = 0, user }) => {
   const navItems = [
     { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
-    { id: 'leads', label: 'All Leads', icon: Users },
+    { id: 'leads', label: 'Leads', icon: Users, badge: unreadCount },
     { id: 'analytics', label: 'Analytics', icon: BarChart3 },
-    { id: 'scoring', label: 'Scoring', icon: Target },
-    { id: 'reports', label: 'Reports', icon: TrendingUp },
+    { id: 'pipeline', label: 'Sales Pipeline', icon: TrendingUp },
+    { id: 'activities', label: 'Activities', icon: Calendar },
+    { id: 'signals', label: 'Live Signals', icon: Zap, badge: 'LIVE' },
+  ];
+
+  const toolsItems = [
+    { id: 'search', label: 'Smart Search', icon: Search },
+    { id: 'scoring', label: 'Score Engine', icon: Target },
+    { id: 'enrichment', label: 'Data Sources', icon: Database },
   ];
 
   const bottomItems = [
-    { id: 'settings', label: 'Settings', icon: Settings },
+    { id: 'notifications', label: 'Notifications', icon: Bell, badge: 3 },
+    { id: 'reports', label: 'Export Reports', icon: FileText },
   ];
 
   return (
@@ -35,77 +47,180 @@ const Sidebar = ({ currentView, onViewChange, onLogout, unreadCount = 0 }) => {
       {/* Logo */}
       <div className="h-16 flex items-center px-6 border-b border-neutral-200">
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 bg-primary-600 rounded-lg flex items-center justify-center">
-            <TrendingUp className="w-5 h-5 text-white" />
+          <div className="w-9 h-9 rounded-lg flex items-center justify-center" style={{
+            background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(220, 38, 38, 0.1))',
+            border: '1px solid rgba(0, 0, 0, 0.06)',
+          }}>
+            <TrendingUp className="w-5 h-5 text-neutral-900" strokeWidth={2.5} />
           </div>
           <div>
-            <div className="font-bold text-neutral-900">ABBK</div>
-            <div className="text-xs text-neutral-500">LeadEngine</div>
+            <div className="font-bold text-neutral-900 tracking-tight" style={{
+              fontSize: '15px',
+              fontWeight: 700,
+              letterSpacing: '-0.02em',
+            }}>
+              LeadEngine
+            </div>
+            <div className="text-xs font-medium text-neutral-500 uppercase tracking-wider" style={{
+              fontSize: '10px',
+              letterSpacing: '0.1em',
+            }}>
+              by ABBK
+            </div>
           </div>
         </div>
       </div>
 
       {/* Main Navigation */}
-      <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
-        {navItems.map((item) => {
-          const Icon = item.icon;
-          const isActive = currentView === item.id;
+      <nav className="flex-1 px-3 py-4 overflow-y-auto">
+        <div className="space-y-1">
+          {navItems.map((item) => {
+            const Icon = item.icon;
+            const isActive = currentView === item.id;
 
-          return (
-            <motion.button
-              key={item.id}
-              onClick={() => onViewChange(item.id)}
-              className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
-                isActive
-                  ? 'bg-primary-50 text-primary-700'
-                  : 'text-neutral-600 hover:bg-neutral-50 hover:text-neutral-900'
-              }`}
-              whileHover={{ x: 2 }}
-              whileTap={{ scale: 0.98 }}
-            >
-              <Icon className="w-5 h-5" />
-              <span>{item.label}</span>
-              {item.id === 'leads' && unreadCount > 0 && (
-                <span className="ml-auto bg-primary-600 text-white text-xs font-bold px-2 py-0.5 rounded-full">
-                  {unreadCount}
-                </span>
-              )}
-            </motion.button>
-          );
-        })}
+            return (
+              <motion.button
+                key={item.id}
+                onClick={() => onViewChange(item.id)}
+                className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all ${
+                  isActive
+                    ? 'bg-neutral-900 text-white shadow-lg'
+                    : 'text-neutral-600 hover:bg-neutral-100 hover:text-neutral-900'
+                }`}
+                style={{
+                  fontSize: '14px',
+                  fontWeight: isActive ? 600 : 500,
+                  letterSpacing: '-0.01em',
+                }}
+                whileHover={{ x: 2 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                <Icon className="w-5 h-5" strokeWidth={2.5} />
+                <span>{item.label}</span>
+                {item.badge && (
+                  <span className={`ml-auto text-xs font-bold px-2 py-0.5 rounded-full ${
+                    item.badge === 'LIVE'
+                      ? 'bg-emerald-500 text-white animate-pulse'
+                      : 'bg-blue-600 text-white'
+                  }`} style={{ fontSize: '11px' }}>
+                    {item.badge}
+                  </span>
+                )}
+              </motion.button>
+            );
+          })}
+        </div>
+
+        {/* Tools Section */}
+        <div className="mt-6">
+          <div className="px-3 mb-2">
+            <span className="text-xs font-semibold text-neutral-400 uppercase tracking-wider" style={{
+              fontSize: '10px',
+              letterSpacing: '0.1em',
+            }}>
+              Tools
+            </span>
+          </div>
+          <div className="space-y-1">
+            {toolsItems.map((item) => {
+              const Icon = item.icon;
+              const isActive = currentView === item.id;
+
+              return (
+                <motion.button
+                  key={item.id}
+                  onClick={() => onViewChange(item.id)}
+                  className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all ${
+                    isActive
+                      ? 'bg-neutral-900 text-white shadow-lg'
+                      : 'text-neutral-600 hover:bg-neutral-100 hover:text-neutral-900'
+                  }`}
+                  style={{
+                    fontSize: '14px',
+                    fontWeight: isActive ? 600 : 500,
+                    letterSpacing: '-0.01em',
+                  }}
+                  whileHover={{ x: 2 }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  <Icon className="w-5 h-5" strokeWidth={2.5} />
+                  <span>{item.label}</span>
+                </motion.button>
+              );
+            })}
+          </div>
+        </div>
       </nav>
 
       {/* Bottom Navigation */}
-      <div className="px-3 py-4 border-t border-neutral-200 space-y-1">
-        {bottomItems.map((item) => {
-          const Icon = item.icon;
-          const isActive = currentView === item.id;
+      <div className="px-3 py-4 border-t border-neutral-200">
+        <div className="space-y-1 mb-4">
+          {bottomItems.map((item) => {
+            const Icon = item.icon;
+            const isActive = currentView === item.id;
 
-          return (
-            <motion.button
-              key={item.id}
-              onClick={() => onViewChange(item.id)}
-              className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
-                isActive
-                  ? 'bg-neutral-100 text-neutral-900'
-                  : 'text-neutral-600 hover:bg-neutral-50 hover:text-neutral-900'
-              }`}
-              whileHover={{ x: 2 }}
-              whileTap={{ scale: 0.98 }}
-            >
-              <Icon className="w-5 h-5" />
-              <span>{item.label}</span>
-            </motion.button>
-          );
-        })}
+            return (
+              <motion.button
+                key={item.id}
+                onClick={() => onViewChange(item.id)}
+                className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all ${
+                  isActive
+                    ? 'bg-neutral-100 text-neutral-900'
+                    : 'text-neutral-600 hover:bg-neutral-50 hover:text-neutral-900'
+                }`}
+                style={{
+                  fontSize: '14px',
+                  fontWeight: isActive ? 600 : 500,
+                  letterSpacing: '-0.01em',
+                }}
+                whileHover={{ x: 2 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                <Icon className="w-5 h-5" strokeWidth={2.5} />
+                <span>{item.label}</span>
+                {item.badge && (
+                  <span className="ml-auto bg-blue-600 text-white text-xs font-bold px-2 py-0.5 rounded-full" style={{ fontSize: '11px' }}>
+                    {item.badge}
+                  </span>
+                )}
+              </motion.button>
+            );
+          })}
+        </div>
+
+        {/* User Profile */}
+        <motion.div
+          className="p-3 rounded-xl bg-neutral-50 border border-neutral-200 cursor-pointer hover:bg-neutral-100 transition-colors"
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
+        >
+          <div className="flex items-center gap-3">
+            <div className="w-9 h-9 rounded-full bg-gradient-to-br from-blue-600 to-emerald-600 flex items-center justify-center text-white font-bold" style={{ fontSize: '13px' }}>
+              {user?.email?.[0]?.toUpperCase() || 'A'}
+            </div>
+            <div className="flex-1 min-w-0">
+              <div className="text-sm font-semibold text-neutral-900 truncate" style={{ fontSize: '13px', fontWeight: 600 }}>
+                {user?.full_name || 'Admin'}
+              </div>
+              <div className="text-xs text-neutral-500 truncate" style={{ fontSize: '11px' }}>
+                {user?.role || 'Manager'}
+              </div>
+            </div>
+          </div>
+        </motion.div>
 
         <motion.button
           onClick={onLogout}
-          className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-neutral-600 hover:bg-red-50 hover:text-red-600 transition-colors"
+          className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-neutral-600 hover:bg-red-50 hover:text-red-600 transition-colors mt-2"
+          style={{
+            fontSize: '14px',
+            fontWeight: 500,
+            letterSpacing: '-0.01em',
+          }}
           whileHover={{ x: 2 }}
           whileTap={{ scale: 0.98 }}
         >
-          <LogOut className="w-5 h-5" />
+          <LogOut className="w-5 h-5" strokeWidth={2.5} />
           <span>Logout</span>
         </motion.button>
       </div>
