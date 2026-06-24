@@ -64,24 +64,20 @@ class TrainingCentersSpider(scrapy.Spider):
         "http://www.isetsf.rnu.tn",  # Sfax
     ]
 
+    # VERIFIED training and education sources
     start_urls = [
-        # ISET campuses - partners/entreprises pages
-        *[f"{url}/entreprises" for url in ISET_URLS],
-        *[f"{url}/partenaires" for url in ISET_URLS],
-        *[f"{url}/formations" for url in ISET_URLS],
+        # Engineering schools
+        "https://enis.rnu.tn/",  # ENIS Sfax
+        "https://enit.rnu.tn/en/presentation-2/",  # ENIT Tunis
+        "http://www.enicarthage.rnu.tn/en/ecole/apropos",  # ENIC Carthage
 
-        # ATFP - Agence Tunisienne de la Formation Professionnelle
-        "http://www.atfp.tn",
-        "http://www.atfp.tn/partenaires",
+        # Universities and events
+        "https://ucar.rnu.tn/events-et-news/",  # UCAR events
+        "https://www.ept.tn/news-and-events",  # EPT news and events
 
-        # Major engineering schools
-        "http://www.enim.rnu.tn",  # ENIM - École Nationale d'Ingénieurs de Monastir
-        "http://www.enis.rnu.tn",  # ENIS - École Nationale d'Ingénieurs de Sfax
-        "http://www.enit.rnu.tn",  # ENIT - École Nationale d'Ingénieurs de Tunis
-
-        # Professional training centers
-        "https://www.tunisieformation.com/centres-formation",
-        "https://www.formation.com.tn/centres",
+        # Training providers (Tunisia and Africa)
+        "https://mecadtechnologies.co.za/specialised-training/",  # Mecad Technologies South Africa
+        "https://camining.com/",  # CAMining training
     ]
 
     custom_settings = {

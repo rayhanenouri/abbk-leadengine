@@ -60,18 +60,14 @@ class BusinessNewsSpider(scrapy.Spider):
         'international group', 'worldwide', 'global',
     ]
 
+    # VERIFIED news sources
     start_urls = [
-        # BusinessNews.com.tn - main business news
-        "https://www.businessnews.com.tn/",
-        "https://www.businessnews.com.tn/categorie/entreprises",
-        "https://www.businessnews.com.tn/categorie/economie",
+        # Tunisia business news
+        "https://en.africanmanager.com/fdi-in-tunisia-rising-attractiveness-and-strategic-growth/",
+        "https://www.tunisieindustrie.nat.tn/en/etrangere.asp",  # Foreign investment news
 
-        # Managers.com.tn - management and business
-        "https://www.managers.com.tn/",
-        "https://www.managers.com.tn/articles/entreprises",
-
-        # Tekiano.com - tech and business
-        "https://www.tekiano.com/category/business/",
+        # International/Africa CNC and engineering news
+        "https://www.adendorff.co.za/adendorff-optimum-cnc-machines-now-in-south-africa",
     ]
 
     custom_settings = {

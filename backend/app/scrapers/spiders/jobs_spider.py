@@ -54,17 +54,20 @@ class JobsBoardsSpider(scrapy.Spider):
         'ingénieur fabrication',
     ]
 
+    # VERIFIED job boards - hiring signals
     start_urls = [
-        # Emploi.tn - engineering jobs
-        "https://www.emploi.tn/recherche-jobs-tunisie?keywords=ingenieur+conception",
-        "https://www.emploi.tn/recherche-jobs-tunisie?keywords=bureau+etudes",
-        "https://www.emploi.tn/recherche-jobs-tunisie?keywords=cad+designer",
-        "https://www.emploi.tn/recherche-jobs-tunisie?keywords=mecanique",
+        # Tunisia job sites
+        "https://www.naukrigulf.com/engineer-jobs-in-tunis",  # Engineering jobs Tunis
+        "https://tunisia.tanqeeb.com/s/jobs/engineer?state=148",  # Engineer jobs Tunisia
+        "https://www.bayt.com/en/tunisia/jobs/mechanical-engineer-jobs/",  # Mechanical engineer
+        "https://www.tunisietravail.net/",  # Tunisia work portal
+        "https://www.optioncarriere.tn/",  # Career options
+        "https://www.keejob.com/",  # KeeJob
+        "https://emploi.nat.tn/fo/Fr/global.php",  # National employment
+        "https://www.tanitjobs.com/",  # Tanit Jobs
 
-        # Keejob - engineering jobs
-        "https://www.keejob.com/offres-emploi/?keywords=ingenieur+conception",
-        "https://www.keejob.com/offres-emploi/?keywords=bureau+etudes",
-        "https://www.keejob.com/offres-emploi/?keywords=cad",
+        # Africa-wide
+        "https://www.africareers.net/",  # African careers
     ]
 
     custom_settings = {

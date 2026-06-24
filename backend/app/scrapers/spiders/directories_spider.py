@@ -30,26 +30,25 @@ class DirectoriesSpider(scrapy.Spider):
 
     name = "directories"
 
-    # Start with annuaire.tn - most structured and reliable
+    # VERIFIED data sources - Tunisia business directories
     start_urls = [
-        # Engineering and technical services
-        "https://www.annuaire.tn/cat/bureaux-d-etudes.html",
-        "https://www.annuaire.tn/cat/ingenieurs-conseils.html",
+        # Tunisia industry associations and directories
+        "https://mecatronic.tn/membres/",  # Mecatronic industry members
+        "https://taa.tn/fr/membres",  # Tunisian automotive association
+        "https://www.cetime.tn/fr/annuaire-des-entreprises",  # CETIME directory
+        "https://www.tunisieindustrie.nat.tn/fr/dbi.asp",  # Tunisia industry database
+        "https://www.tunisieindustrie.nat.tn/fr/dbs.asp",  # Tunisia services database
+        "https://www.tunisieindustrie.nat.tn/fr/certifdbi.asp?action=list&idsect=&pagenum=1",  # Certified companies
+        "https://tn.kompass.com/en",  # Kompass Tunisia
 
-        # Manufacturing and industrial
-        "https://www.annuaire.tn/cat/industrie.html",
-        "https://www.annuaire.tn/cat/fabrication.html",
+        # Tunisia company lists
+        "https://www.scribd.com/document/620128474/Liste-Entreprises",  # Enterprise list
 
-        # Construction
-        "https://www.annuaire.tn/cat/construction.html",
-        "https://www.annuaire.tn/cat/btp.html",
-
-        # Automotive
-        "https://www.annuaire.tn/cat/automobile.html",
-
-        # Electronics and electrical
-        "https://www.annuaire.tn/cat/electronique.html",
-        "https://www.annuaire.tn/cat/electrique.html",
+        # Africa-wide directories
+        "https://maps.prodafrica.com/",  # Production Africa map
+        "https://africabusinessbureau.com/",  # African business bureau
+        "https://www.success.ai/company-directory/Civil_Engineering/country/tunisia",  # Engineering companies
+        "https://www.aihitdata.com/search/companies?i=african+engineering",  # African engineering
     ]
 
     custom_settings = {
