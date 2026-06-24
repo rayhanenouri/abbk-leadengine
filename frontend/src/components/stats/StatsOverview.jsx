@@ -30,21 +30,33 @@ const StatCard = ({ title, value, change, changeType, icon: Icon, color = 'prima
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="bg-white rounded-lg border border-neutral-200 p-6 hover:shadow-md transition-shadow"
+      whileHover={{ y: -2 }}
+      className="bg-white rounded-xl border border-neutral-200 p-6 hover:shadow-xl hover:border-neutral-300 transition-all cursor-default"
     >
-      <div className="flex items-start justify-between mb-4">
-        <div className={`p-2.5 rounded-lg ${colorClasses[color]}`}>
-          <Icon className="w-5 h-5" />
+      <div className="flex items-start justify-between mb-5">
+        <div className={`p-3 rounded-xl ${colorClasses[color]}`}>
+          <Icon className="w-5 h-5" strokeWidth={2.5} />
         </div>
         {change && (
-          <div className={`flex items-center gap-1 text-xs font-semibold ${getTrendColor()}`}>
+          <div className={`flex items-center gap-1 text-xs font-bold ${getTrendColor()}`} style={{
+            letterSpacing: '-0.01em',
+          }}>
             {getTrendIcon()}
             {change}
           </div>
         )}
       </div>
-      <div className="text-3xl font-bold text-neutral-900 mb-1">{value}</div>
-      <div className="text-sm text-neutral-500">{title}</div>
+      <div className="text-4xl font-bold text-neutral-900 mb-2 tracking-tight" style={{
+        fontWeight: 700,
+        letterSpacing: '-0.03em',
+      }}>
+        {value}
+      </div>
+      <div className="text-sm font-medium text-neutral-500" style={{
+        fontWeight: 500,
+      }}>
+        {title}
+      </div>
     </motion.div>
   );
 };

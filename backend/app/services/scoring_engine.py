@@ -167,78 +167,126 @@ class AdvancedScoringEngine:
         """
         Generate human-readable reasoning for the score.
 
-        Explains:
-        - Priority level
-        - Which signals fired
-        - Business context (multinational, audit, etc.)
-        - Recommended action
+        HOT LEAD CRITERIA (from business manager):
+        Priority order for hot leads:
+        1. Training history or training potential (HIGHEST)
+        2. Bought new machine needing licenses/training
+        3. Hiring engineers who need licenses
+        4. Multinational with audit requirements
+
+        Also valuable:
+        - Companies posting training history
+        - Companies lacking training (website analysis)
+        - New projects posted
+        - Companies hiring any mechanical/electrical engineers
         """
-        # Priority classification
-        if normalized_score >= 70:
-            priority = "🔥 HIGH PRIORITY"
-            action = "CALL TODAY"
-        elif normalized_score >= 50:
-            priority = "⚡ MEDIUM PRIORITY"
+        # HOT LEAD SCORING - BUSINESS MANAGER PRIORITY ORDER
+        hot_lead_factors = []
+        hot_lead_score = 0
+
+        # 1. TRAINING (HIGHEST PRIORITY)
+        if "training_detected" in detected_signals:
+            hot_lead_factors.append("Has training history or potential (TOP PRIORITY)")
+            hot_lead_score += 40
+
+        # 2. NEW MACHINE PURCHASE
+        if "news" in detected_signals or "tender_detected" in detected_signals:
+            hot_lead_factors.append("Bought new machine or equipment (needs licenses/training)")
+            hot_lead_score += 30
+
+        # 3. HIRING ENGINEERS
+        if "new_hire" in detected_signals or "role_detected" in detected_signals:
+            hot_lead_factors.append("Hiring engineers NOW (mechanical/electrical/CAD)")
+            hot_lead_score += 20
+
+        # 4. MULTINATIONAL + AUDIT
+        if "is_multinational" in detected_signals and "under_audit" in detected_signals:
+            hot_lead_factors.append("Multinational under audit (product exported = must have licenses)")
+            hot_lead_score += 10
+        elif "is_multinational" in detected_signals:
+            hot_lead_factors.append("Multinational company (export products = audit requirement)")
+            hot_lead_score += 5
+        elif "under_audit" in detected_signals:
+            hot_lead_factors.append("Under audit (compliance deadline)")
+            hot_lead_score += 8
+
+        # Adjust normalized score based on hot lead criteria
+        if hot_lead_score > 0:
+            # Boost score if hot lead criteria are met
+            normalized_score = min(100, normalized_score + hot_lead_score)
+
+        # Priority classification based on hot lead criteria
+        if normalized_score >= 70 or (hot_lead_score >= 40):  # Training or 2+ factors
+            priority = "HOT LEAD"
+            action = "CALL TODAY - High conversion probability"
+        elif normalized_score >= 50 or (hot_lead_score >= 20):
+            priority = "WARM LEAD"
             action = "Schedule call this week"
         elif normalized_score >= 30:
-            priority = "📋 LOW PRIORITY"
+            priority = "POTENTIAL"
             action = "Add to pipeline for follow-up"
         else:
-            priority = "🔍 RESEARCH NEEDED"
+            priority = "RESEARCH NEEDED"
             action = "Gather more data before contact"
 
         reasoning_parts = [
             f"{priority} - Score: {normalized_score:.0f}/100 for {service.name}.",
         ]
 
-        # Explain fired signals
+        # Explain hot lead factors first (most important)
+        if hot_lead_factors:
+            reasoning_parts.append("Hot Lead Signals: " + "; ".join(hot_lead_factors) + ".")
+
+        # Explain other fired signals
         if fired_signals:
             # Sort by weight descending
             fired_signals.sort(key=lambda x: x[1], reverse=True)
 
             signal_explanations = []
             for signal_type, weight in fired_signals[:5]:  # Top 5 signals
-                explanation = self._explain_signal(signal_type, weight, lead)
-                signal_explanations.append(explanation)
+                # Skip if already mentioned in hot_lead_factors
+                if signal_type not in ["training_detected", "new_hire", "role_detected", "is_multinational", "under_audit", "news", "tender_detected"]:
+                    explanation = self._explain_signal(signal_type, weight, lead)
+                    signal_explanations.append(explanation)
 
-            reasoning_parts.append("Key signals: " + "; ".join(signal_explanations) + ".")
-
-        # Add business context
-        context_parts = []
-        if "is_multinational" in detected_signals:
-            context_parts.append("Multinational = BEST conversion (intl clients need licensed SW)")
-        if "under_audit" in detected_signals:
-            context_parts.append("Under audit = URGENT need (compliance deadline)")
-        if "is_exporter" in detected_signals:
-            context_parts.append("Exporter = Must pass audits (cannot use cracked)")
-        if "new_hire" in detected_signals:
-            context_parts.append("Hiring NOW = Hot lead (needs software for new engineer)")
-
-        if context_parts:
-            reasoning_parts.append(" | ".join(context_parts) + ".")
+            if signal_explanations:
+                reasoning_parts.append("Additional signals: " + "; ".join(signal_explanations) + ".")
 
         # Add recommended action
-        reasoning_parts.append(f"Recommended action: {action}.")
+        reasoning_parts.append(f"Next Action: {action}.")
 
         return " ".join(reasoning_parts)
 
     def _explain_signal(self, signal_type: str, weight: float, lead: Lead) -> str:
         """
         Generate human-readable explanation for a signal.
+
+        Business manager priorities:
+        - Training history/potential = HIGHEST
+        - New machine purchase = HIGH
+        - Hiring engineers = HIGH
+        - Multinational + audit = MEDIUM
         """
         explanations = {
-            "role_detected": f"Engineering roles detected (+{weight:.0f})",
-            "logo_detected": f"SOLIDWORKS/CAD logo on website (+{weight:.0f})",
-            "under_audit": f"Under audit/certification (+{weight:.0f})",
-            "funding": f"International funding received (+{weight:.0f})",
-            "tender_detected": f"Won public tender (+{weight:.0f})",
-            "is_multinational": f"Multinational company (+{weight:.0f})",
-            "new_hire": f"Hiring engineers NOW (+{weight:.0f})",
-            "training_detected": f"Employee training program (+{weight:.0f})",
+            # TOP PRIORITY SIGNALS
+            "training_detected": f"Training history or potential (TOP PRIORITY) (+{weight:.0f})",
+
+            # HIGH PRIORITY SIGNALS
+            "tender_detected": f"New machine/equipment purchase via tender (+{weight:.0f})",
+            "news": f"New project or machine purchase announced (+{weight:.0f})",
+            "new_hire": f"Hiring mechanical/electrical/CAD engineers (+{weight:.0f})",
+            "role_detected": f"Engineering roles detected on website (+{weight:.0f})",
+
+            # MEDIUM PRIORITY SIGNALS
+            "is_multinational": f"Multinational (products exported = audit requirement) (+{weight:.0f})",
+            "under_audit": f"Under audit/certification (cannot use unlicensed) (+{weight:.0f})",
+            "is_exporter": f"Exports products internationally (+{weight:.0f})",
+
+            # SUPPORTING SIGNALS
+            "logo_detected": f"SOLIDWORKS/CAD software detected on website (+{weight:.0f})",
+            "funding": f"International funding received (audit requirement) (+{weight:.0f})",
             "event_attendance": f"Attended engineering event (+{weight:.0f})",
-            "is_exporter": f"Exports internationally (+{weight:.0f})",
-            "news": f"Recent business news (+{weight:.0f})",
-            "cracked_risk": f"Potential cracked user (+{weight:.0f})",
+            "cracked_risk": f"Potential unlicensed user (needs training approach) (+{weight:.0f})",
         }
 
         return explanations.get(
@@ -347,15 +395,24 @@ async def score_lead(
                 logger.warning(f"Failed to record score history: {e}")
 
         # Check for notification triggers (hot lead or score spike)
-        # Only check after score is created to avoid unnecessary notifications
+        # HOT LEAD = training history/potential OR 70+ score OR multiple priority signals
         try:
             from app.services.notification_service import (
                 create_hot_lead_notification,
                 create_score_spike_notification
             )
 
-            # Hot lead: score jumped to 70+
-            if score_value >= 70 and old_score < 70:
+            # Hot lead criteria from business manager:
+            # 1. Has training signal (HIGHEST priority)
+            # 2. Score 70+ (multiple signals)
+            # 3. Score spike of 30+ points
+            is_hot_lead = (
+                "training_detected" in detected_signals or
+                score_value >= 70 or
+                (score_value >= 60 and ("new_hire" in detected_signals or "tender_detected" in detected_signals))
+            )
+
+            if is_hot_lead and old_score < 70:
                 await create_hot_lead_notification(
                     db_session, lead.id, score_value, old_score, service.name
                 )

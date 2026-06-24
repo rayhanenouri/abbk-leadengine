@@ -4,7 +4,7 @@ from contextlib import asynccontextmanager
 
 from app.core.config import settings
 from app.db.session import engine, Base
-from app.api.routes import leads, users, scores, auth, scraping, signals, notifications, analytics, claude_signals
+from app.api.routes import leads, users, scores, auth, scraping, signals, notifications, analytics, claude_signals, apify
 
 
 @asynccontextmanager
@@ -34,7 +34,7 @@ app = FastAPI(
 # CORS — allow the React frontend to call the API
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173", "http://localhost:80", "http://192.168.100.15:5173"],
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -50,6 +50,7 @@ app.include_router(scraping.router,      prefix="/api/scraping",      tags=["scr
 app.include_router(notifications.router, prefix="/api/notifications", tags=["notifications"])
 app.include_router(analytics.router,     prefix="/api",               tags=["analytics"])
 app.include_router(claude_signals.router, prefix="/api",              tags=["claude-signals"])
+app.include_router(apify.router,          prefix="/api",               tags=["apify"])
 
 
 @app.get("/health")

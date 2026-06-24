@@ -27,26 +27,39 @@ const TopBar = ({
   };
 
   return (
-    <div className="h-16 bg-white border-b border-neutral-200 flex items-center justify-between px-6">
+    <div className="h-16 bg-white border-b border-neutral-200 flex items-center justify-between px-8">
       {/* Left: Title */}
       <div>
-        <h1 className="text-lg font-semibold text-neutral-900">{title}</h1>
+        <h1 className="text-xl font-bold text-neutral-900 tracking-tight" style={{
+          fontWeight: 700,
+          letterSpacing: '-0.02em',
+        }}>
+          {title}
+        </h1>
         {subtitle && (
-          <p className="text-sm text-neutral-500">{subtitle}</p>
+          <p className="text-sm text-neutral-500 mt-0.5" style={{
+            fontWeight: 500,
+          }}>
+            {subtitle}
+          </p>
         )}
       </div>
 
       {/* Right: Actions */}
       <div className="flex items-center gap-3">
         {/* Search */}
-        <div className="relative">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-400" />
+        <div className="relative group">
+          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-400 group-hover:text-neutral-600 transition-colors" strokeWidth={2.5} />
           <input
             type="text"
             value={searchQuery}
             onChange={handleSearch}
             placeholder="Search leads..."
-            className="pl-10 pr-4 py-2 w-80 bg-neutral-50 border border-neutral-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all"
+            className="pl-11 pr-4 py-2.5 w-96 bg-neutral-50 border border-neutral-200 rounded-xl text-neutral-900 placeholder-neutral-400 focus:outline-none focus:bg-white focus:border-neutral-900 focus:ring-4 focus:ring-neutral-900/5 transition-all"
+            style={{
+              fontSize: '14px',
+              fontWeight: 500,
+            }}
           />
         </div>
 
@@ -55,20 +68,30 @@ const TopBar = ({
           <>
             <motion.button
               onClick={() => onExport('csv')}
-              className="flex items-center gap-2 px-4 py-2 bg-white border border-neutral-200 text-neutral-700 rounded-lg text-sm font-medium hover:bg-neutral-50 transition-colors"
-              whileHover={{ scale: 1.02 }}
+              className="flex items-center gap-2 px-4 py-2.5 bg-white border border-neutral-200 text-neutral-700 rounded-xl hover:bg-neutral-50 hover:border-neutral-300 transition-all"
+              style={{
+                fontSize: '14px',
+                fontWeight: 600,
+                letterSpacing: '-0.01em',
+              }}
+              whileHover={{ y: -1 }}
               whileTap={{ scale: 0.98 }}
             >
-              <FileDown className="w-4 h-4" />
+              <FileDown className="w-4 h-4" strokeWidth={2.5} />
               CSV
             </motion.button>
             <motion.button
               onClick={() => onExport('excel')}
-              className="flex items-center gap-2 px-4 py-2 bg-white border border-neutral-200 text-neutral-700 rounded-lg text-sm font-medium hover:bg-neutral-50 transition-colors"
-              whileHover={{ scale: 1.02 }}
+              className="flex items-center gap-2 px-4 py-2.5 bg-white border border-neutral-200 text-neutral-700 rounded-xl hover:bg-neutral-50 hover:border-neutral-300 transition-all"
+              style={{
+                fontSize: '14px',
+                fontWeight: 600,
+                letterSpacing: '-0.01em',
+              }}
+              whileHover={{ y: -1 }}
               whileTap={{ scale: 0.98 }}
             >
-              <FileDown className="w-4 h-4" />
+              <FileDown className="w-4 h-4" strokeWidth={2.5} />
               Excel
             </motion.button>
           </>
@@ -89,11 +112,17 @@ const TopBar = ({
 
         {/* Add Lead Button */}
         <motion.button
-          className="flex items-center gap-2 px-4 py-2 bg-primary-600 text-white rounded-lg text-sm font-medium hover:bg-primary-700 transition-colors"
-          whileHover={{ scale: 1.02 }}
+          className="flex items-center gap-2 px-5 py-2.5 bg-neutral-900 text-white rounded-xl hover:bg-neutral-800 shadow-lg shadow-neutral-900/20 hover:shadow-xl transition-all relative overflow-hidden group"
+          style={{
+            fontSize: '14px',
+            fontWeight: 600,
+            letterSpacing: '-0.01em',
+          }}
+          whileHover={{ y: -1 }}
           whileTap={{ scale: 0.98 }}
         >
-          <Plus className="w-4 h-4" />
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
+          <Plus className="w-4 h-4" strokeWidth={2.5} />
           Add Lead
         </motion.button>
       </div>

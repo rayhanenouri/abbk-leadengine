@@ -334,12 +334,61 @@ export default function LeadDetail({ leadId, onBack }) {
                           Best Opportunity
                         </span>
                       </div>
-                      <h3 className="text-3xl font-bold mb-3" style={{ fontWeight: 800, letterSpacing: '-0.03em' }}>
+                      <h3 className="text-3xl font-bold mb-4" style={{ fontWeight: 800, letterSpacing: '-0.03em' }}>
                         {bestScore.service_name}
                       </h3>
-                      <p className="text-emerald-50 leading-relaxed mb-6 max-w-2xl" style={{ fontSize: '15px', fontWeight: 500 }}>
-                        {bestScore.reasoning}
-                      </p>
+
+                      {(() => {
+                        const extractSignals = (text) => {
+                          const detectedSignals = [];
+                          const patterns = [
+                            { match: /Hiring engineers? NOW/i, icon: Users, label: 'Hiring Now', color: 'bg-white/20' },
+                            { match: /Multinational company/i, icon: Globe, label: 'Multinational', color: 'bg-white/20' },
+                            { match: /Under audit|ISO/i, icon: CheckCircle2, label: 'Under Audit', color: 'bg-white/20' },
+                            { match: /Funding|investment/i, icon: TrendingUp, label: 'Funded', color: 'bg-white/20' },
+                            { match: /Exporter/i, icon: Target, label: 'Exports', color: 'bg-white/20' }
+                          ];
+
+                          patterns.forEach(p => {
+                            if (p.match.test(text)) {
+                              detectedSignals.push(p);
+                            }
+                          });
+
+                          const actionMatch = text.match(/Recommended action: (.+?)(?:\.|$)/);
+                          const action = actionMatch ? actionMatch[1].trim() : null;
+
+                          return { signals: detectedSignals, action };
+                        };
+
+                        const { signals, action } = extractSignals(bestScore.reasoning);
+
+                        return (
+                          <>
+                            {signals.length > 0 && (
+                              <div className="flex flex-wrap gap-2 mb-6">
+                                {signals.map((signal, i) => {
+                                  const Icon = signal.icon;
+                                  return (
+                                    <div key={i} className={`flex items-center gap-2 px-3 py-2 rounded-lg ${signal.color} backdrop-blur-sm border border-white/30`}>
+                                      <Icon className="w-4 h-4" strokeWidth={2.5} />
+                                      <span className="text-sm font-semibold">{signal.label}</span>
+                                    </div>
+                                  );
+                                })}
+                              </div>
+                            )}
+
+                            {action && (
+                              <div className="mb-6 p-4 bg-white/10 backdrop-blur-sm rounded-xl border border-white/30">
+                                <div className="text-xs font-bold uppercase tracking-wider mb-1.5">Next Step</div>
+                                <div className="text-sm font-semibold">{action}</div>
+                              </div>
+                            )}
+                          </>
+                        );
+                      })()}
+
                       <motion.button
                         className="flex items-center gap-2 px-6 py-3.5 bg-white text-emerald-600 rounded-xl font-bold hover:bg-emerald-50 transition-colors"
                         whileHover={{ y: -2, scale: 1.02 }}
@@ -420,46 +469,291 @@ export default function LeadDetail({ leadId, onBack }) {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.2 }}
-              className="grid grid-cols-3 gap-6"
+              className="space-y-8"
             >
-              {scores.scores.map((score, idx) => {
-                const colors = getScoreColor(score.score);
-                return (
-                  <motion.div
-                    key={score.id}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: idx * 0.05 }}
-                    whileHover={{ y: -4, transition: { duration: 0.2 } }}
-                    className={`bg-white rounded-2xl p-6 border-2 ${colors.border} cursor-pointer`}
-                  >
-                    <div className="flex items-start justify-between mb-4">
-                      <div className="flex-1">
-                        <h4 className="font-bold text-neutral-900 mb-1" style={{ fontSize: '16px', fontWeight: 700 }}>
-                          {score.service_name}
-                        </h4>
-                        <span className="text-xs font-semibold text-neutral-500 uppercase tracking-wider" style={{ letterSpacing: '0.05em', fontSize: '10px' }}>
-                          {score.service_type.replace('_', ' ')}
-                        </span>
-                      </div>
-                      <div className={`text-4xl font-bold ${colors.text}`} style={{ fontWeight: 800, letterSpacing: '-0.03em' }}>
-                        {Math.round(score.score)}
-                      </div>
-                    </div>
-                    <p className="text-sm text-neutral-600 mb-4" style={{ fontSize: '14px', fontWeight: 500, lineHeight: '1.5' }}>
-                      {score.reasoning}
+              {/* Score Summary Header */}
+              <div className="bg-white rounded-2xl border border-neutral-200 p-8">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h3 className="text-2xl font-bold text-neutral-900 mb-2" style={{ fontWeight: 800, letterSpacing: '-0.04em' }}>
+                      Product Match Analysis
+                    </h3>
+                    <p className="text-neutral-600" style={{ fontSize: '15px', fontWeight: 500 }}>
+                      AI-powered scoring across {scores.scores.length} ABBK products and services
                     </p>
-                    <div className="h-2 bg-neutral-100 rounded-full overflow-hidden">
-                      <motion.div
-                        initial={{ width: 0 }}
-                        animate={{ width: `${score.score}%` }}
-                        transition={{ delay: 0.3 + idx * 0.05, duration: 0.6 }}
-                        className={`h-full ${colors.solid}`}
-                      />
+                  </div>
+                  <div className="text-right">
+                    <div className="text-5xl font-bold text-neutral-900 mb-1" style={{ fontWeight: 800, letterSpacing: '-0.05em' }}>
+                      {Math.round(scores.scores.reduce((sum, s) => sum + s.score, 0) / scores.scores.length)}
                     </div>
-                  </motion.div>
-                );
-              })}
+                    <div className="text-sm text-neutral-500" style={{ fontWeight: 600 }}>Average Score</div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Top 3 Opportunities - Featured Grid */}
+              <div>
+                <div className="flex items-center justify-between mb-4">
+                  <h4 className="text-lg font-bold text-neutral-900" style={{ fontWeight: 700, letterSpacing: '-0.02em' }}>
+                    Top Opportunities
+                  </h4>
+                  <span className="text-sm text-neutral-500" style={{ fontWeight: 500 }}>
+                    Highest conversion probability
+                  </span>
+                </div>
+                <div className="grid grid-cols-3 gap-6">
+                  {scores.scores.slice(0, 3).map((score, idx) => {
+                    const colors = getScoreColor(score.score);
+                    const rankings = [
+                      { label: '1st', bg: 'bg-emerald-600', text: 'text-white' },
+                      { label: '2nd', bg: 'bg-blue-600', text: 'text-white' },
+                      { label: '3rd', bg: 'bg-neutral-600', text: 'text-white' }
+                    ];
+                    const rank = rankings[idx];
+
+                    const extractSignals = (text) => {
+                      const detectedSignals = [];
+
+                      // Business manager priority order for HOT LEADS:
+                      // 1. Training history/potential (HIGHEST)
+                      // 2. New machine purchase
+                      // 3. Hiring engineers
+                      // 4. Multinational + audit
+                      const patterns = [
+                        { match: /Training history|training potential|TOP PRIORITY/i, icon: Target, label: 'Training Potential', value: '+40', color: 'red' },
+                        { match: /new machine|equipment purchase|tender/i, icon: TrendingUp, label: 'New Machine', value: '+30', color: 'emerald' },
+                        { match: /Hiring engineers?|mechanical|electrical|CAD/i, icon: Users, label: 'Hiring Engineers', value: '+20', color: 'blue' },
+                        { match: /Multinational.*audit|audit.*Multinational/i, icon: CheckCircle2, label: 'Multinational + Audit', value: '+10', color: 'amber' },
+                        { match: /Multinational company/i, icon: Globe, label: 'Multinational', value: '+5', color: 'indigo' },
+                        { match: /Under audit|ISO|compliance/i, icon: CheckCircle2, label: 'Under Audit', value: '+8', color: 'amber' },
+                        { match: /Funding|investment/i, icon: TrendingUp, label: 'Funded', value: '+15', color: 'purple' }
+                      ];
+
+                      patterns.forEach(p => {
+                        if (p.match.test(text)) {
+                          detectedSignals.push(p);
+                        }
+                      });
+
+                      const actionMatch = text.match(/Next Action: (.+?)(?:\.|$)/);
+                      const action = actionMatch ? actionMatch[1].trim() : null;
+
+                      return { signals: detectedSignals, action };
+                    };
+
+                    const { signals, action } = extractSignals(score.reasoning);
+
+                    return (
+                      <motion.div
+                        key={score.id}
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ delay: idx * 0.1 }}
+                        whileHover={{ y: -8, transition: { duration: 0.2 } }}
+                        className="bg-white rounded-2xl border-2 border-neutral-200 hover:border-neutral-900 hover:shadow-2xl transition-all cursor-pointer overflow-hidden group"
+                      >
+                        <div className={`h-2 ${colors.solid}`} />
+                        <div className="p-6">
+                          <div className="flex items-start justify-between mb-4">
+                            <div className={`w-12 h-12 rounded-xl ${rank.bg} flex items-center justify-center`}>
+                              <span className={`text-lg font-bold ${rank.text}`} style={{ fontWeight: 800, letterSpacing: '-0.02em' }}>
+                                {rank.label}
+                              </span>
+                            </div>
+                            <div className="text-right">
+                              <div className={`text-5xl font-bold ${colors.text} mb-1`} style={{ fontWeight: 900, letterSpacing: '-0.05em' }}>
+                                {Math.round(score.score)}
+                              </div>
+                              <div className="text-xs text-neutral-500 font-semibold uppercase tracking-wider">
+                                {score.score >= 70 || score.reasoning.includes('TOP PRIORITY') ? 'HOT LEAD' :
+                                 score.score >= 60 ? 'WARM LEAD' :
+                                 score.score >= 30 ? 'POTENTIAL' : 'RESEARCH'}
+                              </div>
+                            </div>
+                          </div>
+
+                          <h4 className="font-bold text-neutral-900 mb-3 text-lg group-hover:text-emerald-600 transition-colors" style={{ fontWeight: 700, letterSpacing: '-0.02em' }}>
+                            {score.service_name}
+                          </h4>
+
+                          <div className="flex items-center gap-2 mb-4">
+                            <span className="inline-flex px-2.5 py-1 bg-neutral-100 text-neutral-700 rounded-lg text-xs font-semibold">
+                              {score.service_type.replace('_', ' ')}
+                            </span>
+                          </div>
+
+                          {signals.length > 0 && (
+                            <div className="mb-4">
+                              <div className="text-xs font-semibold text-neutral-500 uppercase tracking-wider mb-2.5">
+                                Detected Signals
+                              </div>
+                              <div className="space-y-2">
+                                {signals.map((signal, i) => {
+                                  const Icon = signal.icon;
+                                  return (
+                                    <div key={i} className="flex items-center justify-between p-2.5 bg-neutral-50 rounded-lg border border-neutral-200">
+                                      <div className="flex items-center gap-2">
+                                        <div className={`w-8 h-8 rounded-lg bg-${signal.color}-100 flex items-center justify-center`}>
+                                          <Icon className={`w-4 h-4 text-${signal.color}-600`} strokeWidth={2.5} />
+                                        </div>
+                                        <span className="text-sm font-semibold text-neutral-900">{signal.label}</span>
+                                      </div>
+                                      <span className={`text-sm font-bold text-${signal.color}-600`}>{signal.value}</span>
+                                    </div>
+                                  );
+                                })}
+                              </div>
+                            </div>
+                          )}
+
+                          {action && (
+                            <div className="mb-4 p-3 bg-blue-50 rounded-lg border border-blue-200">
+                              <div className="text-xs font-semibold text-blue-600 uppercase tracking-wider mb-1">
+                                Next Action
+                              </div>
+                              <div className="text-sm font-medium text-blue-900">
+                                {action}
+                              </div>
+                            </div>
+                          )}
+
+                          <div className="h-2 bg-neutral-100 rounded-full overflow-hidden">
+                            <motion.div
+                              initial={{ width: 0 }}
+                              animate={{ width: `${score.score}%` }}
+                              transition={{ delay: 0.4 + idx * 0.1, duration: 0.8, ease: 'easeOut' }}
+                              className={`h-full ${colors.solid}`}
+                            />
+                          </div>
+                        </div>
+                      </motion.div>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* All Other Products - Compact Table View */}
+              {scores.scores.length > 3 && (
+                <div>
+                  <div className="flex items-center justify-between mb-4">
+                    <h4 className="text-lg font-bold text-neutral-900" style={{ fontWeight: 700, letterSpacing: '-0.02em' }}>
+                      All Products & Services
+                    </h4>
+                    <span className="text-sm text-neutral-500" style={{ fontWeight: 500 }}>
+                      {scores.scores.length - 3} additional matches
+                    </span>
+                  </div>
+                  <div className="bg-white rounded-2xl border border-neutral-200 overflow-hidden">
+                    <table className="w-full">
+                      <thead>
+                        <tr className="bg-neutral-50 border-b border-neutral-200">
+                          <th className="px-6 py-4 text-left text-xs font-bold text-neutral-600 uppercase tracking-wider" style={{ letterSpacing: '0.1em' }}>
+                            Product / Service
+                          </th>
+                          <th className="px-6 py-4 text-left text-xs font-bold text-neutral-600 uppercase tracking-wider" style={{ letterSpacing: '0.1em' }}>
+                            Category
+                          </th>
+                          <th className="px-6 py-4 text-left text-xs font-bold text-neutral-600 uppercase tracking-wider" style={{ letterSpacing: '0.1em' }}>
+                            Match Score
+                          </th>
+                          <th className="px-6 py-4 text-left text-xs font-bold text-neutral-600 uppercase tracking-wider" style={{ letterSpacing: '0.1em' }}>
+                            Fit Level
+                          </th>
+                          <th className="px-6 py-4 text-right text-xs font-bold text-neutral-600 uppercase tracking-wider" style={{ letterSpacing: '0.1em' }}>
+                            Likelihood
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-neutral-100">
+                        {scores.scores.slice(3).map((score, idx) => {
+                          const colors = getScoreColor(score.score);
+                          return (
+                            <motion.tr
+                              key={score.id}
+                              initial={{ opacity: 0, x: -20 }}
+                              animate={{ opacity: 1, x: 0 }}
+                              transition={{ delay: idx * 0.03 }}
+                              className="hover:bg-neutral-50 cursor-pointer group transition-colors"
+                              whileHover={{ backgroundColor: '#FAFAFA' }}
+                            >
+                              <td className="px-6 py-4">
+                                <div className="font-semibold text-neutral-900 group-hover:text-emerald-600 transition-colors" style={{ fontSize: '15px', fontWeight: 600 }}>
+                                  {score.service_name}
+                                </div>
+                              </td>
+                              <td className="px-6 py-4">
+                                <span className="inline-flex px-3 py-1.5 bg-neutral-100 text-neutral-700 rounded-lg text-xs font-semibold group-hover:bg-neutral-200 transition-colors">
+                                  {score.service_type.replace('_', ' ')}
+                                </span>
+                              </td>
+                              <td className="px-6 py-4">
+                                <div className="flex items-center gap-3">
+                                  <div className="flex-1 h-2 bg-neutral-100 rounded-full overflow-hidden" style={{ maxWidth: '120px' }}>
+                                    <motion.div
+                                      initial={{ width: 0 }}
+                                      animate={{ width: `${score.score}%` }}
+                                      transition={{ delay: 0.5 + idx * 0.05, duration: 0.6 }}
+                                      className={`h-full ${colors.solid}`}
+                                    />
+                                  </div>
+                                  <span className={`text-sm font-bold ${colors.text} tabular-nums`} style={{ fontWeight: 700, minWidth: '32px' }}>
+                                    {Math.round(score.score)}
+                                  </span>
+                                </div>
+                              </td>
+                              <td className="px-6 py-4">
+                                <span className={`inline-flex px-3 py-1.5 rounded-lg text-xs font-bold ${
+                                  score.score >= 60 ? 'bg-emerald-100 text-emerald-700' :
+                                  score.score >= 30 ? 'bg-blue-100 text-blue-700' :
+                                  'bg-neutral-100 text-neutral-600'
+                                }`}>
+                                  {score.score >= 60 ? 'HIGH FIT' : score.score >= 30 ? 'GOOD FIT' : 'POTENTIAL'}
+                                </span>
+                              </td>
+                              <td className="px-6 py-4 text-right">
+                                <div className={`text-2xl font-bold ${colors.text} tabular-nums`} style={{ fontWeight: 800, letterSpacing: '-0.03em' }}>
+                                  {Math.round(score.score)}%
+                                </div>
+                              </td>
+                            </motion.tr>
+                          );
+                        })}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              )}
+
+              {/* Scoring Methodology */}
+              <div className="bg-neutral-50 rounded-xl border border-neutral-200 p-6">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <Activity className="w-5 h-5 text-neutral-500" strokeWidth={2} />
+                    <div>
+                      <div className="text-sm font-bold text-neutral-900" style={{ fontWeight: 700 }}>
+                        AI Scoring Methodology
+                      </div>
+                      <div className="text-xs text-neutral-600" style={{ fontWeight: 500 }}>
+                        Based on 13 buying signals
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-4">
+                    <div className="flex items-center gap-2">
+                      <div className="w-3 h-3 rounded-full bg-emerald-600" />
+                      <span className="text-xs font-semibold text-neutral-700">60+ High</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div className="w-3 h-3 rounded-full bg-blue-600" />
+                      <span className="text-xs font-semibold text-neutral-700">30-60 Medium</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div className="w-3 h-3 rounded-full bg-neutral-500" />
+                      <span className="text-xs font-semibold text-neutral-700">&lt;30 Low</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </motion.div>
           )}
 

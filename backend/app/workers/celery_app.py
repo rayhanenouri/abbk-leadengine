@@ -14,6 +14,7 @@ celery_app = Celery(
         "app.workers.tasks.logo_detection",
         "app.workers.tasks.maintenance",
         "app.workers.tasks.apify_linkedin",
+        "app.workers.tasks.apify_discover",  # NEW: LinkedIn company discovery
         "app.workers.tasks.company_enrichment",
     ],
 )
@@ -53,6 +54,13 @@ celery_app.conf.beat_schedule = {
         "task": "app.workers.tasks.scraping.scrape_jobs",
         "schedule": crontab(minute=0, hour="*/12"),  # 00:00, 12:00
         "options": {"queue": "scrapers"},
+    },
+
+    # Apify LinkedIn discovery - Weekly on Friday at 3am (discover NEW companies)
+    "apify-linkedin-discovery-weekly": {
+        "task": "apify_discover.discover_tunisian_companies",
+        "schedule": crontab(hour=3, minute=0, day_of_week=5),  # Friday
+        "options": {"queue": "enrichment"},
     },
 
     # Apify LinkedIn enrichment - Every 48 hours (quota friendly)

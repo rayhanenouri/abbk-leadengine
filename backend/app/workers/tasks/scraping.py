@@ -1,10 +1,13 @@
 from app.workers.celery_app import celery_app
-from scrapy.crawler import CrawlerRunner
-from twisted.internet import reactor
-from scrapy.utils.project import get_project_settings
 import logging
+import subprocess
+import sys
+import os
 
 logger = logging.getLogger(__name__)
+
+# Get the backend directory path
+BACKEND_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
 
 
 @celery_app.task(name="app.workers.tasks.scraping.scrape_linkedin")
@@ -27,22 +30,15 @@ def scrape_news():
     Returns count of signals created.
     """
     try:
-        from app.scrapers.spiders.news_spider import BusinessNewsSpider
-        from scrapy.crawler import CrawlerProcess
-        from app.scrapers import settings as scrapy_settings
+        script_path = os.path.join(BACKEND_DIR, "run_news_spider.py")
+        result = subprocess.run([sys.executable, script_path], capture_output=True, text=True, timeout=600)
 
-        settings_dict = {
-            key: getattr(scrapy_settings, key)
-            for key in dir(scrapy_settings)
-            if key.isupper()
-        }
-
-        process = CrawlerProcess(settings_dict)
-        process.crawl(BusinessNewsSpider)
-        process.start()
-
-        logger.info("News spider completed successfully")
-        return {"status": "completed", "spider": "news"}
+        if result.returncode == 0:
+            logger.info(f"News spider completed: {result.stdout}")
+            return {"status": "completed", "spider": "news", "output": result.stdout[:500]}
+        else:
+            logger.error(f"News spider failed: {result.stderr}")
+            return {"status": "error", "error": result.stderr[:500]}
 
     except Exception as e:
         logger.error(f"Error running news spider: {e}")
@@ -61,22 +57,15 @@ def scrape_jobs():
     Returns count of signals created.
     """
     try:
-        from app.scrapers.spiders.jobs_spider import JobsBoardsSpider
-        from scrapy.crawler import CrawlerProcess
-        from app.scrapers import settings as scrapy_settings
+        script_path = os.path.join(BACKEND_DIR, "run_jobs_spider.py")
+        result = subprocess.run([sys.executable, script_path], capture_output=True, text=True, timeout=600)
 
-        settings_dict = {
-            key: getattr(scrapy_settings, key)
-            for key in dir(scrapy_settings)
-            if key.isupper()
-        }
-
-        process = CrawlerProcess(settings_dict)
-        process.crawl(JobsBoardsSpider)
-        process.start()
-
-        logger.info("Jobs spider completed successfully")
-        return {"status": "completed", "spider": "jobs"}
+        if result.returncode == 0:
+            logger.info(f"Jobs spider completed: {result.stdout}")
+            return {"status": "completed", "spider": "jobs", "output": result.stdout[:500]}
+        else:
+            logger.error(f"Jobs spider failed: {result.stderr}")
+            return {"status": "error", "error": result.stderr[:500]}
 
     except Exception as e:
         logger.error(f"Error running jobs spider: {e}")
@@ -96,24 +85,22 @@ def scrape_directories():
     Returns count of companies scraped.
     """
     try:
-        from app.scrapers.spiders.directories_spider import DirectoriesSpider
-        from scrapy.crawler import CrawlerProcess
+        # Run spider as subprocess to avoid Twisted reactor conflicts
+        script_path = os.path.join(BACKEND_DIR, "run_directories_spider.py")
 
-        # Load settings
-        from app.scrapers import settings as scrapy_settings
-        settings_dict = {
-            key: getattr(scrapy_settings, key)
-            for key in dir(scrapy_settings)
-            if key.isupper()
-        }
+        result = subprocess.run(
+            [sys.executable, script_path],
+            capture_output=True,
+            text=True,
+            timeout=600  # 10 minutes timeout
+        )
 
-        # Run spider
-        process = CrawlerProcess(settings_dict)
-        process.crawl(DirectoriesSpider)
-        process.start()
-
-        logger.info("Directories spider completed successfully")
-        return {"status": "completed", "spider": "directories"}
+        if result.returncode == 0:
+            logger.info(f"Directories spider completed successfully: {result.stdout}")
+            return {"status": "completed", "spider": "directories", "output": result.stdout[:500]}
+        else:
+            logger.error(f"Directories spider failed: {result.stderr}")
+            return {"status": "error", "error": result.stderr[:500]}
 
     except Exception as e:
         logger.error(f"Error running directories spider: {e}")
@@ -134,22 +121,15 @@ def scrape_training():
     Returns count of signals created.
     """
     try:
-        from app.scrapers.spiders.training_spider import TrainingCentersSpider
-        from scrapy.crawler import CrawlerProcess
-        from app.scrapers import settings as scrapy_settings
+        script_path = os.path.join(BACKEND_DIR, "run_training_spider.py")
+        result = subprocess.run([sys.executable, script_path], capture_output=True, text=True, timeout=600)
 
-        settings_dict = {
-            key: getattr(scrapy_settings, key)
-            for key in dir(scrapy_settings)
-            if key.isupper()
-        }
-
-        process = CrawlerProcess(settings_dict)
-        process.crawl(TrainingCentersSpider)
-        process.start()
-
-        logger.info("Training spider completed successfully")
-        return {"status": "completed", "spider": "training"}
+        if result.returncode == 0:
+            logger.info(f"Training spider completed: {result.stdout}")
+            return {"status": "completed", "spider": "training", "output": result.stdout[:500]}
+        else:
+            logger.error(f"Training spider failed: {result.stderr}")
+            return {"status": "error", "error": result.stderr[:500]}
 
     except Exception as e:
         logger.error(f"Error running training spider: {e}")
@@ -176,22 +156,15 @@ def scrape_funders():
     Returns count of signals created.
     """
     try:
-        from app.scrapers.spiders.funders_spider import FundersSpider
-        from scrapy.crawler import CrawlerProcess
-        from app.scrapers import settings as scrapy_settings
+        script_path = os.path.join(BACKEND_DIR, "run_funders_spider.py")
+        result = subprocess.run([sys.executable, script_path], capture_output=True, text=True, timeout=600)
 
-        settings_dict = {
-            key: getattr(scrapy_settings, key)
-            for key in dir(scrapy_settings)
-            if key.isupper()
-        }
-
-        process = CrawlerProcess(settings_dict)
-        process.crawl(FundersSpider)
-        process.start()
-
-        logger.info("Funders spider completed successfully")
-        return {"status": "completed", "spider": "funders"}
+        if result.returncode == 0:
+            logger.info(f"Funders spider completed: {result.stdout}")
+            return {"status": "completed", "spider": "funders", "output": result.stdout[:500]}
+        else:
+            logger.error(f"Funders spider failed: {result.stderr}")
+            return {"status": "error", "error": result.stderr[:500]}
 
     except Exception as e:
         logger.error(f"Error running funders spider: {e}")
@@ -217,22 +190,15 @@ def scrape_tenders():
     Returns count of signals created.
     """
     try:
-        from app.scrapers.spiders.tenders_spider import TendersSpider
-        from scrapy.crawler import CrawlerProcess
-        from app.scrapers import settings as scrapy_settings
+        script_path = os.path.join(BACKEND_DIR, "run_tenders_spider.py")
+        result = subprocess.run([sys.executable, script_path], capture_output=True, text=True, timeout=600)
 
-        settings_dict = {
-            key: getattr(scrapy_settings, key)
-            for key in dir(scrapy_settings)
-            if key.isupper()
-        }
-
-        process = CrawlerProcess(settings_dict)
-        process.crawl(TendersSpider)
-        process.start()
-
-        logger.info("Tenders spider completed successfully")
-        return {"status": "completed", "spider": "tenders"}
+        if result.returncode == 0:
+            logger.info(f"Tenders spider completed: {result.stdout}")
+            return {"status": "completed", "spider": "tenders", "output": result.stdout[:500]}
+        else:
+            logger.error(f"Tenders spider failed: {result.stderr}")
+            return {"status": "error", "error": result.stderr[:500]}
 
     except Exception as e:
         logger.error(f"Error running tenders spider: {e}")
@@ -256,22 +222,15 @@ def scrape_events():
     Returns count of signals created.
     """
     try:
-        from app.scrapers.spiders.events_spider import EventsSpider
-        from scrapy.crawler import CrawlerProcess
-        from app.scrapers import settings as scrapy_settings
+        script_path = os.path.join(BACKEND_DIR, "run_events_spider.py")
+        result = subprocess.run([sys.executable, script_path], capture_output=True, text=True, timeout=600)
 
-        settings_dict = {
-            key: getattr(scrapy_settings, key)
-            for key in dir(scrapy_settings)
-            if key.isupper()
-        }
-
-        process = CrawlerProcess(settings_dict)
-        process.crawl(EventsSpider)
-        process.start()
-
-        logger.info("Events spider completed successfully")
-        return {"status": "completed", "spider": "events"}
+        if result.returncode == 0:
+            logger.info(f"Events spider completed: {result.stdout}")
+            return {"status": "completed", "spider": "events", "output": result.stdout[:500]}
+        else:
+            logger.error(f"Events spider failed: {result.stderr}")
+            return {"status": "error", "error": result.stderr[:500]}
 
     except Exception as e:
         logger.error(f"Error running events spider: {e}")
