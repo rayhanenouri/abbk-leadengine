@@ -19,9 +19,33 @@ COPY uv.lock* .
 # Install Python dependencies
 RUN uv pip install --system -r pyproject.toml
 
-# Install Playwright browsers (for JS-heavy scraping)
-# Skipping for now - install later if needed: playwright install chromium --with-deps
-# RUN playwright install chromium --with-deps || true
+# Install Playwright browsers + system dependencies
+RUN apt-get update && apt-get install -y \
+    wget \
+    ca-certificates \
+    fonts-liberation \
+    libasound2 \
+    libatk-bridge2.0-0 \
+    libatk1.0-0 \
+    libatspi2.0-0 \
+    libcups2 \
+    libdbus-1-3 \
+    libdrm2 \
+    libgbm1 \
+    libgtk-3-0 \
+    libnspr4 \
+    libnss3 \
+    libwayland-client0 \
+    libxcomposite1 \
+    libxdamage1 \
+    libxfixes3 \
+    libxkbcommon0 \
+    libxrandr2 \
+    xdg-utils \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Playwright browsers (Chromium only for headless scraping)
+RUN playwright install chromium
 
 # Copy source code
 COPY . .
