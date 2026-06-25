@@ -29,13 +29,30 @@ const DashboardPro = ({ onNavigate, onLogout, sidebarOpen, setSidebarOpen }) => 
   const loadLeads = async () => {
     setLoading(true);
     try {
-      // Use getLeads directly - works even without scores
+      // Get leads with scores attached
       const data = await getLeads(0, 1000, 'created_at', 'desc');
-      // Transform to match expected format (add mock best_score if not exists)
-      const leadsWithScore = data.map(lead => ({
-        ...lead,
-        best_score: lead.best_score || 0, // Default to 0 if no score yet
-      }));
+      console.log('Loaded leads:', data.length, data.slice(0, 2)); // Debug
+
+      // Calculate best_score from lead_scores if available
+      const leadsWithScore = data.map(lead => {
+        let bestScore = 0;
+
+        // If lead has scores array, find the highest
+        if (lead.lead_scores && lead.lead_scores.length > 0) {
+          bestScore = Math.max(...lead.lead_scores.map(s => s.score || 0));
+        }
+
+        return {
+          ...lead,
+          lead_id: lead.id,
+          best_score: bestScore,
+          company_name: lead.company_name || 'Unknown Company',
+          sector: lead.sector || 'Unknown',
+          city: lead.city || 'Unknown',
+        };
+      });
+
+      console.log('Processed leads:', leadsWithScore.slice(0, 2)); // Debug
       setLeads(leadsWithScore);
     } catch (err) {
       console.error('Failed to load leads:', err);
@@ -46,7 +63,8 @@ const DashboardPro = ({ onNavigate, onLogout, sidebarOpen, setSidebarOpen }) => 
 
   const filteredLeads = leads
     .filter(lead => {
-      const matchesSearch = lead.company_name.toLowerCase().includes(searchQuery.toLowerCase());
+      const companyName = lead.company_name || '';
+      const matchesSearch = companyName.toLowerCase().includes(searchQuery.toLowerCase());
       const matchesFilter =
         selectedFilter === 'all' ? true :
         selectedFilter === 'hot' ? (lead.best_score >= 60 || (lead.is_multinational && lead.under_audit)) :
@@ -298,8 +316,8 @@ const DashboardPro = ({ onNavigate, onLogout, sidebarOpen, setSidebarOpen }) => 
 
             {/* Leads Table */}
             <div className="bg-white rounded-2xl border border-neutral-200 shadow-sm overflow-hidden">
-              {/* Table Header */}
-              <div className="px-8 py-4 border-b border-neutral-200 bg-neutral-50">
+              {/* Table Header - hide on mobile */}
+              <div className="hidden md:block px-8 py-4 border-b border-neutral-200 bg-neutral-50">
                 <div className="grid grid-cols-12 gap-4 uppercase text-neutral-600" style={{
                   fontSize: '11px',
                   fontWeight: 700,
@@ -332,9 +350,45 @@ const DashboardPro = ({ onNavigate, onLogout, sidebarOpen, setSidebarOpen }) => 
                         transition={{ delay: idx * 0.03 }}
                         whileHover={{ backgroundColor: '#FAFAFA' }}
                         onClick={() => setSelectedLeadId(lead.lead_id)}
-                        className="px-8 py-5 cursor-pointer group transition-all"
+                        className="px-3 md:px-8 py-3 md:py-5 cursor-pointer group transition-all"
                       >
-                        <div className="grid grid-cols-12 gap-4 items-center">
+                        {/* MOBILE LAYOUT */}
+                        <div className="md:hidden flex items-center gap-3">
+                          {/* Avatar */}
+                          <div className="w-10 h-10 rounded-lg flex items-center justify-center font-bold text-white text-xs flex-shrink-0" style={{
+                            background: `linear-gradient(135deg, ${
+                              lead.best_score >= 70 ? '#10B981, #059669' :
+                              lead.best_score >= 50 ? '#F59E0B, #D97706' : '#6B7280, #4B5563'
+                            })`,
+                          }}>
+                            {(lead.company_name || 'UK').substring(0, 2).toUpperCase()}
+                          </div>
+
+                          {/* Company info */}
+                          <div className="flex-1 min-w-0">
+                            <div className="font-bold text-neutral-900 text-sm truncate">
+                              {lead.company_name || 'Unknown Company'}
+                            </div>
+                            <div className="text-xs text-neutral-500">
+                              {lead.city || 'Tunisia'} • {lead.sector || 'General'}
+                            </div>
+                          </div>
+
+                          {/* Score badge */}
+                          <div className={`w-10 h-10 rounded-lg flex items-center justify-center font-bold text-sm flex-shrink-0 ${
+                            lead.best_score >= 70 ? 'bg-emerald-100 text-emerald-700' :
+                            lead.best_score >= 50 ? 'bg-amber-100 text-amber-700' :
+                            'bg-neutral-100 text-neutral-600'
+                          }`}>
+                            {lead.best_score}
+                          </div>
+
+                          {/* Arrow */}
+                          <ChevronRight className="w-5 h-5 text-neutral-400 flex-shrink-0" />
+                        </div>
+
+                        {/* DESKTOP LAYOUT */}
+                        <div className="hidden md:grid grid-cols-12 gap-4 items-center">
                           {/* Company */}
                           <div className="col-span-4 flex items-center gap-3">
                             <div className="w-10 h-10 rounded-xl flex items-center justify-center font-bold text-white text-sm" style={{
@@ -343,7 +397,7 @@ const DashboardPro = ({ onNavigate, onLogout, sidebarOpen, setSidebarOpen }) => 
                                 lead.best_score >= 50 ? '#F59E0B, #D97706' : '#6B7280, #4B5563'
                               })`,
                             }}>
-                              {lead.company_name.substring(0, 2).toUpperCase()}
+                              {(lead.company_name || 'UK').substring(0, 2).toUpperCase()}
                             </div>
                             <div className="flex-1 min-w-0">
                               <div className="font-semibold text-neutral-900 truncate group-hover:text-neutral-900 transition-colors" style={{
@@ -351,7 +405,7 @@ const DashboardPro = ({ onNavigate, onLogout, sidebarOpen, setSidebarOpen }) => 
                                 fontWeight: 700,
                                 letterSpacing: '-0.01em',
                               }}>
-                                {lead.company_name}
+                                {lead.company_name || 'Unknown Company'}
                               </div>
                               <div className="text-sm text-neutral-500 truncate" style={{
                                 fontSize: '12px',

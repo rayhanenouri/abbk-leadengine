@@ -9,11 +9,11 @@ import {
   Search, Filter, Download, Upload, RefreshCw, MoreVertical,
   ChevronDown, ChevronUp, Check, X, Edit3, Trash2, Mail,
   Phone, Globe, MapPin, Building2, Users, TrendingUp, Eye,
-  CheckSquare, Square, ChevronLeft, ChevronRight
+  CheckSquare, Square, ChevronLeft, ChevronRight, Menu
 } from 'lucide-react';
 import { getLeads, getRankedLeads } from '../services/api';
 
-export default function Leads({ onViewLead, onLogout }) {
+export default function Leads({ onViewLead, onLogout, onMenuClick }) {
   const [leads, setLeads] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedLeads, setSelectedLeads] = useState(new Set());
@@ -45,12 +45,26 @@ export default function Leads({ onViewLead, onLogout }) {
     setLoading(true);
     try {
       const data = await getLeads(0, 10000, 'created_at', 'desc');
-      // Add mock scores for leads without them
-      const leadsWithScore = data.map(lead => ({
-        ...lead,
-        lead_id: lead.id,
-        best_score: lead.best_score || 0,
-      }));
+      console.log('Leads loaded:', data.length, data.slice(0, 2)); // Debug
+
+      // Calculate best_score from lead_scores if available
+      const leadsWithScore = data.map(lead => {
+        let bestScore = 0;
+        if (lead.scores && lead.scores.length > 0) {
+          bestScore = Math.max(...lead.scores.map(s => s.score || 0));
+        }
+
+        return {
+          ...lead,
+          lead_id: lead.id,
+          best_score: bestScore,
+          company_name: lead.company_name || 'Unknown Company',
+          sector: lead.sector || 'Unknown',
+          city: lead.city || 'Unknown',
+        };
+      });
+
+      console.log('Processed leads:', leadsWithScore.slice(0, 2)); // Debug
       setLeads(leadsWithScore);
     } catch (err) {
       console.error('Failed to load leads:', err);
