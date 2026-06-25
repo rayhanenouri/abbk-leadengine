@@ -67,32 +67,31 @@ const Sidebar = ({ currentView, onViewChange, onLogout, unreadCount = 0, user, i
         )}
       </AnimatePresence>
 
-      {/* Sidebar */}
+      {/* Sidebar - narrower on mobile */}
       <motion.div
         initial={false}
         animate={{
-          x: isOpen ? 0 : -256
+          x: isOpen ? 0 : -224
         }}
-        className="fixed md:static top-0 left-0 h-screen w-64 bg-white border-r border-neutral-200 flex flex-col z-50 md:translate-x-0"
+        className="fixed md:static top-0 left-0 h-screen w-56 md:w-64 bg-white border-r border-neutral-200 flex flex-col z-50 md:translate-x-0"
       >
       {/* Logo */}
-      <div className="h-16 flex items-center justify-between px-6 border-b border-neutral-200">
-        <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-lg flex items-center justify-center" style={{
+      <div className="h-14 md:h-16 flex items-center justify-between px-3 md:px-6 border-b border-neutral-200">
+        <div className="flex items-center gap-2 md:gap-3">
+          <div className="w-8 h-8 md:w-9 md:h-9 rounded-lg flex items-center justify-center" style={{
             background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(220, 38, 38, 0.1))',
             border: '1px solid rgba(0, 0, 0, 0.06)',
           }}>
-            <TrendingUp className="w-5 h-5 text-neutral-900" strokeWidth={2.5} />
+            <TrendingUp className="w-4 h-4 md:w-5 md:h-5 text-neutral-900" strokeWidth={2.5} />
           </div>
           <div>
-            <div className="font-bold text-neutral-900 tracking-tight" style={{
-              fontSize: '15px',
+            <div className="font-bold text-neutral-900 tracking-tight text-sm md:text-base" style={{
               fontWeight: 700,
               letterSpacing: '-0.02em',
             }}>
               LeadEngine
             </div>
-            <div className="text-xs font-medium text-neutral-500 uppercase tracking-wider" style={{
+            <div className="text-xs font-medium text-neutral-500 uppercase tracking-wider hidden md:block" style={{
               fontSize: '10px',
               letterSpacing: '0.1em',
             }}>
@@ -111,7 +110,7 @@ const Sidebar = ({ currentView, onViewChange, onLogout, unreadCount = 0, user, i
       </div>
 
       {/* Main Navigation */}
-      <nav className="flex-1 px-3 py-4 overflow-y-auto">
+      <nav className="flex-1 px-2 md:px-3 py-3 md:py-4 overflow-y-auto">
         <div className="space-y-1">
           {navItems.map((item) => {
             const Icon = item.icon;
@@ -120,22 +119,21 @@ const Sidebar = ({ currentView, onViewChange, onLogout, unreadCount = 0, user, i
             return (
               <motion.button
                 key={item.id}
-                onClick={() => onViewChange(item.id)}
-                className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all ${
+                onClick={() => handleNavClick(item.id)}
+                className={`w-full flex items-center gap-2 md:gap-3 px-2 md:px-3 py-2 md:py-2.5 rounded-lg md:rounded-xl transition-all text-sm md:text-base ${
                   isActive
                     ? 'bg-neutral-900 text-white shadow-lg'
                     : 'text-neutral-600 hover:bg-neutral-100 hover:text-neutral-900'
                 }`}
                 style={{
-                  fontSize: '14px',
                   fontWeight: isActive ? 600 : 500,
                   letterSpacing: '-0.01em',
                 }}
                 whileHover={{ x: 2 }}
                 whileTap={{ scale: 0.98 }}
               >
-                <Icon className="w-5 h-5" strokeWidth={2.5} />
-                <span>{item.label}</span>
+                <Icon className="w-4 h-4 md:w-5 md:h-5" strokeWidth={2.5} />
+                <span className="text-xs md:text-sm">{item.label}</span>
                 {item.badge && (
                   <span className={`ml-auto text-xs font-bold px-2 py-0.5 rounded-full ${
                     item.badge === 'LIVE'
@@ -151,8 +149,8 @@ const Sidebar = ({ currentView, onViewChange, onLogout, unreadCount = 0, user, i
         </div>
 
         {/* Tools Section */}
-        <div className="mt-6">
-          <div className="px-3 mb-2">
+        <div className="mt-4 md:mt-6">
+          <div className="px-2 md:px-3 mb-1 md:mb-2">
             <span className="text-xs font-semibold text-neutral-400 uppercase tracking-wider" style={{
               fontSize: '10px',
               letterSpacing: '0.1em',
@@ -168,22 +166,21 @@ const Sidebar = ({ currentView, onViewChange, onLogout, unreadCount = 0, user, i
               return (
                 <motion.button
                   key={item.id}
-                  onClick={() => onViewChange(item.id)}
-                  className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all ${
+                  onClick={() => handleNavClick(item.id)}
+                  className={`w-full flex items-center gap-2 md:gap-3 px-2 md:px-3 py-2 md:py-2.5 rounded-lg md:rounded-xl transition-all text-sm md:text-base ${
                     isActive
                       ? 'bg-neutral-900 text-white shadow-lg'
                       : 'text-neutral-600 hover:bg-neutral-100 hover:text-neutral-900'
                   }`}
                   style={{
-                    fontSize: '14px',
                     fontWeight: isActive ? 600 : 500,
                     letterSpacing: '-0.01em',
                   }}
                   whileHover={{ x: 2 }}
                   whileTap={{ scale: 0.98 }}
                 >
-                  <Icon className="w-5 h-5" strokeWidth={2.5} />
-                  <span>{item.label}</span>
+                  <Icon className="w-4 h-4 md:w-5 md:h-5" strokeWidth={2.5} />
+                  <span className="text-xs md:text-sm">{item.label}</span>
                 </motion.button>
               );
             })}
@@ -192,8 +189,8 @@ const Sidebar = ({ currentView, onViewChange, onLogout, unreadCount = 0, user, i
       </nav>
 
       {/* Bottom Navigation */}
-      <div className="px-3 py-4 border-t border-neutral-200">
-        <div className="space-y-1 mb-4">
+      <div className="px-2 md:px-3 py-3 md:py-4 border-t border-neutral-200">
+        <div className="space-y-1 mb-2 md:mb-4">
           {bottomItems.map((item) => {
             const Icon = item.icon;
             const isActive = currentView === item.id;
@@ -201,22 +198,21 @@ const Sidebar = ({ currentView, onViewChange, onLogout, unreadCount = 0, user, i
             return (
               <motion.button
                 key={item.id}
-                onClick={() => onViewChange(item.id)}
-                className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all ${
+                onClick={() => handleNavClick(item.id)}
+                className={`w-full flex items-center gap-2 md:gap-3 px-2 md:px-3 py-2 md:py-2.5 rounded-lg md:rounded-xl transition-all text-sm md:text-base ${
                   isActive
                     ? 'bg-neutral-100 text-neutral-900'
                     : 'text-neutral-600 hover:bg-neutral-50 hover:text-neutral-900'
                 }`}
                 style={{
-                  fontSize: '14px',
                   fontWeight: isActive ? 600 : 500,
                   letterSpacing: '-0.01em',
                 }}
                 whileHover={{ x: 2 }}
                 whileTap={{ scale: 0.98 }}
               >
-                <Icon className="w-5 h-5" strokeWidth={2.5} />
-                <span>{item.label}</span>
+                <Icon className="w-4 h-4 md:w-5 md:h-5" strokeWidth={2.5} />
+                <span className="text-xs md:text-sm">{item.label}</span>
                 {item.badge && (
                   <span className="ml-auto bg-blue-600 text-white text-xs font-bold px-2 py-0.5 rounded-full" style={{ fontSize: '11px' }}>
                     {item.badge}
@@ -227,21 +223,21 @@ const Sidebar = ({ currentView, onViewChange, onLogout, unreadCount = 0, user, i
           })}
         </div>
 
-        {/* User Profile */}
+        {/* User Profile - compact on mobile */}
         <motion.div
-          className="p-3 rounded-xl bg-neutral-50 border border-neutral-200 cursor-pointer hover:bg-neutral-100 transition-colors"
+          className="p-2 md:p-3 rounded-lg md:rounded-xl bg-neutral-50 border border-neutral-200 cursor-pointer hover:bg-neutral-100 transition-colors"
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
         >
-          <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-full bg-gradient-to-br from-blue-600 to-emerald-600 flex items-center justify-center text-white font-bold" style={{ fontSize: '13px' }}>
+          <div className="flex items-center gap-2 md:gap-3">
+            <div className="w-8 h-8 md:w-9 md:h-9 rounded-full bg-gradient-to-br from-blue-600 to-emerald-600 flex items-center justify-center text-white font-bold text-xs md:text-sm">
               {user?.email?.[0]?.toUpperCase() || 'A'}
             </div>
             <div className="flex-1 min-w-0">
-              <div className="text-sm font-semibold text-neutral-900 truncate" style={{ fontSize: '13px', fontWeight: 600 }}>
+              <div className="text-xs md:text-sm font-semibold text-neutral-900 truncate" style={{ fontWeight: 600 }}>
                 {user?.full_name || 'Admin'}
               </div>
-              <div className="text-xs text-neutral-500 truncate" style={{ fontSize: '11px' }}>
+              <div className="text-xs text-neutral-500 truncate hidden md:block" style={{ fontSize: '11px' }}>
                 {user?.role || 'Manager'}
               </div>
             </div>
@@ -250,17 +246,16 @@ const Sidebar = ({ currentView, onViewChange, onLogout, unreadCount = 0, user, i
 
         <motion.button
           onClick={onLogout}
-          className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-neutral-600 hover:bg-red-50 hover:text-red-600 transition-colors mt-2"
+          className="w-full flex items-center gap-2 md:gap-3 px-2 md:px-3 py-2 md:py-2.5 rounded-lg md:rounded-xl text-neutral-600 hover:bg-red-50 hover:text-red-600 transition-colors mt-2 text-sm md:text-base"
           style={{
-            fontSize: '14px',
             fontWeight: 500,
             letterSpacing: '-0.01em',
           }}
           whileHover={{ x: 2 }}
           whileTap={{ scale: 0.98 }}
         >
-          <LogOut className="w-5 h-5" strokeWidth={2.5} />
-          <span>Logout</span>
+          <LogOut className="w-4 h-4 md:w-5 md:h-5" strokeWidth={2.5} />
+          <span className="text-xs md:text-sm">Logout</span>
         </motion.button>
       </div>
       </motion.div>
