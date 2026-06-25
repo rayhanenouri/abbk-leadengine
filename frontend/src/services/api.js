@@ -55,8 +55,16 @@ export const logout = () => {
 };
 
 // Leads APIs
-export const getLeads = async () => {
-  return apiCall('/leads/');
+export const getLeads = async (skip = 0, limit = 1000, sortBy = 'created_at', sortOrder = 'desc') => {
+  const params = new URLSearchParams();
+  params.append('skip', skip);
+  params.append('limit', limit);
+  params.append('sort_by', sortBy);
+  params.append('sort_order', sortOrder);
+
+  const response = await apiCall(`/leads/?${params.toString()}`);
+  // Response format: {leads: [...], total: 349, skip: 0, limit: 1000}
+  return response.leads || response || []; // Return the leads array
 };
 
 // Scores APIs

@@ -22,7 +22,7 @@ import {
   Target,
   X
 } from 'lucide-react';
-import { getRankedLeads, logout, getUnreadCount, getNotifications, markNotificationRead } from '../services/api';
+import { getLeads, getRankedLeads, logout, getUnreadCount, getNotifications, markNotificationRead } from '../services/api';
 import LeadDetail from './LeadDetail';
 import SearchBar from '../components/SearchBar';
 import FilterPanel from '../components/FilterPanel';
@@ -55,11 +55,8 @@ export default function Dashboard({ onNavigateToAnalytics }) {
     setLoading(true);
     setError('');
     try {
-      let effectiveMinScore = minScore;
-      if (appliedFilters.min_score && appliedFilters.min_score > effectiveMinScore) {
-        effectiveMinScore = appliedFilters.min_score;
-      }
-      const data = await getRankedLeads(10000, effectiveMinScore, appliedFilters);
+      // Use getLeads directly - works even without scores
+      const data = await getLeads(0, 1000, 'created_at', 'desc');
       setAllLeads(data);
     } catch (err) {
       setError(err.message || 'Failed to load leads');
