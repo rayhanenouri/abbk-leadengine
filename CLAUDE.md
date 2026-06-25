@@ -55,20 +55,45 @@ The manager opens the platform on his phone or computer and sees exactly which c
 8. Corporate training programs
 
 ## Priority Lead Types (score these highest — best conversion)
-1. HIGHEST: Multinational companies with international clients
-   Reason: international clients force them to use licensed software
-2. HIGHEST: Companies under international audit
-   Reason: cannot use cracked software during audit — must buy license
-3. HIGH: Companies with mechanical engineers, CAD designers, bureau d etudes, R&D
-   Reason: these roles directly need SOLIDWORKS daily
-4. HIGH: Companies that did technical or engineering training recently
-   Reason: already investing in skills — warm leads for ABBK training
-5. MEDIUM: Companies attending engineering events and salons
-   Reason: already interested in the domain
-6. MEDIUM: Companies that received international funding (bailleurs de fonds)
-   Reason: internationally funded projects require audit and licensed software
-7. LOWER: Companies potentially using cracked SOLIDWORKS
-   Strategy: lead with training offer first not license — never ignore them
+### BASED ON BUSINESS MANAGER INPUT - EXACT WEIGHTS:
+
+1. **HIGHEST PRIORITY: Training Potential** (40 points)
+   - Companies that attended training or sent employees to technical training
+   - Education institutions (universities, ISET, engineering schools)
+   - Reason: ABBK training programs are the PRIMARY revenue stream
+   - Strategy: Offer SOLIDWORKS Essential Level 1, CSWA certification prep
+
+2. **HIGH PRIORITY: New Machine Purchase** (30 points - tender, 25 points - news)
+   - Companies winning public tenders for new machines/equipment
+   - Companies mentioned in news for expansion, new projects, new machines
+   - Reason: New equipment = need new software licenses + training
+   - Strategy: Bundle SOLIDWORKS license with training package
+
+3. **HIGH PRIORITY: Hiring Engineers** (20 points each)
+   - Companies actively hiring mechanical engineers, CAD designers, bureau d'études
+   - Companies with engineering roles detected on website/LinkedIn
+   - Reason: New engineers = immediate need for software + training
+   - Strategy: Offer new hire training packages
+
+4. **MEDIUM PRIORITY: Compliance & Export** (15 points each)
+   - Multinational companies with international clients
+   - Companies under international audit (ISO certification)
+   - Companies with export activity
+   - Companies with international funding (bailleurs de fonds)
+   - Reason: International standards force licensed software usage
+   - Strategy: Emphasize compliance and audit-readiness
+
+5. **SUPPORTING SIGNALS** (10 points each)
+   - Event attendance at engineering salons/conferences
+   - SOLIDWORKS logo detected on website (potential upgrade opportunity)
+   - Reason: Shows engagement and existing CAD software usage
+   - Strategy: Upsell training, newer versions, additional modules
+
+6. **SPECIAL CASE: Cracked Software Users** (detected but lower priority)
+   - Companies with engineers but no license signals
+   - Strategy: NEVER lead with legal threats
+   - Strategy: Lead with training offer first, then upsell license
+   - Reason: Fear of legal action causes them to hang up
 
 ## Important Business Context — Cracked SOLIDWORKS Users
 When ABBK calls companies using cracked versions most hang up because they fear legal action. Strategy:
@@ -88,30 +113,64 @@ When ABBK calls companies using cracked versions most hang up because they fear 
 
 ## Scoring System (rule-based, fully automated, zero manual input ever)
 Location: backend/app/services/scoring_engine.py
-Logic:
+
+### Exact Signal Weights (Updated by Business Manager):
+```
+training_detected:    40 points  🎯 HIGHEST - Primary revenue stream
+tender_detected:      30 points  💰 HIGH - New machine purchase signals
+news:                 25 points  📰 HIGH - Expansion/new project signals  
+new_hire:             20 points  👔 HIGH - Hiring engineers NOW
+role_detected:        20 points  👔 HIGH - Engineering roles on website
+is_multinational:     15 points  🌍 MEDIUM - International compliance needs
+under_audit:          15 points  ✅ MEDIUM - Must use licensed software
+is_exporter:          15 points  📦 MEDIUM - Export compliance required
+funding:              15 points  💵 MEDIUM - International funding received
+event_attendance:     10 points  🎪 Supporting - Industry engagement
+logo_detected:        10 points  👁️ Supporting - CAD software detected
+
+Maximum possible:     215 points
+```
+
+### Calculation Logic:
 - Each signal is boolean true or false
 - Claude API extracts signals from unstructured scraped text
-- Each signal has a weight per product type
-- Score = sum of fired signal weights divided by total possible weights times 100
+- Score = (sum of fired signal weights / 215) × 100
 - Score range 0 to 100
 - One row in lead_scores per lead per ABBK product and per training
 - Overall lead score = best opportunity across all products
 - Scores auto-recalculate every time new data arrives via Celery task
 - Claude API responses cached in DB — never re-call same text twice
 
+### Score Classification:
+- 70-100: 🔥 HOT - Call today
+- 60-69:  🔶 WARM - Call this week  
+- 30-59:  📋 POTENTIAL - Add to pipeline
+- 0-29:   🔍 RESEARCH - Gather more data
+
 ## Signal Types (stored in lead_signals table)
-- new_hire: company hiring mechanical or CAD or engineering roles
-- funding: company received investment or international funding
-- news: company in press for expansion new contract or export
-- logo_detected: SOLIDWORKS or Simulia or Abaqus or 3DEXPERIENCE found on website
-- role_detected: engineering job titles found on website or LinkedIn
-- training_detected: company sent employees to technical training
-- event_attendance: company at engineering event or salon
-- tender_detected: company won public tender requiring licensed software
-- audit_signal: ISO certification international audit compliance mention
-- export_signal: company exports products internationally
-- multinational_signal: company has international clients or parent company
-- cracked_risk: has engineers but no license signals — potential cracked user
+Sorted by business priority (weight in parentheses):
+
+**Priority 1 - Training (40pts)**:
+- training_detected: company sent employees to technical training, attended SOLIDWORKS days, ISET partnerships
+
+**Priority 2 - New Machines & Hiring (20-30pts)**:
+- tender_detected: won public tender for new machines/equipment (30pts)
+- news: mentioned in press for expansion, new machines, new projects (25pts)
+- new_hire: actively hiring mechanical engineers, CAD designers, bureau d'études (20pts)
+- role_detected: engineering job titles found on website or LinkedIn (20pts)
+
+**Priority 3 - Compliance & International (15pts each)**:
+- is_multinational: has international clients or parent company
+- under_audit: ISO certification, international audit, compliance requirements
+- is_exporter: exports products internationally
+- funding: received international funding (World Bank, AFD, EU, etc.)
+
+**Priority 4 - Supporting Signals (10pts each)**:
+- event_attendance: attended engineering events, salons, conferences
+- logo_detected: SOLIDWORKS, Simulia, Abaqus, 3DEXPERIENCE, or competitor CAD found on website
+
+**Special Detection**:
+- cracked_risk: has engineers but no license signals — potential unlicensed software user (LOWER priority, lead with training offer)
 
 ## Complete Data Sources to Scrape
 
