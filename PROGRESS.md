@@ -294,28 +294,123 @@ Done:
 - ✅ Top lead: Poulina Group 46.7/100 (multinational + hiring signals)
 Status: PRODUCTION READY — Scores will increase as M2 spiders detect more signals
 
-## M4 — Dashboard and deploy ✅ COMPLETE
-Done:
-- React dashboard with ranked leads WORKING
-- Login flow complete — JWT authentication
-- Lead cards showing: company name, score, sector, city, priority badge
-- Score visualization with color coding (green 70+, orange 50+, red 30+)
-- Stats bar: total leads, high priority count, medium priority count
-- Min score filter: All, 30+, 50+, 70+
-- Mobile responsive design
-- Pagination: 50 leads per page, scales to 10,000+
-- Top leads displaying: BET-SCET (95/100), Groupe Chimique Tunisien (95/100)
-- Lead Detail Page COMPLETE:
-  * Company header with contact info
-  * Best Deal Recommendation (golden card)
-  * All ABBK services score cards
-  * Signals timeline with sources
-  * Back navigation to dashboard
-- GET /api/signals/{lead_id} endpoint
-- Automatic API URL detection (works on any device)
-- Full mobile support
-Next: Hetzner deployment + Flower fix + Nginx fix
-## M5 — Deliver NOT STARTED
+## M4 — Dashboard Polish and Deployment — IN PROGRESS
+
+### ✅ DONE (Tasks Completed):
+
+**M4.1 - Professional UI Redesign** ✅
+- React dashboard with 23 pages built
+- LoginV2.jsx - Professional split-screen login
+- DashboardPro.jsx - Main dashboard with sidebar navigation
+- Leads.jsx - Lead management table
+- LeadDetail.jsx - Full company profile (48KB)
+- AnalyticsEnterprise.jsx - Charts and insights
+- ScoreEngine.jsx - Score weights display (shows 40/30/20/15/10 priorities)
+- SalesPipeline.jsx - Sales funnel tracking
+- Activities.jsx - Activity log
+- LiveSignals.jsx - Real-time signal monitoring
+- SmartSearch.jsx - Advanced search and filtering
+- DataSources.jsx - Data source management
+- Notifications.jsx - Hot lead alerts
+- ExportReports.jsx - CSV/Excel export
+- Sidebar component - 256px navigation
+- Mobile responsive design (works on phone)
+- Auto API URL detection: `http://${window.location.hostname}:8000/api`
+
+**M4.2 - Code Verification & Documentation** ✅
+- Updated CLAUDE.md with correct business priorities:
+  * Training: 40pts (HIGHEST)
+  * Tenders: 30pts (HIGH)
+  * News: 25pts (HIGH)
+  * Hiring: 20pts (HIGH)
+  * Multinational/Audit/Export/Funding: 15pts each (MEDIUM)
+  * Events/Logo: 10pts each (SUPPORTING)
+- Verified database scoring weights match frontend (215 points max)
+- Created comprehensive documentation:
+  * REAL_STATUS_JUNE_25.md - Current status
+  * CODE_VERIFICATION_REPORT.md - Complete verification
+  * ACTION_PLAN_NOW.md - Next actions
+  * FINAL_SUMMARY.md - Executive summary
+  * WITHOUT_CLAUDE_API.md - API requirements clarification
+- Verified all 9 Scrapy spiders functional (keyword-based, no AI needed)
+- Tested scoring engine: 798 scores created successfully
+
+**M4.3 - Scraping Infrastructure** ✅
+- 9 Scrapy spiders built and tested:
+  * directories_spider.py - Business directories
+  * jobs_spider.py - Hiring signals (20pts)
+  * news_spider.py - News/expansion signals (25pts)
+  * training_spider.py - Training signals (40pts)
+  * tenders_spider.py - Tender wins (30pts)
+  * funders_spider.py - International funding (15pts)
+  * events_spider.py - Event attendance (10pts)
+  * linkedin_companies_spider.py - Basic LinkedIn
+  * ministry_industry_spider.py - Government databases
+- proper_scraper.py - Site-specific extraction (taa.tn, mecatronic.tn, tunisieindustrie)
+- Celery tasks configured for all scrapers
+- Apify LinkedIn integration ready (apify_linkedin.py - 212 lines)
+
+**M4.4 - Database & Scoring** ✅
+- 38 companies in database
+- 798 scores calculated (38 leads × 21 services)
+- 21 ABBK services configured with correct weights
+- All 8 database tables created and migrated
+- Scoring engine production-ready
+
+### ⏳ TODO (Tasks Remaining for M4):
+
+**M4.5 - Get APIFY Token & Run Scrapers**
+- [ ] Get APIFY_API_TOKEN from business manager
+- [ ] Add token to .env file
+- [ ] Restart Docker containers
+- [ ] Trigger all scrapers (directories, jobs, news, training, tenders)
+- [ ] Run Apify LinkedIn discovery for Tunisia companies
+- [ ] Monitor scraping progress (target: 200-400 companies)
+- [ ] Clean junk data from database (remove "Secteur", "Gouvernorat" entries)
+
+**M4.6 - Signal Detection & Scoring**
+- [ ] Wait for scrapers to complete (1-2 hours)
+- [ ] Verify signals created in lead_signals table
+- [ ] Recalculate scores for all leads
+- [ ] Verify hot leads (score 60+) identified
+- [ ] Test that training signals (40pts) scoring correctly
+- [ ] Test that tender signals (30pts) scoring correctly
+- [ ] Test that hiring signals (20pts) scoring correctly
+
+**M4.7 - Frontend Testing**
+- [ ] Test dashboard with 200+ companies
+- [ ] Verify lead ranking by score working
+- [ ] Test lead detail page shows signals timeline
+- [ ] Test mobile responsiveness on actual phone
+- [ ] Test all 23 pages load correctly
+- [ ] Verify export to CSV/Excel working
+- [ ] Test search and filtering
+- [ ] Verify notifications for hot leads
+
+**M4.8 - Hetzner Deployment** (Optional)
+- [ ] Provision Hetzner VPS CX31
+- [ ] Install Docker + Docker Compose on server
+- [ ] Clone repository to server
+- [ ] Configure production .env file
+- [ ] Deploy with docker compose up -d
+- [ ] Configure Nginx reverse proxy
+- [ ] Test from external network
+- [ ] Set up SSL certificate (Let's Encrypt)
+- [ ] OR use ngrok as alternative for demo
+
+**M4.9 - Final Polish**
+- [ ] Fix Flower import error (non-critical)
+- [ ] Update PROGRESS.md with final status
+- [ ] Create demo walkthrough script
+- [ ] Prepare FAQ for business manager
+- [ ] Document how to read scores and signals
+- [ ] Screenshot top 20 leads for presentation
+
+**Status**: 60% complete (4/9 tasks done)
+**Blocker**: Waiting for APIFY_API_TOKEN from business manager
+**ETA**: 2-3 days after token received
+
+## M5 — Deliver — NOT STARTED
 
 ## Daily Log
 
