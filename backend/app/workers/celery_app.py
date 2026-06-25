@@ -16,6 +16,7 @@ celery_app = Celery(
         "app.workers.tasks.apify_linkedin",
         "app.workers.tasks.apify_discover",  # NEW: LinkedIn company discovery
         "app.workers.tasks.company_enrichment",
+        "app.workers.tasks.universal_scraping",  # AI-powered universal scraper for 34 verified sources
     ],
 )
 

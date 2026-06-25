@@ -5,9 +5,9 @@ Scrapes all 34 verified data sources with Playwright + Claude API.
 No CSS selectors needed - future-proof and reliable.
 """
 from app.workers.celery_app import celery_app
-from app.scrapers.universal_scraper import UniversalScraper
+from app.scrapers.simple_scraper import scrape_url_simple  # Use simple scraper (no AI needed)
 from sqlalchemy.ext.asyncio import AsyncSession
-from app.db.session import async_session
+from app.db.session import AsyncSessionLocal
 from app.models.models import Lead, LeadSignal
 from sqlalchemy import select
 import logging
@@ -69,13 +69,12 @@ def scrape_all_directories():
     logger.info("Starting universal directory scraping (12 sources)")
 
     async def run_scraping():
-        scraper = UniversalScraper()
         all_companies = []
 
         for url in VERIFIED_SOURCES["directories"]:
             try:
                 logger.info(f"Scraping directory: {url}")
-                companies = await scraper.scrape_business_directory(url, _get_source_name(url))
+                companies = await scrape_url_simple(url, url_type="directory")
                 all_companies.extend(companies)
                 logger.info(f"Found {len(companies)} companies from {url}")
 
@@ -104,13 +103,12 @@ def scrape_all_jobs():
     logger.info("Starting universal job board scraping (9 sources)")
 
     async def run_scraping():
-        scraper = UniversalScraper()
         all_jobs = []
 
         for url in VERIFIED_SOURCES["jobs"]:
             try:
                 logger.info(f"Scraping job board: {url}")
-                jobs = await scraper.scrape_job_board(url, _get_source_name(url))
+                jobs = await scrape_url_simple(url, url_type="jobs")
                 all_jobs.extend(jobs)
                 logger.info(f"Found {len(jobs)} jobs from {url}")
 
@@ -137,13 +135,12 @@ def scrape_all_news():
     logger.info("Starting universal news scraping (3 sources)")
 
     async def run_scraping():
-        scraper = UniversalScraper()
         all_signals = []
 
         for url in VERIFIED_SOURCES["news"]:
             try:
                 logger.info(f"Scraping news: {url}")
-                signals = await scraper.scrape_news_article(url, _get_source_name(url))
+                signals = await scrape_url_simple(url, url_type="news")
                 all_signals.extend(signals)
                 logger.info(f"Found {len(signals)} signals from {url}")
 
@@ -170,13 +167,12 @@ def scrape_all_training():
     logger.info("Starting universal training scraping (7 sources)")
 
     async def run_scraping():
-        scraper = UniversalScraper()
         all_companies = []
 
         for url in VERIFIED_SOURCES["training"]:
             try:
                 logger.info(f"Scraping training: {url}")
-                companies = await scraper.scrape_business_directory(url, _get_source_name(url))
+                companies = await scrape_url_simple(url, url_type="training")
                 all_companies.extend(companies)
                 logger.info(f"Found {len(companies)} companies from {url}")
 
@@ -249,7 +245,7 @@ async def _save_companies_to_db(companies: list) -> int:
 
     saved_count = 0
 
-    async with async_session() as session:
+    async with AsyncSessionLocal() as session:
         for company_data in companies:
             try:
                 # Check if company already exists
@@ -309,7 +305,7 @@ async def _save_job_signals_to_db(jobs: list) -> int:
 
     saved_count = 0
 
-    async with async_session() as session:
+    async with AsyncSessionLocal() as session:
         for job_data in jobs:
             try:
                 company_name = job_data.get("company_name")
@@ -365,7 +361,7 @@ async def _save_news_signals_to_db(signals: list) -> int:
 
     saved_count = 0
 
-    async with async_session() as session:
+    async with AsyncSessionLocal() as session:
         for signal_data in signals:
             try:
                 company_name = signal_data.get("company_name")
