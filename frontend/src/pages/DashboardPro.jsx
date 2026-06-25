@@ -10,7 +10,7 @@ import {
   Search, Filter, Download, Plus, MoreVertical, ChevronRight,
   Calendar, DollarSign, Zap, Eye
 } from 'lucide-react';
-import { getRankedLeads, logout, getUnreadCount } from '../services/api';
+import { getLeads, getRankedLeads, logout, getUnreadCount } from '../services/api';
 import Sidebar from '../components/layout/Sidebar';
 import LeadDetail from './LeadDetail';
 
@@ -28,8 +28,14 @@ const DashboardPro = ({ onNavigate }) => {
   const loadLeads = async () => {
     setLoading(true);
     try {
-      const data = await getRankedLeads(1000, 0, {});
-      setLeads(data);
+      // Use getLeads directly - works even without scores
+      const data = await getLeads(0, 1000, 'created_at', 'desc');
+      // Transform to match expected format (add mock best_score if not exists)
+      const leadsWithScore = data.map(lead => ({
+        ...lead,
+        best_score: lead.best_score || 0, // Default to 0 if no score yet
+      }));
+      setLeads(leadsWithScore);
     } catch (err) {
       console.error('Failed to load leads:', err);
     } finally {

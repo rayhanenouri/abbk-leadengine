@@ -11,7 +11,7 @@ import {
   Phone, Globe, MapPin, Building2, Users, TrendingUp, Eye,
   CheckSquare, Square, ChevronLeft, ChevronRight
 } from 'lucide-react';
-import { getRankedLeads } from '../services/api';
+import { getLeads, getRankedLeads } from '../services/api';
 
 export default function Leads({ onViewLead, onLogout }) {
   const [leads, setLeads] = useState([]);
@@ -44,8 +44,14 @@ export default function Leads({ onViewLead, onLogout }) {
   const loadLeads = async () => {
     setLoading(true);
     try {
-      const data = await getRankedLeads(10000, 0, {});
-      setLeads(data);
+      const data = await getLeads(0, 10000, 'created_at', 'desc');
+      // Add mock scores for leads without them
+      const leadsWithScore = data.map(lead => ({
+        ...lead,
+        lead_id: lead.id,
+        best_score: lead.best_score || 0,
+      }));
+      setLeads(leadsWithScore);
     } catch (err) {
       console.error('Failed to load leads:', err);
     } finally {
