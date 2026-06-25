@@ -5,7 +5,7 @@ Scrapes all 34 verified data sources with Playwright + Claude API.
 No CSS selectors needed - future-proof and reliable.
 """
 from app.workers.celery_app import celery_app
-from app.scrapers.simple_scraper import scrape_url_simple  # Use simple scraper (no AI needed)
+from app.scrapers.proper_scraper import scrape_url_proper  # Site-specific proper scraper
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.db.session import AsyncSessionLocal
 from app.models.models import Lead, LeadSignal
@@ -74,7 +74,7 @@ def scrape_all_directories():
         for url in VERIFIED_SOURCES["directories"]:
             try:
                 logger.info(f"Scraping directory: {url}")
-                companies = await scrape_url_simple(url, url_type="directory")
+                companies = await scrape_url_proper(url)
                 all_companies.extend(companies)
                 logger.info(f"Found {len(companies)} companies from {url}")
 
