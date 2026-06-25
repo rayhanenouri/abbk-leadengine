@@ -1,6 +1,7 @@
 /**
  * Professional B2B SaaS Dashboard
  * Enterprise-grade design like Stripe, Linear, Vercel
+ * Mobile responsive with hamburger menu
  */
 
 import { useState, useEffect } from 'react';
@@ -8,13 +9,13 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
   Users, Target, TrendingUp, Activity, ArrowUpRight, ArrowDownRight,
   Search, Filter, Download, Plus, MoreVertical, ChevronRight,
-  Calendar, DollarSign, Zap, Eye
+  Calendar, DollarSign, Zap, Eye, Menu
 } from 'lucide-react';
 import { getLeads, getRankedLeads, logout, getUnreadCount } from '../services/api';
 import Sidebar from '../components/layout/Sidebar';
 import LeadDetail from './LeadDetail';
 
-const DashboardPro = ({ onNavigate }) => {
+const DashboardPro = ({ onNavigate, onLogout, sidebarOpen, setSidebarOpen }) => {
   const [leads, setLeads] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedLeadId, setSelectedLeadId] = useState(null);
@@ -118,25 +119,52 @@ const DashboardPro = ({ onNavigate }) => {
 
   if (selectedLeadId) {
     return (
-      <div className="flex h-screen bg-neutral-50">
-        <Sidebar currentView="dashboard" onViewChange={() => {}} onLogout={logout} />
-        <div className="flex-1 overflow-auto">
-          <LeadDetail leadId={selectedLeadId} onBack={() => setSelectedLeadId(null)} />
+      <div className="flex h-screen bg-neutral-50 overflow-hidden">
+        <Sidebar
+          currentView="dashboard"
+          onViewChange={onNavigate}
+          onLogout={onLogout}
+          isOpen={sidebarOpen}
+          onClose={() => setSidebarOpen(false)}
+        />
+        <div className="flex-1 overflow-auto w-full">
+          <LeadDetail
+            leadId={selectedLeadId}
+            onBack={() => setSelectedLeadId(null)}
+            onMenuClick={() => setSidebarOpen(!sidebarOpen)}
+          />
         </div>
       </div>
     );
   }
 
   return (
-    <div className="flex h-screen bg-neutral-50">
-      <Sidebar currentView="dashboard" onViewChange={onNavigate} onLogout={logout} />
+    <div className="flex h-screen bg-neutral-50 overflow-hidden">
+      <Sidebar
+        currentView="dashboard"
+        onViewChange={onNavigate}
+        onLogout={onLogout}
+        isOpen={sidebarOpen}
+        onClose={() => setSidebarOpen(false)}
+      />
 
-      <div className="flex-1 flex flex-col overflow-hidden">
+      <div className="flex-1 flex flex-col overflow-hidden w-full">
         {/* Header */}
         <div className="bg-white border-b border-neutral-200">
-          <div className="px-8 py-6">
+          <div className="px-4 md:px-8 py-4 md:py-6">
+            {/* Mobile hamburger */}
+            <div className="flex items-center gap-4 mb-4 md:hidden">
+              <button
+                onClick={() => setSidebarOpen(!sidebarOpen)}
+                className="p-2 hover:bg-neutral-100 rounded-lg"
+              >
+                <Menu className="w-6 h-6 text-neutral-900" />
+              </button>
+              <h1 className="text-lg font-bold text-neutral-900">Dashboard</h1>
+            </div>
+
             <div className="flex items-center justify-between">
-              <div>
+              <div className="hidden md:block">
                 <h1 className="text-2xl font-bold text-neutral-900 tracking-tight mb-1" style={{
                   fontWeight: 800,
                   letterSpacing: '-0.04em',
@@ -177,7 +205,7 @@ const DashboardPro = ({ onNavigate }) => {
         <div className="flex-1 overflow-auto">
           <div className="p-8 space-y-8">
             {/* Metrics Grid */}
-            <div className="grid grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
               {metrics.map((metric, idx) => (
                 <motion.div
                   key={metric.label}

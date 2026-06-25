@@ -1,9 +1,10 @@
 /**
  * Professional Sidebar Navigation
  * Clean B2B SaaS navigation with all features
+ * Mobile responsive: hidden by default on mobile, toggled by hamburger
  */
 
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
   LayoutDashboard,
   Users,
@@ -18,10 +19,11 @@ import {
   Phone,
   FileText,
   Database,
-  Calendar
+  Calendar,
+  X
 } from 'lucide-react';
 
-const Sidebar = ({ currentView, onViewChange, onLogout, unreadCount = 0, user }) => {
+const Sidebar = ({ currentView, onViewChange, onLogout, unreadCount = 0, user, isOpen, onClose }) => {
   const navItems = [
     { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
     { id: 'leads', label: 'Leads', icon: Users, badge: unreadCount },
@@ -42,10 +44,39 @@ const Sidebar = ({ currentView, onViewChange, onLogout, unreadCount = 0, user })
     { id: 'reports', label: 'Export Reports', icon: FileText },
   ];
 
+  const handleNavClick = (id) => {
+    onViewChange(id);
+    // Close sidebar on mobile after navigation
+    if (window.innerWidth < 768) {
+      onClose();
+    }
+  };
+
   return (
-    <div className="h-screen w-64 bg-white border-r border-neutral-200 flex flex-col">
+    <>
+      {/* Mobile overlay */}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/50 z-40 md:hidden"
+            onClick={onClose}
+          />
+        )}
+      </AnimatePresence>
+
+      {/* Sidebar */}
+      <motion.div
+        initial={false}
+        animate={{
+          x: isOpen ? 0 : -256
+        }}
+        className="fixed md:static top-0 left-0 h-screen w-64 bg-white border-r border-neutral-200 flex flex-col z-50 md:translate-x-0"
+      >
       {/* Logo */}
-      <div className="h-16 flex items-center px-6 border-b border-neutral-200">
+      <div className="h-16 flex items-center justify-between px-6 border-b border-neutral-200">
         <div className="flex items-center gap-3">
           <div className="w-9 h-9 rounded-lg flex items-center justify-center" style={{
             background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(220, 38, 38, 0.1))',
@@ -69,6 +100,14 @@ const Sidebar = ({ currentView, onViewChange, onLogout, unreadCount = 0, user })
             </div>
           </div>
         </div>
+
+        {/* Close button for mobile */}
+        <button
+          onClick={onClose}
+          className="md:hidden p-2 hover:bg-neutral-100 rounded-lg"
+        >
+          <X className="w-5 h-5 text-neutral-600" />
+        </button>
       </div>
 
       {/* Main Navigation */}
@@ -224,7 +263,8 @@ const Sidebar = ({ currentView, onViewChange, onLogout, unreadCount = 0, user })
           <span>Logout</span>
         </motion.button>
       </div>
-    </div>
+      </motion.div>
+    </>
   );
 };
 
