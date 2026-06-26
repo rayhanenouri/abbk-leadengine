@@ -68,17 +68,13 @@ const Sidebar = ({ currentView, onViewChange, onLogout, unreadCount = 0, user, i
       </AnimatePresence>
 
       {/* Sidebar - hidden on mobile, always visible on desktop */}
-      <motion.div
-        initial={false}
-        animate={{
-          x: isOpen ? 0 : -256
-        }}
-        transition={{ type: "tween", duration: 0.2 }}
-        className="fixed md:relative top-0 left-0 h-screen w-64 bg-white border-r border-neutral-200 flex flex-col z-50"
-        style={{ transform: window.innerWidth >= 768 ? 'translateX(0)' : undefined }}
+      <div
+        className={`fixed md:static top-0 left-0 h-screen w-64 bg-white border-r border-neutral-200 flex flex-col z-50 transition-transform duration-200 ${
+          isOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'
+        }`}
       >
-      {/* Logo */}
-      <div className="h-16 flex items-center justify-between px-6 border-b border-neutral-200">
+        {/* Logo */}
+        <div className="h-16 flex items-center justify-between px-6 border-b border-neutral-200">
         <div className="flex items-center gap-3">
           <div className="w-9 h-9 rounded-lg flex items-center justify-center" style={{
             background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(220, 38, 38, 0.1))',
@@ -110,10 +106,10 @@ const Sidebar = ({ currentView, onViewChange, onLogout, unreadCount = 0, user, i
         >
           <X className="w-5 h-5 text-neutral-600" />
         </button>
-      </div>
+        </div>
 
-      {/* Main Navigation */}
-      <nav className="flex-1 px-3 py-4 overflow-y-auto">
+        {/* Main Navigation */}
+        <nav className="flex-1 px-3 py-4 overflow-y-auto">
         <div className="space-y-1">
           {navItems.map((item) => {
             const Icon = item.icon;
@@ -191,10 +187,10 @@ const Sidebar = ({ currentView, onViewChange, onLogout, unreadCount = 0, user, i
             })}
           </div>
         </div>
-      </nav>
+        </nav>
 
-      {/* Bottom Navigation */}
-      <div className="px-3 py-4 border-t border-neutral-200">
+        {/* Bottom Navigation */}
+        <div className="px-3 py-4 border-t border-neutral-200">
         <div className="space-y-1 mb-4">
           {bottomItems.map((item) => {
             const Icon = item.icon;
@@ -264,8 +260,8 @@ const Sidebar = ({ currentView, onViewChange, onLogout, unreadCount = 0, user, i
           <LogOut className="w-5 h-5" strokeWidth={2.5} />
           <span>Logout</span>
         </motion.button>
+        </div>
       </div>
-      </motion.div>
     </>
   );
 };
