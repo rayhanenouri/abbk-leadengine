@@ -1,0 +1,19 @@
+Date: Fri, 26 Jun 2026 10:57:44 GMT
+Content-Type: text/html; charset=UTF-8
+Server: cloudflare
+Link: <https://www.tunisienumerique.com/wp-json/>; rel="https://api.w.org/", <https://www.tunisienumerique.com/wp-json/wp/v2/posts/665564>; rel="alternate"; title="JSON"; type="application/json", <https://www.tunisienumerique.com/?p=665564>; rel=shortlink
+Vary: User-Agent,Accept-Encoding
+Last-Modified: Fri, 26 Jun 2026 10:57:44 GMT
+Report-To: {"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=DDopl4%2B%2BfbA1v6HOLih04XujMkbRs6A88U2W5mbXZsMt4poIJ4bOjhIGbIEP3W4Cl5n359JJxGdZUD2XMVkSqlPzBAu5eCgNPme86ZHxyF6knLSwhnZpQkFdgKXVUzJAQ%2FzPfySEP7%2BErA%3D%3D"}]}
+X-Frame-Options: SAMEORIGIN
+X-Xss-Protection: 1; mode=block
+X-Content-Type-Options: nosniff
+Cache-Control: public, max-age=300
+X-Cache-Status: MISS
+X-Powered-By: PleskLin
+Cf-Cache-Status: MISS
+Nel: {"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}
+Server-Timing: cfCacheStatus;desc="MISS"
+Server-Timing: cfEdge;dur=8,cfOrigin;dur=3216
+Content-Encoding: gzip
+Cf-Ray: a11bb1494b806488-MRS

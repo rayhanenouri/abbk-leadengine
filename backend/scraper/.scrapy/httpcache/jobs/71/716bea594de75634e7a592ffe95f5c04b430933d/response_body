@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" prefix="content: http://purl.org/rss/1.0/modules/content/  dc: http://purl.org/dc/terms/  foaf: http://xmlns.com/foaf/0.1/  og: http://ogp.me/ns#  rdfs: http://www.w3.org/2000/01/rdf-schema#  schema: http://schema.org/  sioc: http://rdfs.org/sioc/ns#  sioct: http://rdfs.org/sioc/types#  skos: http://www.w3.org/2004/02/skos/core#  xsd: http://www.w3.org/2001/XMLSchema# " >
+<head>
+	<meta charset="utf-8" />
+<meta name="Generator" content="Drupal 8 (https://www.drupal.org)" />
+<meta name="MobileOptimized" content="width" />
+<meta name="HandheldFriendly" content="true" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="shortcut icon" href="/core/misc/favicon.ico" type="image/vnd.microsoft.icon" />
+
+    <title>Page not found | MEFP</title>
+    <link rel="stylesheet" media="all" href="/core/modules/system/css/components/ajax-progress.module.css?sn5jh7" />
+<link rel="stylesheet" media="all" href="/core/modules/system/css/components/align.module.css?sn5jh7" />
+<link rel="stylesheet" media="all" href="/core/modules/system/css/components/autocomplete-loading.module.css?sn5jh7" />
+<link rel="stylesheet" media="all" href="/core/modules/system/css/components/fieldgroup.module.css?sn5jh7" />
+<link rel="stylesheet" media="all" href="/core/modules/system/css/components/container-inline.module.css?sn5jh7" />
+<link rel="stylesheet" media="all" href="/core/modules/system/css/components/clearfix.module.css?sn5jh7" />
+<link rel="stylesheet" media="all" href="/core/modules/system/css/components/details.module.css?sn5jh7" />
+<link rel="stylesheet" media="all" href="/core/modules/system/css/components/hidden.module.css?sn5jh7" />
+<link rel="stylesheet" media="all" href="/core/modules/system/css/components/item-list.module.css?sn5jh7" />
+<link rel="stylesheet" media="all" href="/core/modules/system/css/components/js.module.css?sn5jh7" />
+<link rel="stylesheet" media="all" href="/core/modules/system/css/components/nowrap.module.css?sn5jh7" />
+<link rel="stylesheet" media="all" href="/core/modules/system/css/components/position-container.module.css?sn5jh7" />
+<link rel="stylesheet" media="all" href="/core/modules/system/css/components/progress.module.css?sn5jh7" />
+<link rel="stylesheet" media="all" href="/core/modules/system/css/components/reset-appearance.module.css?sn5jh7" />
+<link rel="stylesheet" media="all" href="/core/modules/system/css/components/resize.module.css?sn5jh7" />
+<link rel="stylesheet" media="all" href="/core/modules/system/css/components/sticky-header.module.css?sn5jh7" />
+<link rel="stylesheet" media="all" href="/core/modules/system/css/components/system-status-counter.css?sn5jh7" />
+<link rel="stylesheet" media="all" href="/core/modules/system/css/components/system-status-report-counters.css?sn5jh7" />
+<link rel="stylesheet" media="all" href="/core/modules/system/css/components/system-status-report-general-info.css?sn5jh7" />
+<link rel="stylesheet" media="all" href="/core/modules/system/css/components/tabledrag.module.css?sn5jh7" />
+<link rel="stylesheet" media="all" href="/core/modules/system/css/components/tablesort.module.css?sn5jh7" />
+<link rel="stylesheet" media="all" href="/core/modules/system/css/components/tree-child.module.css?sn5jh7" />
+<link rel="stylesheet" media="all" href="/modules/poll/css/poll.base.css?sn5jh7" />
+<link rel="stylesheet" media="all" href="/modules/poll/css/poll.theme.css?sn5jh7" />
+<link rel="stylesheet" media="all" href="/core/misc/dropbutton/dropbutton.css?sn5jh7" />
+<link rel="stylesheet" media="all" href="/themes/mfpe/assets/css/bootstrap.min.css?sn5jh7" />
+<link rel="stylesheet" media="all" href="/themes/mfpe/assets/css/font-awesome.min.css?sn5jh7" />
+<link rel="stylesheet" media="all" href="/themes/mfpe/assets/css/settings.css?sn5jh7" />
+<link rel="stylesheet" media="all" href="/themes/mfpe/assets/css/owl.carousel.min.css?sn5jh7" />
+<link rel="stylesheet" media="all" href="/themes/mfpe/assets/css/owl.theme.default.min.css?sn5jh7" />
+<link rel="stylesheet" media="all" href="/themes/mfpe/assets/css/sidebarMenu.css?sn5jh7" />
+<link rel="stylesheet" media="all" href="/themes/mfpe/assets/css/style.css?sn5jh7" />
+<link rel="stylesheet" media="all" href="/themes/mfpe/assets/css/main.css?sn5jh7" />
+
+    
+<!--[if lte IE 8]>
+<script src="/core/assets/vendor/html5shiv/html5shiv.min.js?v=3.7.3"></script>
+<![endif]-->
+
+</head>
+<body class="yay-hide">
+    <a href="#main-content" class="visually-hidden focusable">Skip to main content</a>  <div class="dialog-off-canvas-main-canvas" data-off-canvas-main-canvas><div class="yaybar yay-overlay yay-overlap-content">
+	<div class="nano">
+		<div class="nano-content">  <div><nav role="navigation" aria-labelledby="block-alqaymtalryysyt-menu" id="block-alqaymtalryysyt">
+  <h2 class="visually-hidden" id="block-alqaymtalryysyt-menu">القائمة الرئيسية</h2>    <ul>    <li><a href="/ar" data-drupal-link-system-path="&lt;front&gt;">الرئيسية</a>  	</li>    <li class="yay-sub-toggle"><a href="/ar/ministere" data-drupal-link-system-path="ministere">الوزارة</a>    <ul>    <li><a href="/ar/dossiers" data-drupal-link-system-path="dossiers">الملفات الكبرى</a>  	</li>    <li><a href="/ar/60/alwzyr" data-drupal-link-system-path="node/60">الوزير</a>  	</li>    <li><a href="http://www.emploi.gov.tn/ar/826/katbt-aldwlt">كاتبة الدولة</a>  	</li>    <li><a href="/ar/59/almham" data-drupal-link-system-path="node/59">المهام</a>  	</li>    <li><a href="https://www.emploi.gov.tn/ar/14/alatar-alqanwny">الإطار القانوني</a>  	</li>    <li class="yay-sub-toggle"><a href="/ar" data-drupal-link-system-path="&lt;front&gt;">التنظيم الهيكلي</a>    <ul>    <li><a href="/ar/203/tnzym-alwzart" data-drupal-link-system-path="node/203">تنظيم الوزارة</a>  	</li>    <li><a href="/ar/32/aladarat-aljhwyt-lltshghyl-waltkwyn-almhny" data-drupal-link-system-path="node/32">الإدارات الجهوية للتكوين المهني والتشغيل</a>  	</li>    <li><a href="/ar/31/alhyakl-tht-alashraf" data-drupal-link-system-path="node/31">الهياكل تحت الاشراف</a>  	</li>    </ul>  	</li>    </ul>  	</li>    <li class="yay-sub-toggle"><a href="/ar" data-drupal-link-system-path="&lt;front&gt;">التكوين والتشغيل والمبادرة</a>    <ul>    <li><a href="/ar/23/altkwyn-almhny" data-drupal-link-system-path="node/23">التكوين المهني</a>  	</li>    <li><a href="/ar/82/altkwyn-alasasy-walmstmr" data-drupal-link-system-path="node/82">التكوين الأساسي والمستمر</a>  	</li>    <li><a href="/ar/193/altshghyl" data-drupal-link-system-path="node/193">التشغيل</a>  	</li>    <li class="yay-sub-toggle"><a href="/ar" data-drupal-link-system-path="&lt;front&gt;">المبادرة الخاصة</a>    <ul>    <li><a href="/ar/83/bramj-almbadrt-alkhast" data-drupal-link-system-path="node/83">برامج المبادرة الخاصة</a>  	</li>    <li><a href="/ar/84/fdaat-almbadrt-wwhdat-alnhwd-balmwswsat-alswghry" data-drupal-link-system-path="node/84">فضاءات المبادرة ووحدات النهوض بالمؤسّسات الصّغرى</a>  	</li>    <li><a href="/ar/85/alyat-almrafqt-lbth-almshary" data-drupal-link-system-path="node/85">آليات المرافقة لبعث المشاريع</a>  	</li>    <li><a href="/ar/86/alyat-almrafqt-lttwyr-almshary" data-drupal-link-system-path="node/86">آليات المرافقة لتطوير المشاريع</a>  	</li>    </ul>  	</li>    </ul>  	</li>    <li class="yay-sub-toggle"><a href="/ar" data-drupal-link-system-path="&lt;front&gt;">خدمات الوزارة</a>    <ul>    <li class="yay-sub-toggle"><a href="/ar" data-drupal-link-system-path="&lt;front&gt;">لطالبي التّكوين</a>    <ul>    <li><a href="/ar/41/tsnyf-shhadat-altkwyn-almhny" data-drupal-link-system-path="node/41">تصنيف شهادات التكوين</a>  	</li>    <li><a href="/ar/42/madlt-shhadat-altkwyn-almhny-alajnbyt" data-drupal-link-system-path="node/42">معادلة الشهادات الأجنبية</a>  	</li>    <li><a href="/ar/65/almsadqt-ly-shhadat-altkwyn-almhny" data-drupal-link-system-path="node/65">المصادقة على الشّهادات</a>  	</li>    <li><a href="/ar/69/shhadt-fy-dm-altmt-bmnht-wdm-alatrad-ly-mwaslt-altkwyn-balkharj" data-drupal-link-system-path="node/69">شهادات عدم التمتع بمنحة وعدم الاعتراض على مواصلة التكوين بالخارج</a>  	</li>    <li><a href="/ar/68/shhadt-athbat-alkfat-almhnyt" data-drupal-link-system-path="node/68">شهادة إثبات الكفاءة المهنية</a>  	</li>    <li><a href="/ar/67/mnht-altkwyn-almhny" data-drupal-link-system-path="node/67">منحة التكوين المهني</a>  	</li>    </ul>  	</li>    <li class="yay-sub-toggle"><a href="/ar" data-drupal-link-system-path="&lt;front&gt;">للمؤسسات</a>    <ul>    <li><a href="/ar/40/tnzyr-wtjdyd-tnzyr-shhadat-altkwyn-almhny" data-drupal-link-system-path="node/40">تنظير وتجديد تنظير الشهادات</a>  	</li>    <li><a href="https://www.emploi.gov.tn/ar/node/1131">التكوين في مستوى شهادة المهارة</a>  	</li>    <li><a href="/ar/44/anshtt-altkwyn-almstmr-almwjht-llmwssat-alaqtsadyt" data-drupal-link-system-path="node/44">التكوين المستمر الموجهة للمؤسسات الاقتصادية</a>  	</li>    <li><a href="/ar/71/almdwnt-altwnsyt-llmhn-walkfaat" data-drupal-link-system-path="node/71">المدونة التونسية للمهن والكفاءات</a>  	</li>    </ul>  	</li>    <li class="yay-sub-toggle"><a href="/ar" data-drupal-link-system-path="&lt;front&gt;">للتوظيف بالخارج</a>    <ul>    <li><a href="/ar/186/alatfaqyat-althnayyt-fy-mjal-altshghyl-balkharj" data-drupal-link-system-path="node/186">الإتفاقيات الثنائية في مجال التشغيل بالخارج</a>  	</li>    <li><a href="/ar/56/almsadqt-ly-qwd-alml-balkharj" data-drupal-link-system-path="node/56">المصادقة على عقود العمل</a>  	</li>    <li><a href="/ar/55/asnad-alafadat" data-drupal-link-system-path="node/55">إسناد الإفادات</a>  	</li>    <li><a href="/ar/57/alafa-mn-mlwm-alsfr" data-drupal-link-system-path="node/57">الإعفاء من معلوم السفر</a>  	</li>    <li><a href="/ar/187/almwssat-alkhast-lltwzyf-balkharj-almrkhs-lha" data-drupal-link-system-path="node/187">المؤسسات الخاصة للتوظيف بالخارج المرخص لها</a>  	</li>    </ul>  	</li>    <li class="yay-sub-toggle"><a href="/ar" data-drupal-link-system-path="&lt;front&gt;">للشغّالين</a>    <ul>    <li><a href="/ar/74/anshtt-altkwyn-almstmr-almwjht-llmwssat-alaqtsadyt" data-drupal-link-system-path="node/74">التكوين المستمر</a>  	</li>    <li><a href="/ar/75/almdrst-almftwht-llshghalyn" data-drupal-link-system-path="node/75">المدرسة المفتوحة للشغالين</a>  	</li>    </ul>  	</li>    <li class="yay-sub-toggle"><a href="http://mfpe.tw.tn/ar/35/ltshghyl-alajanb">لتشغيل الأجانب</a>    <ul>    <li><a href="http://www.emploi.gov.tn/ar/131/tshghyl-alajanb">لتشغيل الأجانب</a>  	</li>    </ul>  	</li>    </ul>  	</li>    <li><a href="/ar" data-drupal-link-system-path="&lt;front&gt;">فضاء الصحافة</a>  	</li>    <li class="yay-sub-toggle"><a href="/ar/163/alnfadh-aly-almlwmt" data-drupal-link-system-path="node/163">النفاذ إلى المعلومة</a>    <ul>    <li><a href="/ar/255/almklfwn-balnfadh-aly-almlwmt" data-drupal-link-system-path="node/255">المكلفون بالنفاذ إلى المعلومة</a>  	</li>    <li><a href="/ar/256/dlyl-alajraat" data-drupal-link-system-path="node/256">دليل الإجراءات</a>  	</li>    </ul>  	</li>    <li><a href="/ar/777/syast-alkhswsyt" data-drupal-link-system-path="node/777">سياسة الخصوصية</a>  	</li>    <li class="yay-sub-toggle"><a href="/ar/247/altsrf-fy-almyzanyt-hsb-alahdaf" data-drupal-link-system-path="node/247">التصرف في الميزانية حسب الأهداف</a>    <ul>    <li><a href="/ar/249/tqdym-almnzwmt" data-drupal-link-system-path="node/249">تقديم المنظومة</a>  	</li>    <li><a href="/ar/250/wthayq-alada" data-drupal-link-system-path="node/250">وثائق الأداء</a>  	</li>    </ul>  	</li>    <li><a href="/ar/227/almwq-aljghrafy" data-drupal-link-system-path="node/227">الموقع الجغرافي</a>  	</li>    </ul></nav>
+
+  </div>
+		</div>
+	</div>
+</div><div class="topHeader">
+	<div class="container">	
+		<div class="fontSize"><span class='zoomMinus'>A<sup>-</sup></span><span class='zoomNone'>A</span><span class='zoomPlus'>A<sup>+</sup></span></div>
+		<div class="topLinks"><div class="languageSwitcher">  <div><div id="block-dropdownlanguage"><div class="dropbutton-wrapper"><div class="dropbutton-widget"><ul class="dropdown-language-item dropbutton"><li><span class="language-link active-language" hreflang="ar">العربية</span></li><li><a href="/fr/system/404?destination=/ar&amp;_exception_statuscode=404" class="language-link" hreflang="fr">Français</a></li></ul></div></div></div>
+
+  </div></div>			<div class="socialMedias"><a href="https://www.facebook.com/MFPE.GOV.TN/" target="_blank" class="fab fa-facebook"></a><a href="https://www.twitter.com/" target="_blank" class="fab fa-twitter"></a><a href="http://www.linkedin.com" target="_blank" class="fab fa-linkedin"></a><a href="rss.xml" target="_blank" class="fa fa-rss"></a>			</div>		</div>
+	</div>
+</div>
+<header class="mainHeader">
+	<div class="container"><div class="logo">  <div><div id="block-mfpe-branding">    <a href="/ar" title="الرئيسية" rel="home">
+      <img src="/sites/default/files/logoMFPE_1.png" alt="الرئيسية" />
+    </a></div>
+
+  </div></div>		<div class="searchMenu"><div class="searchForm">  <div><div class="search-block-form" data-drupal-selector="search-block-form" id="block-mfpe-search" role="search"><form action="/ar/search/node" method="get" id="search-block-form" accept-charset="UTF-8"><div class="js-form-item form-item js-form-type-search form-item-keys js-form-item-keys form-no-label"><label for="edit-keys" class="visually-hidden">بحث</label><input title="Enter the terms you wish to search for." data-drupal-selector="edit-keys" type="search" id="edit-keys" name="keys" value="" size="15" maxlength="128" class="form-search" />
+</div>
+<div data-drupal-selector="edit-actions" class="form-actions js-form-wrapper form-wrapper" id="edit-actions"><input data-drupal-selector="edit-submit" type="submit" id="edit-submit" value="بحث" class="button js-form-submit form-submit" />
+</div>
+
+</form>
+</div>
+
+  </div></div>			<button class="yay-toggle" type="button"><i class="fa fa-bars"></i>القائمة</button>
+		</div>
+	</div>
+</header><div class="content-wrap">	<div class="parallax headerPage" data-source-url="/themes/mfpe/assets/images/bg-header.jpg">
+		<div class="container">  <div><div id="block-mfpe-page-title"><h1 class="bTitle">Page not found</h1>
+</div>
+
+  </div></div><div class="homeMenu"><div class="container"><nav role="navigation" aria-labelledby="block-alsfhtalryysyt-menu" id="block-alsfhtalryysyt">
+  <h2 class="visually-hidden" id="block-alsfhtalryysyt-menu">الصفحة الرئيسية</h2>      <ul>      <li><a href="/ar/ministere" data-drupal-link-system-path="ministere">الوزارة </a>      <ul>      <li><a href="/ar/dossiers" data-drupal-link-system-path="dossiers">الملفات الكبرى</a>      </li>      <li><a href="/ar/32/aladarat-aljhwyt-lltshghyl-waltkwyn-almhny" data-drupal-link-system-path="node/32">الإدارات الجهوية</a>      </li>      <li><a href="/ar/actualites" data-drupal-link-system-path="actualites">المستجدات</a>      </li>    </ul>      </li>      <li><a href="/ar/career" data-drupal-link-system-path="career">التكوين والتشغيل</a>      <ul>      <li><a href="/ar/23/altkwyn-almhny" data-drupal-link-system-path="node/23">منظومة التكوين المهني</a>      </li>      <li><a href="/ar/82/altkwyn-alasasy-walmstmr" data-drupal-link-system-path="node/82">التكوين الأساسي والمستمر</a>      </li>      <li><a href="http://www.emploi.gov.tn/ar/109/altshghyl">التشغيل</a>      </li>      <li><a href="https://www.emploi.gov.tn/ar/1296/almbadrt-alkhast-walshrkat-alahlyt">المبادرة الفردية والجماعية </a>      </li>    </ul>      </li>      <li><a href="/ar/services" data-drupal-link-system-path="services">خدمات الوزارة</a>      <ul>      <li><a href="/ar/dservices" data-drupal-link-system-path="dservices">لطالبي التّكوين</a>      </li>      <li><a href="/ar/services" data-drupal-link-system-path="services">للمؤسّسات</a>      </li>      <li><a href="/ar/134/khdmat-alwzart-almwjht-llshghwalyn" data-drupal-link-system-path="node/134">للشغّالين</a>      </li>      <li><a href="http://www.emploi.gov.tn/ar/73/ltalby-altwzyf-balkharj">للتوظيف بالخارج</a>      </li>    </ul>      </li>      <li><a href="/ar/presse" data-drupal-link-system-path="presse">فضاء الصحافة </a>      <ul>      <li><a href="/ar/224/llatsal-bna" data-drupal-link-system-path="node/224">للإتصال بنا</a>      </li>      <li><a href="/ar/conferences-de-presse" data-drupal-link-system-path="conferences-de-presse">ملفات صحفية</a>      </li>    </ul>      </li>    </ul></nav>
+</div></div>	</div>	<main class="mainPage">
+		<div class="container">  <div><div data-drupal-messages-fallback class="hidden"></div><div id="block-mfpe-content">The requested page could not be found.</div>
+
+  </div>		</div>
+	</main><footer class="mainFooter">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-6 footerFirst">  <div><div id="block-atsal">      <div><ul class="infos">
+	<li aria-hidden="true" class="fa fa-map-marker"><a href="https://goo.gl/maps/1dm7K5fewYLFCqsv5">10 شارع أولاد حفوز 1002 تونس</a></li>
+	<li class="fas fa-phone">71 791 331 - 71 798 196</li>
+	<li class="fas fa-fax">71 794 615</li>
+	<br />
+	 
+</ul>
+</div></div>
+<div class="contact-message-feedback-form contact-message-form contact-form" data-user-info-from-browser data-drupal-selector="contact-message-feedback-form" id="block-contactblock"><form action="/offres-emploi-ingenieur-fabrication.html" method="post" id="contact-message-feedback-form" accept-charset="UTF-8"><div class="js-form-item form-item js-form-type-textfield form-item-name js-form-item-name"><label for="edit-name" class="js-form-required form-required">Your name</label><input data-drupal-selector="edit-name" type="text" id="edit-name" name="name" value="" size="60" maxlength="255" class="form-text required" required="required" aria-required="true" />
+</div>
+<input autocomplete="off" data-drupal-selector="form-sntkasqgupen-ekndn4kq10gg-w2kdhmmv9rr8-x3si" type="hidden" name="form_build_id" value="form-SnTKASqGupeN_Ekndn4KQ10gg_w2KdhMMV9rr8_x3SI" />
+<input data-drupal-selector="edit-contact-message-feedback-form" type="hidden" name="form_id" value="contact_message_feedback_form" />
+<div class="js-form-item form-item js-form-type-email form-item-mail js-form-item-mail"><label for="edit-mail" class="js-form-required form-required">Your email address</label><input data-drupal-selector="edit-mail" type="email" id="edit-mail" name="mail" value="" size="60" maxlength="254" class="form-email required" required="required" aria-required="true" />
+</div>
+<div class="field--type-string field--name-subject field--widget-string-textfield js-form-wrapper form-wrapper" data-drupal-selector="edit-subject-wrapper" id="edit-subject-wrapper"><div class="js-form-item form-item js-form-type-textfield form-item-subject-0-value js-form-item-subject-0-value"><label for="edit-subject-0-value" class="js-form-required form-required">موضوع</label><input class="js-text-full text-full form-text required" data-drupal-selector="edit-subject-0-value" type="text" id="edit-subject-0-value" name="subject[0][value]" value="" size="60" maxlength="100" placeholder="الموضوع" required="required" aria-required="true" />
+</div>
+</div>
+<div class="field--type-string-long field--name-message field--widget-string-textarea js-form-wrapper form-wrapper" data-drupal-selector="edit-message-wrapper" id="edit-message-wrapper"><div class="js-form-item form-item js-form-type-textarea form-item-message-0-value js-form-item-message-0-value"><label for="edit-message-0-value" class="js-form-required form-required">Message</label><div>
+  <textarea class="js-text-full text-full form-textarea required" data-drupal-selector="edit-message-0-value" id="edit-message-0-value" name="message[0][value]" rows="3" cols="60" placeholder="الرسالة" required="required" aria-required="true"></textarea>
+</div>
+</div>
+</div>
+<div data-drupal-selector="edit-actions" class="form-actions js-form-wrapper form-wrapper" id="edit-actions--2"><input data-drupal-selector="edit-submit" type="submit" id="edit-submit--2" name="op" value="إرسال رسالة" class="button button--primary js-form-submit form-submit" />
+<input data-drupal-selector="edit-preview" type="submit" id="edit-preview" name="op" value="معاينة" class="button js-form-submit form-submit" />
+</div>
+
+</form>
+</div>
+
+  </div></div>
+			<div class="col-lg-6 footerSecond">  <div><div class="poll-view block" id="block-mostrecentpoll">
+	<h2>استطلاعات الرأي</h2>  	<h3>هل تضمن شهادة تكوين مهني فرصة شغل؟</h3><div><form class="poll-view-form-2 poll-view-form" data-drupal-selector="poll-view-form-2" action="/ar/poll/2?destination=/ar" method="post" id="poll-view-form-2" accept-charset="UTF-8">
+<div class="poll">
+  <div class="vote-form"><fieldset data-drupal-selector="edit-choice" id="edit-choice--wrapper" class="fieldgroup form-composite js-form-item form-item js-form-wrapper form-wrapper">  <legend>
+    <span class="visually-hidden fieldset-legend">Choices</span>
+  </legend>
+  <div class="fieldset-wrapper"><div id="edit-choice"><div class="js-form-item form-item js-form-type-radio form-item-choice js-form-item-choice"><input data-drupal-selector="edit-choice-4" type="radio" id="edit-choice-4" name="choice" value="4" class="form-radio" />
+<label for="edit-choice-4" class="option">نعم</label></div>
+<div class="js-form-item form-item js-form-type-radio form-item-choice js-form-item-choice"><input data-drupal-selector="edit-choice-5" type="radio" id="edit-choice-5" name="choice" value="5" class="form-radio" />
+<label for="edit-choice-5" class="option">لا</label></div>
+<div class="js-form-item form-item js-form-type-radio form-item-choice js-form-item-choice"><input data-drupal-selector="edit-choice-6" type="radio" id="edit-choice-6" name="choice" value="6" class="form-radio" />
+<label for="edit-choice-6" class="option">حسب مستوى الشهادة و نوعية الاختصاص</label></div>
+</div>
+  </div>
+</fieldset>
+<div data-drupal-selector="edit-actions" class="form-actions js-form-wrapper form-wrapper" id="edit-actions"><input data-drupal-selector="edit-vote" type="submit" id="edit-vote" name="op" value="تصويت" class="button button--primary js-form-submit form-submit" />
+<input data-drupal-selector="edit-result" type="submit" id="edit-result" name="op" value="عرض النتائج" class="button button--primary js-form-submit form-submit" />
+</div>
+
+  </div><input autocomplete="off" data-drupal-selector="form-p6gg-keazhdascqb4sryc1gqpjffzpekxeonb8lq9go" type="hidden" name="form_build_id" value="form-P6Gg_KeAzhDAScQb4SrYc1GqpJfFzpEKxEOnb8LQ9go" />
+<input data-drupal-selector="edit-poll-view-form-2" type="hidden" name="form_id" value="poll_view_form_2" />
+
+</div>
+
+</form>
+</div>
+</div>
+  </div></div>
+		</div>
+	</div>
+</footer><div class="footerBottom">
+	<div class="container">
+		<div class="copyright">حقوق النشر ©2026 - جميع الحقوق محفوظة.</div>  	</div>
+</div>
+<a href="#" id="to-top"><i class="fa fa-angle-up" aria-hidden="true"></i></a></div>
+  </div>
+    <script type="application/json" data-drupal-selector="drupal-settings-json">{"path":{"baseUrl":"\/","scriptPath":null,"pathPrefix":"ar\/","currentPath":"","currentPathIsAdmin":false,"isFront":false,"currentLanguage":"ar"},"pluralDelimiter":"\u0003","ajaxPageState":{"libraries":"core\/drupal.ajax,core\/drupal.dropbutton,core\/drupal.form,core\/html5shiv,core\/jquery.form,dropdown_language\/dropdown-language-selector,mfpe\/global,poll\/drupal.poll-links,system\/base","theme":"mfpe","theme_token":null},"ajaxTrustedUrl":{"form_action_p_pvdeGsVG5zNF_XLGPTvYSKCf43t8qZYSwcfZl2uzM":true,"\/ar\/search\/node":true,"\/ar\/poll\/2?destination=\/ar":true,"\/ar\/poll\/2?ajax_form=1\u0026view_mode=block":true},"ajax":{"edit-result":{"callback":"::ajaxReplaceForm","url":"\/ar\/poll\/2?ajax_form=1\u0026view_mode=block","event":"mousedown","keypress":true,"prevent":"click","dialogType":"ajax","submit":{"_triggering_element_name":"op","_triggering_element_value":"\u0639\u0631\u0636 \u0627\u0644\u0646\u062a\u0627\u0626\u062c"}},"edit-vote":{"callback":"::ajaxReplaceForm","url":"\/ar\/poll\/2?ajax_form=1\u0026view_mode=block","event":"mousedown","keypress":true,"prevent":"click","dialogType":"ajax","submit":{"_triggering_element_name":"op","_triggering_element_value":"\u062a\u0635\u0648\u064a\u062a"}}},"user":{"uid":0,"permissionsHash":"104bb3e6f00db46a6f67d9cf80ac88ad5fc92d8ae2eda5319aeec0de8facee6a"}}</script>
+<script src="/core/assets/vendor/domready/ready.min.js?v=1.0.8"></script>
+<script src="/core/assets/vendor/jquery/jquery.min.js?v=3.2.1"></script>
+<script src="/core/assets/vendor/jquery/jquery-extend-3.4.0.js?v=3.2.1"></script>
+<script src="/core/assets/vendor/jquery-once/jquery.once.min.js?v=2.2.0"></script>
+<script src="/core/misc/drupalSettingsLoader.js?v=8.7.5"></script>
+<script src="/sites/default/files/languages/ar_oKMS697A4fmwSNmmDewKKuW4ZHyGPOrsDTeoqmBgHYw.js?sn5jh7"></script>
+<script src="/core/misc/drupal.js?v=8.7.5"></script>
+<script src="/core/misc/drupal.init.js?v=8.7.5"></script>
+<script src="/themes/mfpe/assets/js/revolution.min-5.4.8.1.js?sn5jh7"></script>
+<script src="/themes/mfpe/assets/js/tools.min-2.3.2.js?sn5jh7"></script>
+<script src="/themes/mfpe/assets/js/typewriter.min-1.0.0.js?sn5jh7"></script>
+<script src="/themes/mfpe/assets/js/owl.carousel.js?sn5jh7"></script>
+<script src="/themes/mfpe/assets/js/parallax.js?sn5jh7"></script>
+<script src="/themes/mfpe/assets/js/sidebarMenu.js?sn5jh7"></script>
+<script src="/themes/mfpe/assets/js/main.js?sn5jh7"></script>
+<script src="/core/misc/debounce.js?v=8.7.5"></script>
+<script src="/core/assets/vendor/jquery.cookie/jquery.cookie.min.js?v=1.4.1"></script>
+<script src="/core/misc/form.js?v=8.7.5"></script>
+<script src="/core/assets/vendor/jquery-form/jquery.form.min.js?v=4.22"></script>
+<script src="/core/misc/progress.js?v=8.7.5"></script>
+<script src="/core/misc/ajax.js?v=8.7.5"></script>
+<script src="/modules/dropdown_language/js/dropdown_language_selector.js?v=8.7.5"></script>
+<script src="/core/misc/dropbutton/dropbutton.js?v=8.7.5"></script>
+
+</body>
+</html>

@@ -1,0 +1,8 @@
+Server: nginx
+Date: Fri, 26 Jun 2026 10:57:45 GMT
+Content-Type: text/html; charset=UTF-8
+Link: <https://www.lapresse.tn/wp-json/>; rel="https://api.w.org/", <https://www.lapresse.tn/wp-json/wp/v2/categories/90>; rel="alternate"; title="JSON"; type="application/json"
+X-Cache-Status: STALE
+Strict-Transport-Security: max-age=15768000; includeSubDomains
+X-Powered-By: PleskLin
+Content-Encoding: gzip

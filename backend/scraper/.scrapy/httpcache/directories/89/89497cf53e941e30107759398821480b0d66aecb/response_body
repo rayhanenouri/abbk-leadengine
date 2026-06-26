@@ -1,0 +1,1351 @@
+
+<head>
+<title>Directory of industrial enterprises</title>
+<meta name="description" content="Gateway site of Tunisian industry, summarizing advantages and incentives and containing a dynamic data base">
+<meta name="keywords" content="Tunisia, Tunisian, Industry, API, Creation, Economy, Companies, economic situation, data bank, incentive, incentives, investment, partnership">
+<meta name="robots" content="index,follow" /> 
+<link rel="shortcut icon" href="images/api.ico" type="image/x-icon"/> 
+<link rel="icon" href="images/api.ico" type="image/x-icon"/>
+<script type="text/javascript" src="js/gouvernorat.js"></script>
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-18832289-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+<head>
+<link href="css/styles.css" rel="stylesheet" type="text/css" />
+<link href="css/layout.css" rel="stylesheet" type="text/css" />
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="js/main3860.js" type="text/javascript"></script>
+<script type="text/javascript" src="js/retina.js"></script>
+<script type="text/javascript" src="js/picturefill.js"></script>
+<script type="text/javascript" src="js/mootools.v1.11.js"></script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-060KDYXTRK"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-060KDYXTRK');
+</script>
+</head>
+
+
+<section id="scroll-down">
+<div id="wrapperhaut">
+	<div id="haut" class="wrapper clearfix">
+			<div class="navigation-menu">
+				<ul>
+			      <LI class="first"><a href="../fr/home.asp" title="Français">Français</a></LI>
+			      <LI><a href="../ar/home.asp" id="to-top" title="&#1593;&#1585;&#1576;&#1610;"> &#1593;&#1585;&#1576;&#1610;</a></LI>
+				</ul>
+			</div>
+		<p class="f-lefttitle"> Republic of Tunisia  | Ministry  of Industry, Energy and Mines</p>
+	</div>
+</div>
+<div id="wrap-haut">
+ <div id="wrap-nav">
+ <a href="home.asp" title="Tunisian Industry Portal" >
+	<div id="navigation" class="clearfix">
+			<div id="logo">
+				<img src="images/bg/banner.png" alt="Tunisian Industry Portal" title="Tunisian Industry Portal - Home page" /></a>
+			</div>
+			<div class="navigation-recherch">
+ 				<div class="search-wrapper">
+              <form class="a-center" method="post" action="recherche.asp" name="formrecherche">
+                  <input type="text" placeholder="Search..." required size="13" name="cles">
+                  <button class="button1 dark" type="submit">Search</button>
+              </form> 
+            </div>
+	       </div>	
+   </div>
+ </div>
+</div>
+<div class="wrapper-menu  clearfix">
+<div id="wrap-menu">
+<div id="wrapper-navigation">
+<div id="main-menu" class="row row-main">
+<div class="shadowUp"><!--###--></div>
+
+   <ul class="reset">
+    
+          <li id='menu-01' class='first'><a href="home.asp">Home</a></li>
+    
+          <li id='menu-02'><a href="#">Incentives and Benefits</a>
+    
+      <div class='submenu submenu-left'>
+      	<div class='row'>
+      <div class="colm col-submenu-a">
+            <h3><a class ="rub" href="doc.asp?mcat=12&mrub=209" onmouseover ="overme(this.sourceIndex)" onmouseout ="outme(this.sourceIndex)" >New Legislative Framework</a></h3><h3><a class ="rub" href="doc.asp?mcat=12&mrub=210" onmouseover ="overme(this.sourceIndex)" onmouseout ="outme(this.sourceIndex)" >Activity sectors</a></h3><h3><a class ="rub" href="doc.asp?mcat=12&mrub=207" onmouseover ="overme(this.sourceIndex)" onmouseout ="outme(this.sourceIndex)" >Activities requiring pre-authorization</a></h3><h3><a class ="rub" href="doc.asp?mcat=12&mrub=208" onmouseover ="overme(this.sourceIndex)" onmouseout ="outme(this.sourceIndex)" >Granting and release of financial benefits</a></h3><h3><a class ="rub" href="doc.asp?mcat=12&mrub=206" onmouseover ="overme(this.sourceIndex)" onmouseout ="outme(this.sourceIndex)" >Modernization Program</a></h3>
+      </div>
+      <div class="colm col-submenu-c">
+         <div class="text-box">
+          <a href="download/CFGA/Code.pdf" target="_blank">
+          <img src="images/HomePage/code.jpg" alt="code d'incitations aux investissements" />
+          <p>The Investment Incentives Code</p></a> </div>
+        </div></div>
+     </li>
+     
+          <li id='menu-03'><a href="#">Enterprises Creation</a>
+    
+           <div class='submenu submenu-left'>
+            <div class='row'>
+            <div class="colm col-submenu-a">
+             <h3><a class ="rub" href="link.asp?mcat=16&mrub=148" onmouseover ="overme(this.sourceIndex)" onmouseout ="outme(this.sourceIndex)" >Project idea</a></h3><h3><a class ="rub" href="doc.asp?mcat=16&mrub=182" onmouseover ="overme(this.sourceIndex)" onmouseout ="outme(this.sourceIndex)" >Support structures</a></h3><h3><a class ="rub" href="doc.asp?mcat=16&mrub=122" onmouseover ="overme(this.sourceIndex)" onmouseout ="outme(this.sourceIndex)" >On-line project declaration</a></h3><h4>One-Stop Window</h4><h3><ul><li><a class =rub href="doc.asp?mcat=16&mrub=186&msrub=267&dev=true"  > Presentation&nbsp; </a></li><li><a class =rub href="doc.asp?mcat=16&mrub=186&msrub=268&dev=true"  > Delivery of a certificate of deposit - declaration&nbsp; </a></li><li><a class =rub href="doc.asp?mcat=16&mrub=186&msrub=269&dev=true"  > Legal constitution of companies&nbsp; </a></li><li><a class =rub href="doc.asp?mcat=16&mrub=186&msrub=270&dev=true"  > Other kinds of services&nbsp; </a></li><li><a class =rub href="doc.asp?mcat=16&mrub=186&msrub=271&dev=true"  > Assistance and information&nbsp; </a></li></ul><h3><a class ="rub" href="link.asp?mcat=16&mrub=138" onmouseover ="overme(this.sourceIndex)" onmouseout ="outme(this.sourceIndex)" >Enterprises incubators</a></h3><h3><a class ="rub" href="doc.asp?mcat=16&mrub=203" onmouseover ="overme(this.sourceIndex)" onmouseout ="outme(this.sourceIndex)" >Technical centers</a></h3><h3><a class ="rub" href="doc.asp?mcat=16&mrub=157" onmouseover ="overme(this.sourceIndex)" onmouseout ="outme(this.sourceIndex)" >Technopoles in Tunisia</a></h3>
+            </div>
+            <div class="colm col-submenu-c">
+             <div class="text-boxlast">
+              <a href="doc.asp?mcat=16&mrub=122">
+              <img src="images/HomePage/declaration.jpg" alt="Déclaration en ligne de votre projet d’investissement" />
+               <p>On-line project declaration</p></a></div>
+       </div></div>
+          </li>
+    
+          <li id='menu-04'><a href="statinfind.asp">Industry Information</a>
+    
+           <div class='submenu submenu-left'>
+            <div class='row'>
+            <div class="colm col-submenu-a">
+             <h3><a class ="rub" href="doc.asp?mcat=3&mrub=23" onmouseover ="overme(this.sourceIndex)" onmouseout ="outme(this.sourceIndex)" >Bulletin of industrial indicators</a></h3><h3><a class ="rub" href="doc.asp?mcat=3&mrub=211" onmouseover ="overme(this.sourceIndex)" onmouseout ="outme(this.sourceIndex)" >Major projects - follow-up</a></h3><h4>Operational companies - Industry</h4><h3><ul><li><a class =rub href="link.asp?mcat=3&mrub=24&msrub=276&dev=true"  > Tunisian industry&nbsp; </a></li><li><a class =rub href="link.asp?mcat=3&mrub=24&msrub=277&dev=true"  > Tunisian companies&nbsp; </a></li><li><a class =rub href="link.asp?mcat=3&mrub=24&msrub=278&dev=true"  > Mixed companies&nbsp; </a></li><li><a class =rub href="link.asp?mcat=3&mrub=24&msrub=279&dev=true"  > Companies with 100% foreign capital&nbsp; </a></li></ul>
+            </div>
+            <div class="colm col-submenu-c">
+              <div class="text-box">
+              <a href="doc.asp?mcat=3&mrub=23">
+                 <img src="images/HomePage/conjoncture.jpg" alt="Bulletin de conjoncture" />
+                 <p>Bulletin of industrial indicators</p></a></div>
+              </div>
+          </li>
+    
+          <li id='menu-05'><a href="etudes.asp">Studies and Monographs</a>
+       
+      <div class='submenu submenu-right'>
+      	<div class='row'>
+      <div class="colm col-submenu-a">
+            <h3><a class ="rub" href="doc.asp?mcat=13&mrub=140" onmouseover ="overme(this.sourceIndex)" onmouseout ="outme(this.sourceIndex)" >Industrial studies</a></h3><h3><a class ="rub" href="doc.asp?mcat=13&mrub=172" onmouseover ="overme(this.sourceIndex)" onmouseout ="outme(this.sourceIndex)" >Regional studies</a></h3><h3><a class ="rub" href="doc.asp?mcat=13&mrub=173" onmouseover ="overme(this.sourceIndex)" onmouseout ="outme(this.sourceIndex)" >Industrial strategy 2016</a></h3><h3><a class ="rub" href="doc.asp?mcat=13&mrub=195" onmouseover ="overme(this.sourceIndex)" onmouseout ="outme(this.sourceIndex)" >Sectoral monographs</a></h3><h3><a class ="rub" href="doc.asp?mcat=13&mrub=105" onmouseover ="overme(this.sourceIndex)" onmouseout ="outme(this.sourceIndex)" >Regional monographs</a></h3>
+      </div>
+      <div class="colm col-submenu-c">
+         <div class="text-boxlast">
+          <a href="etudes.asp">
+          <img src="images/HomePage/etudesvue.jpg" alt="Etudes et monographies sectorielles réalisées par l'API" />
+          <p>Etudes et monographies sectorielles réalisées par l'API</p></a></div>
+       </div></div>
+     </li>
+    
+          <li id='menu-07' class='last' ><strong class='active'>Online Services</strong>
+    
+      <div class='submenu submenu-right'>
+      	<div class='row'>
+         <div class="colm col-submenu-a">
+            <h3><a class ="rub" href="link.asp?mcat=4&mrub=82" onmouseover ="overme(this.sourceIndex)" onmouseout ="outme(this.sourceIndex)" >Declaration for the realization of an industrial project</a></h3><h3><a class ="rub" href="link.asp?mcat=4&mrub=188" onmouseover ="overme(this.sourceIndex)" onmouseout ="outme(this.sourceIndex)" >Declaration for the realization of a service project</a></h3><h3><a class ="rub" href="link.asp?mcat=4&mrub=193" onmouseover ="overme(this.sourceIndex)" onmouseout ="outme(this.sourceIndex)" >Directory of industrial enterprises</a></h3><h3><a class ="rub" href="link.asp?mcat=4&mrub=86" onmouseover ="overme(this.sourceIndex)" onmouseout ="outme(this.sourceIndex)" >Tunisian Certified Enterprises</a></h3><h3><a class ="rub" href="link.asp?mcat=4&mrub=202" onmouseover ="overme(this.sourceIndex)" onmouseout ="outme(this.sourceIndex)" >Virtual Exhibition</a></h3><h3><a class ="rub" href="doc.asp?mcat=4&mrub=204" onmouseover ="overme(this.sourceIndex)" onmouseout ="outme(this.sourceIndex)" >Documentary data base</a></h3><h3><a class ="rub" href="link.asp?mcat=4&mrub=151" onmouseover ="overme(this.sourceIndex)" onmouseout ="outme(this.sourceIndex)" >Business plan online</a></h3><h3><a class ="rub" href="doc.asp?mcat=4&mrub=155" onmouseover ="overme(this.sourceIndex)" onmouseout ="outme(this.sourceIndex)" >Useful documents</a></h3><h3><a class ="rub" href="doc.asp?mcat=4&mrub=191" onmouseover ="overme(this.sourceIndex)" onmouseout ="outme(this.sourceIndex)" >API publications</a></h3>
+      </div>
+      <div class="colm col-submenu-c">
+        <div class="text-box">
+          <a href="dbi.asp">
+          <img src="images/HomePage/annuaires.jpg" alt="Directory of industrial enterprises" />
+          <p>Directory of industrial enterprises</p></a>
+        </div>
+        <div class="text-boxlast">
+           <a href="salon.asp">
+           <img src="images/HomePage/salons.jpg" alt="Virtual Exhibition" />
+           <p>Virtual Exhibition</p></a>
+        </div>
+        </div></div>
+     </li>
+</ul>
+<div class="shadowDown"><!--###--></div>
+</div>
+</div>
+</div></div>
+<div id="wrapper-navigation">
+<DIV id="menu"><NAV>
+<UL class="secondLevelMenu">
+  <UL class="block">
+    <LI><A href="doc.asp?mcat=25&mrub=189">About us</A></LI>
+    <LI><A href="contact.asp">Contact us</A></LI>
+    <LI class="last"><A href="plan.asp">Site map</A></LI>       
+  </UL>
+  <UL class="middle">
+    <LI><A href="doc.asp?mcat=4&mrub=191">API publications</A></LI>
+    <LI><A href="doc.asp?mcat=13&mrub=195">Sectoral monographs </A></LI>
+  </UL>
+  <UL class="telechargement">
+    <LI class="last"><A href="doc.asp?mcat=4&mrub=155" alt="Espace Téléchargement" title="Espace Téléchargement">Espace Téléchargement</A></LI></UL> 
+  </UL>
+ </UL>
+ </div> </div>
+<script>            
+jQuery(document).ready(function() {
+var offset = 200;
+var duration = 500;
+jQuery(window).scroll(function() {
+	if (jQuery(this).scrollTop() > offset) {
+		jQuery('.scroll-to-top').fadeIn(duration);
+	} else {
+ 	jQuery('.scroll-to-top').fadeOut(duration);
+	}
+	});	
+	jQuery('.scroll-to-top').click(function(event) {
+	event.preventDefault();
+	jQuery('html, body').animate({scrollTop: 0}, duration);
+	return false;
+	})
+	});
+          </script>
+          
+<script type="text/javascript">   
+    window.addEvent('domready', function () {
+      /* Slide pour les espaces rencontres - MOOTOOLS Rock!!! */
+      var infoslide = new Object();
+      $$('.infodiv').each(function (infodiv) {
+        infoslide[infodiv.id] = new Fx.Slide(infodiv, { duration : 500 }).hide();
+      });
+      $$('td.name').addEvent('click', function (e) {
+        var infodiv = $E('#info'+this.getParent().id+' .infodiv');
+        if (infoslide[infodiv.id].open) {
+          infoslide[infodiv.id].options.transition = Fx.Transitions['Back']['easeIn'];
+          this.setStyle('background-image', 'url(images/puce-plus.gif)');
+        } else {
+          infoslide[infodiv.id].options.transition = Fx.Transitions['Back']['easeOut'];
+          this.setStyle('background-image', 'url(images/puce-minus.gif)');
+        }
+        infoslide[infodiv.id].toggle();
+      });
+    });
+	      </script>
+
+<div id="wrapper-body">
+<div id="wrapper-zone">
+<div class="grid no-clear">
+<div class="container">
+<div class="colo n-12">
+
+<p id="breadcrumb"><a href='home.asp'>Home</a> <span> Online Services </span><strong>Directory of industrial enterprises</strong></p>
+
+<div class='entry'>
+<h1>Directory of industrial enterprises</h1> 
+
+
+<SCRIPT Language ="JavaScript">
+// Client side scripts
+
+function IsDigit()
+{return ((event.keyCode >= 48) && (event.keyCode <= 57))}
+
+// SECTEUR
+function go_secteur(valeur)
+{
+// Memoirise les champs du forms
+SDE=document.dbiform.Denomination.value;
+GVT = document.dbiform.Gouvernorat.options[document.dbiform.Gouvernorat.options.selectedIndex].value;
+DLG = document.dbiform.delegation.options[document.dbiform.delegation.options.selectedIndex].value;
+PYS = document.dbiform.pays.options[document.dbiform.pays.options.selectedIndex].value;
+EXP = document.dbiform.regime.options[document.dbiform.regime.options.selectedIndex].value;
+C1 = document.dbiform.cap1.value;
+C2 = document.dbiform.cap2.value;
+E1 = document.dbiform.emp1.value;
+E2 = document.dbiform.emp2.value;
+window.location.href= 'dbi.asp?idsect='+valeur+'&sde='+SDE+'&gvt='+GVT+'&dlg='+DLG+'&pys='+PYS+'&exp='+EXP+'&c1='+C1+'&c2='+C2+'&e1='+E1+'&e2='+E2
+}
+
+// BRANCHE
+function go_branche(valeur,secteur)
+{
+// Memoirise les champs du forms
+SDE=document.dbiform.Denomination.value;
+GVT = document.dbiform.Gouvernorat.options[document.dbiform.Gouvernorat.options.selectedIndex].value;
+DLG = document.dbiform.delegation.options[document.dbiform.delegation.options.selectedIndex].value;
+PYS = document.dbiform.pays.options[document.dbiform.pays.options.selectedIndex].value;
+EXP = document.dbiform.regime.options[document.dbiform.regime.options.selectedIndex].value;
+C1 = document.dbiform.cap1.value;
+C2 = document.dbiform.cap2.value;
+E1 = document.dbiform.emp1.value;
+E2 = document.dbiform.emp2.value;
+window.location.href= 'dbi.asp?idsect='+secteur+'&idbr='+valeur+'&sde='+SDE+'&gvt='+GVT+'&dlg='+DLG+'&pys='+PYS+'&exp='+EXP+'&c1='+C1+'&c2='+C2+'&e1='+E1+'&e2='+E2
+}
+
+// GOUVERNORAT
+function go_gouvernorat(valeur,secteur,branche,produit)
+{
+// Memoirise les champs du forms
+SDE=document.dbiform.Denomination.value;
+GVT = document.dbiform.Gouvernorat.options[document.dbiform.Gouvernorat.options.selectedIndex].value;
+DLG = document.dbiform.Gouvernorat.options[document.dbiform.delegation.options.selectedIndex].value;
+PYS = document.dbiform.pays.options[document.dbiform.pays.options.selectedIndex].value;
+EXP = document.dbiform.regime.options[document.dbiform.regime.options.selectedIndex].value;
+PRD = document.dbiform.regime.options[document.dbiform.produit.options.selectedIndex].value;
+C1 = document.dbiform.cap1.value;
+C2 = document.dbiform.cap2.value;
+E1 = document.dbiform.emp1.value;
+E2 = document.dbiform.emp2.value;
+window.location.href= 'dbi.asp?idgouv='+valeur+'&idsect='+secteur+'&idbr='+branche+'&sde='+SDE+'&pys='+PYS+'&prd='+PRD+'&exp='+EXP+'&c1='+C1+'&c2='+C2+'&e1='+E1+'&e2='+E2
+}
+
+
+
+// un critere au mois doit etre choisi
+function checkcriteria()
+{
+if (document.dbiform.Denomination.value !='') return true;
+  else if ( document.dbiform.Gouvernorat.options[document.dbiform.Gouvernorat.options.selectedIndex].value !='') return true;
+    else if (document.dbiform.pays.options[document.dbiform.pays.options.selectedIndex].value !='') return true;
+     else if ( document.dbiform.regime.options[document.dbiform.regime.options.selectedIndex].value != '') return true;
+      else if ( document.dbiform.secteur.options[document.dbiform.secteur.options.selectedIndex].value != '') return true;
+       else if ( document.dbiform.branche.options[document.dbiform.regime.options.selectedIndex].value != '') return true;
+        else if ( document.dbiform.produit.options[document.dbiform.produit.options.selectedIndex].value != '') return true;
+         else if ( document.dbiform.cap1.value != '') return true;
+          else if ( document.dbiform.cap2.value != '') return true;
+           else if ( document.dbiform.emp1.value != '') return true;   
+            else if ( document.dbiform.emp2.value != '') return true;   
+             else if ( document.dbiform.delegation.value != '') return true;   
+            
+else {alert ("It is necessary to choose at least a criteria to proceed !");return false;}
+}
+</SCRIPT>
+<h3>Recorded enterprises :&nbsp;4,604</h3>
+<form name ="dbiform" method="POST" action="dbi.asp" onsubmit="return checkcriteria()">
+<table class="one" border="0">
+    <tr>
+      <td class="v-BDIInd" width="25%"><b>Sector</b></td>
+      <td class="v-BDIInd" width="75%" colspan="3">
+        <select name="secteur" size="1" onchange="go_secteur(this.options[selectedIndex].value)" class="selectClass">
+          
+            <option value="">                                                                </option>
+            
+             <option value="05">Manufacture of food products</option>
+            
+             <option value="03">Manufacture of construction products, ceramic and glass</option>
+            
+             <option value="01">Manufacture of mechanicals and basic metals</option>
+            
+             <option value="08">Manufacture of electric and electronic equipment</option>
+            
+             <option value="04">Manufacture of chemicals and chemical products</option>
+            
+             <option value="02">Manufacture of textile and wearing apparel</option>
+            
+             <option value="07">Manufacture of wood and wood products</option>
+            
+             <option value="06">Manufacture of leather and footwear</option>
+            
+             <option value="09">Other manufacturing</option>
+            
+          </select></td>
+    </tr>
+    <tr>
+      <td class="v-BDIInd" width="25%"><b>Activity branches</b></td>
+      <td class="v-BDIInd" width="75%" colspan="3">
+       <select name="branche" size="1" onchange="go_branche(this.options[selectedIndex].value,document.dbiform.secteur.options[document.dbiform.secteur.options.selectedIndex].value);" class="selectClass">
+          <option value="">                                                                </option>
+         
+          </select></td>
+          
+        </select></td>
+    <tr>
+    <td class="v-BDIInd" width="25%"><b>Products</b></td>
+      <td class="v-BDIInd" width="75%" colspan="3">        
+      <select name="produit" size="1" class="selectClass">
+         <option value="">            </option>
+         
+        </select></td>
+    </tr>
+    <tr>
+    <td class="v-BDIInd" width="25%"><b>Short Name</b></td>
+      <td class="v-BDIInd" width="75%" colspan="3">        
+      <input type=text name="Denomination" size="50" value=""></td>
+    </tr>
+    <tr>
+    <td class="v-BDIInd" width="25%"><b>Gouvernorate</b></td>
+      <td class="v-BDIInd" width="25%">   
+          <select name="Gouvernorat" size="1" onchange="go_gouvernorat(this.options[selectedIndex].value,document.dbiform.secteur.options[document.dbiform.secteur.options.selectedIndex].value,document.dbiform.branche.options[document.dbiform.branche.options.selectedIndex].value,document.dbiform.produit.options[document.dbiform.produit.options.selectedIndex].value)" class="selectClass">
+          
+            <option value="">                                                                </option>
+            
+             <option value="22">Ariana         </option>
+            
+             <option value="03">Beja           </option>
+            
+             <option value="23">Ben Arous      </option>
+            
+             <option value="02">Bizerte        </option>
+            
+             <option value="09">Gabes          </option>
+            
+             <option value="07">Gafsa          </option>
+            
+             <option value="04">Jendouba       </option>
+            
+             <option value="11">Kairouan       </option>
+            
+             <option value="06">Kasserine      </option>
+            
+             <option value="21">Kebili         </option>
+            
+             <option value="05">Le kef         </option>
+            
+             <option value="15">Mahdia         </option>
+            
+             <option value="24">Manouba        </option>
+            
+             <option value="08">Medenine       </option>
+            
+             <option value="14">Monastir       </option>
+            
+             <option value="13">Nabeul         </option>
+            
+             <option value="10">Sfax           </option>
+            
+             <option value="17">Sidi Bouzid    </option>
+            
+             <option value="16">Siliana        </option>
+            
+             <option value="12">Sousse         </option>
+            
+             <option value="20">Tataouine      </option>
+            
+             <option value="19">Tozeur         </option>
+            
+             <option value="01">Tunis          </option>
+            
+             <option value="18">Zaghouan       </option>
+            
+          </select></td>
+          
+      <td class="v-BDIInd" width="20%"> Delegation</td>
+      <td class="v-BDIInd" width="30%">           
+      
+          <select name="delegation" size="1" class="selectClass">
+          <option value="">                                </option>
+           
+          <option value="Agareb">Agareb</option>
+          
+          <option value="Ain draham">Ain draham</option>
+          
+          <option value="Ain Jeloula">Ain Jeloula</option>
+          
+          <option value="Akouda">Akouda</option>
+          
+          <option value="Amdoun">Amdoun</option>
+          
+          <option value="Ariana nord">Ariana nord</option>
+          
+          <option value="Ariana ville">Ariana ville</option>
+          
+          <option value="Azzouhour">Azzouhour</option>
+          
+          <option value="Bab bhar">Bab bhar</option>
+          
+          <option value="Bab souika">Bab souika</option>
+          
+          <option value="Balta Bouawene">Balta Bouawene</option>
+          
+          <option value="Bargou">Bargou</option>
+          
+          <option value="Beja nord">Beja nord</option>
+          
+          <option value="Beja sud">Beja sud</option>
+          
+          <option value="Bekalta">Bekalta</option>
+          
+          <option value="Belkhir">Belkhir</option>
+          
+          <option value="Bembla">Bembla</option>
+          
+          <option value="Ben arous">Ben arous</option>
+          
+          <option value="Ben guerdane">Ben guerdane</option>
+          
+          <option value="Ben oun">Ben oun</option>
+          
+          <option value="Beni hassen">Beni hassen</option>
+          
+          <option value="Beni khalled">Beni khalled</option>
+          
+          <option value="Beni khedech">Beni khedech</option>
+          
+          <option value="Beni khiar">Beni khiar</option>
+          
+          <option value="Beni Mehira">Beni Mehira</option>
+          
+          <option value="Bir ali ben khelifa">Bir ali ben khelifa</option>
+          
+          <option value="Bir el haffey">Bir el haffey</option>
+          
+          <option value="Bir lahmar">Bir lahmar</option>
+          
+          <option value="Bir Mcherga">Bir Mcherga</option>
+          
+          <option value="Bizerte nord">Bizerte nord</option>
+          
+          <option value="Bizerte sud">Bizerte sud</option>
+          
+          <option value="Bordj El Aamri">Bordj El Aamri</option>
+          
+          <option value="Bou arada">Bou arada</option>
+          
+          <option value="Bou argoub">Bou argoub</option>
+          
+          <option value="Bou rouis">Bou rouis</option>
+          
+          <option value="Bouficha">Bouficha</option>
+          
+          <option value="Boumerdes">Boumerdes</option>
+          
+          <option value="Boumhal">Boumhal</option>
+          
+          <option value="Bousalem">Bousalem</option>
+          
+          <option value="Bradaa">Bradaa</option>
+          
+          <option value="Carthage">Carthage</option>
+          
+          <option value="Cebelat ouled askar">Cebelat ouled askar</option>
+          
+          <option value="Chebba">Chebba</option>
+          
+          <option value="Chorbane">Chorbane</option>
+          
+          <option value="Cite el khadra">Cite el khadra</option>
+          
+          <option value="Cite ettadhamen">Cite ettadhamen</option>
+          
+          <option value="Cite ettahrir">Cite ettahrir</option>
+          
+          <option value="Cite Ezzouhour">Cite Ezzouhour</option>
+          
+          <option value="Dagach">Dagach</option>
+          
+          <option value="Dahmani">Dahmani</option>
+          
+          <option value="Dar chaabane e.fehri">Dar chaabane e.fehri</option>
+          
+          <option value="Dhehiba">Dhehiba</option>
+          
+          <option value="Djdeida">Djdeida</option>
+          
+          <option value="Djdeida">Djdeida</option>
+          
+          <option value="Dkhilet Toujene">Dkhilet Toujene</option>
+          
+          <option value="Douar Hicher">Douar Hicher</option>
+          
+          <option value="Douar hicher">Douar hicher</option>
+          
+          <option value="Douz nord">Douz nord</option>
+          
+          <option value="Douz sud">Douz sud</option>
+          
+          <option value="Echbika">Echbika</option>
+          
+          <option value="Echrarda">Echrarda</option>
+          
+          <option value="El alaa">El alaa</option>
+          
+          <option value="El alia">El alia</option>
+          
+          <option value="El amra">El amra</option>
+          
+          <option value="El ayoun">El ayoun</option>
+          
+          <option value="El battan">El battan</option>
+          
+          <option value="El bouhaira">El bouhaira</option>
+          
+          <option value="El fahs">El fahs</option>
+          
+          <option value="El guetar">El guetar</option>
+          
+          <option value="El hamma">El hamma</option>
+          
+          <option value="El hamma ouest">El hamma ouest</option>
+          
+          <option value="El haouaria">El haouaria</option>
+          
+          <option value="El hararia">El hararia</option>
+          
+          <option value="El hencha">El hencha</option>
+          
+          <option value="El jem">El jem</option>
+          
+          <option value="El krib">El krib</option>
+          
+          <option value="El ksar">El ksar</option>
+          
+          <option value="El ksour">El ksour</option>
+          
+          <option value="El menzah">El menzah</option>
+          
+          <option value="El metouia">El metouia</option>
+          
+          <option value="El mida">El mida</option>
+          
+          <option value="El mnihla">El mnihla</option>
+          
+          <option value="El mourouj">El mourouj</option>
+          
+          <option value="El omrane">El omrane</option>
+          
+          <option value="El omrane superieur">El omrane superieur</option>
+          
+          <option value="El ouardia">El ouardia</option>
+          
+          <option value="El ouaslatia">El ouaslatia</option>
+          
+          <option value="El-aroussa">El-aroussa</option>
+          
+          <option value="Enfidha">Enfidha</option>
+          
+          <option value="Ennadhour">Ennadhour</option>
+          
+          <option value="Essaida">Essaida</option>
+          
+          <option value="Essouassi">Essouassi</option>
+          
+          <option value="Ezzahra">Ezzahra</option>
+          
+          <option value="Faouar">Faouar</option>
+          
+          <option value="Feriana">Feriana</option>
+          
+          <option value="Fernana">Fernana</option>
+          
+          <option value="Fouchana">Fouchana</option>
+          
+          <option value="Foussana">Foussana</option>
+          
+          <option value="Gaafour">Gaafour</option>
+          
+          <option value="Gabes ouest">Gabes ouest</option>
+          
+          <option value="Gabes sud">Gabes sud</option>
+          
+          <option value="Gabes ville">Gabes ville</option>
+          
+          <option value="Gafsa nord">Gafsa nord</option>
+          
+          <option value="Gafsa sud">Gafsa sud</option>
+          
+          <option value="Ghannouche">Ghannouche</option>
+          
+          <option value="Ghar el melh">Ghar el melh</option>
+          
+          <option value="Ghardimaou">Ghardimaou</option>
+          
+          <option value="Ghezala">Ghezala</option>
+          
+          <option value="Ghomrassen">Ghomrassen</option>
+          
+          <option value="Ghraiba">Ghraiba</option>
+          
+          <option value="Goubellat">Goubellat</option>
+          
+          <option value="Grombalia">Grombalia</option>
+          
+          <option value="Haffouz">Haffouz</option>
+          
+          <option value="Hajeb elayoun">Hajeb elayoun</option>
+          
+          <option value="Hammam chott">Hammam chott</option>
+          
+          <option value="Hammam el ghezaz">Hammam el ghezaz</option>
+          
+          <option value="Hammam sousse">Hammam sousse</option>
+          
+          <option value="Hammamet">Hammamet</option>
+          
+          <option value="Hammam-lif">Hammam-lif</option>
+          
+          <option value="Hammet Ejjrid">Hammet Ejjrid</option>
+          
+          <option value="Hassi ferid">Hassi ferid</option>
+          
+          <option value="Hazoua">Hazoua</option>
+          
+          <option value="Hbira">Hbira</option>
+          
+          <option value="Hergla">Hergla</option>
+          
+          <option value="Hichria">Hichria</option>
+          
+          <option value="Hidra">Hidra</option>
+          
+          <option value="Jammel">Jammel</option>
+          
+          <option value="Jbel jeloud">Jbel jeloud</option>
+          
+          <option value="Jebel el Ouest">Jebel el Ouest</option>
+          
+          <option value="Jebeniana">Jebeniana</option>
+          
+          <option value="Jedliane">Jedliane</option>
+          
+          <option value="Jelma">Jelma</option>
+          
+          <option value="Jendouba">Jendouba</option>
+          
+          <option value="Jendouba nord">Jendouba nord</option>
+          
+          <option value="Jerba ajim">Jerba ajim</option>
+          
+          <option value="Jerba houmt souk">Jerba houmt souk</option>
+          
+          <option value="Jerba midoun">Jerba midoun</option>
+          
+          <option value="Jerissa">Jerissa</option>
+          
+          <option value="Joumine">Joumine</option>
+          
+          <option value="Kabaria">Kabaria</option>
+          
+          <option value="Kairouan nord">Kairouan nord</option>
+          
+          <option value="Kairouan sud">Kairouan sud</option>
+          
+          <option value="Kalaa kebira">Kalaa kebira</option>
+          
+          <option value="Kalaa khasba">Kalaa khasba</option>
+          
+          <option value="Kalaa seghira">Kalaa seghira</option>
+          
+          <option value="Kalaat landalous">Kalaat landalous</option>
+          
+          <option value="Kalaat sinane">Kalaat sinane</option>
+          
+          <option value="Kasserine nord">Kasserine nord</option>
+          
+          <option value="Kasserine sud">Kasserine sud</option>
+          
+          <option value="Kebili">Kebili</option>
+          
+          <option value="Kebili nord">Kebili nord</option>
+          
+          <option value="Kebili sud">Kebili sud</option>
+          
+          <option value="Kelibia">Kelibia</option>
+          
+          <option value="Kerkennah">Kerkennah</option>
+          
+          <option value="Kesra">Kesra</option>
+          
+          <option value="Kondar">Kondar</option>
+          
+          <option value="Korba">Korba</option>
+          
+          <option value="Ksar hellal">Ksar hellal</option>
+          
+          <option value="Ksiba Zaouia Thrayet">Ksiba Zaouia Thrayet</option>
+          
+          <option value="Ksibet el mediouni">Ksibet el mediouni</option>
+          
+          <option value="Ksour essaf">Ksour essaf</option>
+          
+          <option value="La goulette">La goulette</option>
+          
+          <option value="La marsa">La marsa</option>
+          
+          <option value="La Soukra">La Soukra</option>
+          
+          <option value="Le bardo">Le bardo</option>
+          
+          <option value="Le kef">Le kef</option>
+          
+          <option value="Le kef est">Le kef est</option>
+          
+          <option value="Le kef ouest">Le kef ouest</option>
+          
+          <option value="Le kram">Le kram</option>
+          
+          <option value="Le sers">Le sers</option>
+          
+          <option value="Le sned">Le sned</option>
+          
+          <option value="Mahdia">Mahdia</option>
+          
+          <option value="Mahres">Mahres</option>
+          
+          <option value="Makthar">Makthar</option>
+          
+          <option value="Manouba">Manouba</option>
+          
+          <option value="Manouba">Manouba</option>
+          
+          <option value="Mareth">Mareth</option>
+          
+          <option value="Mateur">Mateur</option>
+          
+          <option value="Matmata">Matmata</option>
+          
+          <option value="Mdhilla">Mdhilla</option>
+          
+          <option value="Medenine">Medenine</option>
+          
+          <option value="Medenine nord">Medenine nord</option>
+          
+          <option value="Medenine sud">Medenine sud</option>
+          
+          <option value="Megrine">Megrine</option>
+          
+          <option value="Mejel bel abbes">Mejel bel abbes</option>
+          
+          <option value="Meknassy">Meknassy</option>
+          
+          <option value="Melloulech">Melloulech</option>
+          
+          <option value="Menzel bourguiba">Menzel bourguiba</option>
+          
+          <option value="Menzel bouzaiane">Menzel bouzaiane</option>
+          
+          <option value="Menzel bouzelfa">Menzel bouzelfa</option>
+          
+          <option value="Menzel chaker">Menzel chaker</option>
+          
+          <option value="Menzel el habib">Menzel el habib</option>
+          
+          <option value="Menzel jemil">Menzel jemil</option>
+          
+          <option value="Menzel Mhiri">Menzel Mhiri</option>
+          
+          <option value="Menzel temime">Menzel temime</option>
+          
+          <option value="Metlaoui">Metlaoui</option>
+          
+          <option value="Mezzouna">Mezzouna</option>
+          
+          <option value="Mjaz el bab">Mjaz el bab</option>
+          
+          <option value="Mohamedia">Mohamedia</option>
+          
+          <option value="Moknine">Moknine</option>
+          
+          <option value="Monastir">Monastir</option>
+          
+          <option value="Mornag">Mornag</option>
+          
+          <option value="Mornaguia">Mornaguia</option>
+          
+          <option value="Mornaguia">Mornaguia</option>
+          
+          <option value="Msaken">Msaken</option>
+          
+          <option value="Nabeul">Nabeul</option>
+          
+          <option value="Nasrallah">Nasrallah</option>
+          
+          <option value="Nebeur">Nebeur</option>
+          
+          <option value="Nefta">Nefta</option>
+          
+          <option value="Nefza">Nefza</option>
+          
+          <option value="Nouvelle matmata">Nouvelle matmata</option>
+          
+          <option value="Nouvelle medina">Nouvelle medina</option>
+          
+          <option value="Om el araies">Om el araies</option>
+          
+          <option value="Oudhref">Oudhref</option>
+          
+          <option value="Oued Ellil">Oued Ellil</option>
+          
+          <option value="Oued ellil">Oued ellil</option>
+          
+          <option value="Oued meliz">Oued meliz</option>
+          
+          <option value="Ouerdanine">Ouerdanine</option>
+          
+          <option value="Ouled chamekh">Ouled chamekh</option>
+          
+          <option value="Ouled haffouz">Ouled haffouz</option>
+          
+          <option value="Rades">Rades</option>
+          
+          <option value="Raoued">Raoued</option>
+          
+          <option value="Ras el jebel">Ras el jebel</option>
+          
+          <option value="Redayef">Redayef</option>
+          
+          <option value="Regueb">Regueb</option>
+          
+          <option value="Rejich">Rejich</option>
+          
+          <option value="Remada">Remada</option>
+          
+          <option value="Rjim Maatoug">Rjim Maatoug</option>
+          
+          <option value="Rouhia">Rouhia</option>
+          
+          <option value="Sahline">Sahline</option>
+          
+          <option value="Sakiet eddaier">Sakiet eddaier</option>
+          
+          <option value="Sakiet ezzit">Sakiet ezzit</option>
+          
+          <option value="Sakiet sidi youssef">Sakiet sidi youssef</option>
+          
+          <option value="Sammar">Sammar</option>
+          
+          <option value="Saouaf">Saouaf</option>
+          
+          <option value="Sayada lamta bouhjar">Sayada lamta bouhjar</option>
+          
+          <option value="Sbeitla">Sbeitla</option>
+          
+          <option value="Sbiba">Sbiba</option>
+          
+          <option value="Sbikha">Sbikha</option>
+          
+          <option value="Sejnane">Sejnane</option>
+          
+          <option value="Sfax nord">Sfax nord</option>
+          
+          <option value="Sfax ouest">Sfax ouest</option>
+          
+          <option value="Sfax sud">Sfax sud</option>
+          
+          <option value="Sfax ville">Sfax ville</option>
+          
+          <option value="Sidi Abdelhamid">Sidi Abdelhamid</option>
+          
+          <option value="Sidi aiech">Sidi aiech</option>
+          
+          <option value="Sidi alouane">Sidi alouane</option>
+          
+          <option value="Sidi amor bouhajla">Sidi amor bouhajla</option>
+          
+          <option value="Sidi bou ali">Sidi bou ali</option>
+          
+          <option value="Sidi Boubaker">Sidi Boubaker</option>
+          
+          <option value="Sidi bouzid est">Sidi bouzid est</option>
+          
+          <option value="Sidi bouzid ouest">Sidi bouzid ouest</option>
+          
+          <option value="Sidi el bechir">Sidi el bechir</option>
+          
+          <option value="Sidi el hani">Sidi el hani</option>
+          
+          <option value="Sidi hassine">Sidi hassine</option>
+          
+          <option value="Sidi makhlouf">Sidi makhlouf</option>
+          
+          <option value="Sidi thabet">Sidi thabet</option>
+          
+          <option value="Sijoumi">Sijoumi</option>
+          
+          <option value="Siliana">Siliana</option>
+          
+          <option value="Siliana nord">Siliana nord</option>
+          
+          <option value="Siliana sud">Siliana sud</option>
+          
+          <option value="Skhira">Skhira</option>
+          
+          <option value="Soliman">Soliman</option>
+          
+          <option value="Souk el ahad">Souk el ahad</option>
+          
+          <option value="Souk jedid">Souk jedid</option>
+          
+          <option value="Sousse jawhara">Sousse jawhara</option>
+          
+          <option value="Sousse riadh">Sousse riadh</option>
+          
+          <option value="Sousse ville">Sousse ville</option>
+          
+          <option value="Tabarka">Tabarka</option>
+          
+          <option value="Tajerouine">Tajerouine</option>
+          
+          <option value="Takelsa">Takelsa</option>
+          
+          <option value="Tamaghza">Tamaghza</option>
+          
+          <option value="Tataouine">Tataouine</option>
+          
+          <option value="Tataouine nord">Tataouine nord</option>
+          
+          <option value="Tataouine sud">Tataouine sud</option>
+          
+          <option value="Teboulba">Teboulba</option>
+          
+          <option value="Tebourba">Tebourba</option>
+          
+          <option value="Tebourba">Tebourba</option>
+          
+          <option value="Teboursouk">Teboursouk</option>
+          
+          <option value="Testour">Testour</option>
+          
+          <option value="Thala">Thala</option>
+          
+          <option value="Thibar">Thibar</option>
+          
+          <option value="Thyna">Thyna</option>
+          
+          <option value="Tinja">Tinja</option>
+          
+          <option value="Touiref">Touiref</option>
+          
+          <option value="Tozeur">Tozeur</option>
+          
+          <option value="Tunis medina">Tunis medina</option>
+          
+          <option value="Utique">Utique</option>
+          
+          <option value="Zaghouan">Zaghouan</option>
+          
+          <option value="Zanouche">Zanouche</option>
+          
+          <option value="Zarzis">Zarzis</option>
+          
+          <option value="Zarzouna">Zarzouna</option>
+          
+          <option value="Zeramdine">Zeramdine</option>
+          
+          <option value="Zriba">Zriba</option>
+          
+        </select></td>
+    </tr>
+
+    <tr>
+    <td class="v-BDIInd" width="25%"><b>Foreign participant country</b></td>
+      <td class="v-BDIInd" width="75%" colspan="3">
+          <select name="pays" size="1" class="selectClass1">
+          <option value="">                                </option>
+          
+          <option value="AL">Albania</option>
+          
+          <option value="DZ">Algeria</option>
+          
+          <option value="AU">Australia</option>
+          
+          <option value="AT">Austria</option>
+          
+          <option value="BH">Bahrain</option>
+          
+          <option value="BE">Belgium</option>
+          
+          <option value="BG">Bulgaria</option>
+          
+          <option value="KY">Caiman</option>
+          
+          <option value="CA">Canada</option>
+          
+          <option value="CN">China</option>
+          
+          <option value="CG">Congo</option>
+          
+          <option value="CI">Cote d'ivoire</option>
+          
+          <option value="KR">Democratic republic of korea</option>
+          
+          <option value="DK">Denmark</option>
+          
+          <option value="EG">Egypt</option>
+          
+          <option value="FI">Finland</option>
+          
+          <option value="FR">France</option>
+          
+          <option value="DE">Germany</option>
+          
+          <option value="GI">Gibraltar</option>
+          
+          <option value="GR">Greece</option>
+          
+          <option value="HU">Hungary</option>
+          
+          <option value="IN">India</option>
+          
+          <option value="IQ">Iraq</option>
+          
+          <option value="IT">Italy</option>
+          
+          <option value="JP">Japan</option>
+          
+          <option value="JO">Jordan</option>
+          
+          <option value="KW">Kuwait</option>
+          
+          <option value="LB">Lebanon</option>
+          
+          <option value="LY">Libyan arab jamahiriya</option>
+          
+          <option value="LU">Luxembourg</option>
+          
+          <option value="MT">Malta</option>
+          
+          <option value="MU">Mauritius</option>
+          
+          <option value="MC">Monaco</option>
+          
+          <option value="MA">Morocco</option>
+          
+          <option value="NL">Netherlands</option>
+          
+          <option value="NO">Norway</option>
+          
+          <option value="PT">Portugal</option>
+          
+          <option value="QA">Qatar</option>
+          
+          <option value="RO">Romania</option>
+          
+          <option value="RU">Russian federation</option>
+          
+          <option value="SA">Saudi Arabia</option>
+          
+          <option value="SC">Seychelles</option>
+          
+          <option value="ES">Spain</option>
+          
+          <option value="SD">Sudan</option>
+          
+          <option value="SE">Sweden</option>
+          
+          <option value="CH">Switzerland</option>
+          
+          <option value="SY">Syrian Arab Republic</option>
+          
+          <option value="TH">Thailand</option>
+          
+          <option value="TR">Turkey</option>
+          
+          <option value="UK">Ukraine</option>
+          
+          <option value="AE">United Arab Emirates</option>
+          
+          <option value="GB">United Kingdom of Great Britai</option>
+          
+          <option value="US">USA</option>
+          
+        </select></td>
+    </tr>
+    <td class="v-BDIInd" width="25%"><b>Market</b></td>
+      <td class="v-BDIInd" width="75%" colspan="3">
+          <select name="regime" size="1" class="selectClass1">
+          
+          <option value="">                                </option>
+          <option value="0">Non totalement exportatrice</option>
+          <option value="1">Totalement exportatrice</option>
+          
+          
+        </select></td>
+    <tr>
+    <td class="v-BDIInd" width="25%">
+    <div align="left"> 
+          <b>Share Capital DT</b></div>
+      </td>
+      <td class="v-BDIInd" width="75%" colspan="3">
+      More or equal to&nbsp; <input type="text" name="cap1" size="8" value="" onkeypress="window.event.returnValue=IsDigit();">&nbsp; Less or equal 
+      to <input type="text" name="cap2" size="8" value="" onkeypress="window.event.returnValue=IsDigit();" ></td>
+    <tr>
+   <td class="v-BDIInd" width="25%">
+          <b>Employees</b> </td>
+      <td class="v-BDIInd" width="75%" colspan="3">
+      More or equal to&nbsp; <input type="text" name="emp1" size="8" value="" onkeypress="window.event.returnValue=IsDigit();">&nbsp; Less or equal 
+      to <input type="text" name="emp2" size="8" value="" onkeypress="window.event.returnValue=IsDigit();"></td>
+    <tr>
+      <td width="100%" class="tabtd" colspan="4">
+      <input type="submit" value="Search" class="button voted">
+      </td>
+    </tr>
+
+    <tr>
+      <td width="100%" colspan="4">
+<p id="breadcrumb">
+     - Continuous updates with multi-criteria search : 4,604 companies recorded until 8/31/2025.<br>
+     - Total modifications for the period running from the 8/1/2025 to 8/31/2025: 0<br>
+     
+         - 0 new companie(s)<br>
+          
+     
+     - 0 companies removed from the base<br>
+</p>
+
+      </td>
+    </tr>
+    </table>
+<input type="hidden" name ="action" value="search">
+</form>
+
+
+<P>For any modification in your industrial data, please fill <b><a target="_blank" href="../fr/download/CDII/Formulaire_Enquete.docx">
+the form </a></b> and send it to the mail adress <a href="mailto:enquetes.industrie@apii.tn">enquetes.industrie@apii.tn</a>.  
+</P>
+
+
+</div></div></div></div><aside><div class='panel-zonerubrique'>
+<h2 class="hr"> Online Services</h2>
+              <nav class="vnav"><ul class="vnav-menu"><li><a  class="vnav-item" href="link.asp?mcat=4&mrub=82" >Declaration for the realization of an industrial project</a></li><li><a  class="vnav-item" href="link.asp?mcat=4&mrub=188" >Declaration for the realization of a service project</a></li><li  class="activex"><a  class="vnav-item" href="link.asp?mcat=4&mrub=193" >Directory of industrial enterprises</a></li><li><a  class="vnav-item" href="link.asp?mcat=4&mrub=86" >Tunisian Certified Enterprises</a></li><li><a  class="vnav-item" href="link.asp?mcat=4&mrub=202" >Virtual Exhibition</a></li><li><a  class="vnav-item" href="doc.asp?mcat=4&mrub=204" >Documentary data base</a></li><li><a  class="vnav-item" href="link.asp?mcat=4&mrub=151" >Business plan online</a></li><li><a  class="vnav-item" href="doc.asp?mcat=4&mrub=155" >Useful documents</a></li><li><a  class="vnav-item" href="doc.asp?mcat=4&mrub=191" >API publications</a></li></ul></nav></div></aside>
+<aside>
+<div class="panel-zoneright">
+
+<div class="panel-zoneright-title"><h3></h3></div>
+   <ul class="grid list-item">
+   <li class="colo n-6">
+	<div class="panel  grid-padding-bottomfooter" id="panel-f">
+	<div class="panel-in" >
+		<div class="panel-in2"><a href="dec_industrie.asp">
+				<div data-picture data-alt="Declaration of an industrial project" title="Declaration of an industrial project" class="img-panel-bg">
+					<div data-src="images/HomePage/declaration.jpg" ></div>								
+                 </div>								
+
+				<div class="content-text white90">
+					<span class="label s_95p">Declaration of an industrial project</span>
+					<div class="content-text-in">
+			    </div></a>
+		</div> </div></div> </div>
+    </li>
+
+   <li class="colo n-66">
+	<div class="panel  grid-padding-bottomfooter" id="panel-f">
+	<div class="panel-in" >
+		<div class="panel-in2"><a href="dec_services.asp">
+				<div data-picture data-alt="Declaration of a service project" title="Declaration of a service project" class="img-panel-bg">
+					<div data-src="images/HomePage/declaration_s.jpg" ></div>								
+                 </div>								
+
+				<div class="content-text white90">
+					<span class="label s_95p">Declaration of a service project</span>
+					<div class="content-text-in">
+			    </div></a>
+		</div> </div></div> </div>
+    </li>
+  </ul>
+  
+   <ul class="grid list-item">
+   <li class="colo n-6last">
+	<div class="panel  grid-padding-bottomfooter" id="panel-f">
+	<div class="panel-in" >
+		<div class="panel-in2"><a href="dbi.asp">
+				<div data-picture data-alt="Directory of industrial enterprises" title="Directory of industrial enterprises" class="img-panel-bg">
+					<div data-src="images/HomePage/annuaire.jpg" ></div>								
+                 </div>								
+
+				<div class="content-text white90">
+					<span class="label s_95p">Directory of industrial enterprises</span>
+					<div class="content-text-in">
+			    </div></a>
+		</div> </div></div> </div>
+    </li>
+
+   <li class="colo n-66last">
+	<div class="panel  grid-padding-bottomfooter" id="panel-f">
+	<div class="panel-in" >
+		<div class="panel-in2"><a href="dbs.asp">
+				<div data-picture data-alt="Directory of Service enterprises" title="Directory of Service enterprises" class="img-panel-bg">
+					<div data-src="images/HomePage/annuaire_s.jpg" ></div>								
+                 </div>								
+
+				<div class="content-text white90">
+					<span class="label s_95p">Directory of Service enterprises</span>
+					<div class="content-text-in">
+			    </div></a>
+		</div> </div></div> </div>
+    </li>
+  </ul>
+<aside><br></aside>
+</aside></div></div>
+
+<div class="wrapper  clearfix"></div></div>
+<div class="panel-zoneright"></div>
+<div id="wrapper-footer" class="clearfix">
+	<div class="wrapper clearfix" role="contentinfo">
+		<div class="box-left clearfix">
+			<div class="panel-footer first-desktop"><a target="_blank" href="http://www.eentunisia.tn/opportunites-d-affaires-europe" title="Publishing business opportunity">
+               <div class="a-center"><img src="images/homepage/opport.jpg"	alt="Publication des opportunités"	title="Publishing business opportunity" width="159" height="166" />
+               <h3 class="s_110p">Publishing business opportunity</h3></a>
+			</div>
+			</div>
+			<div class="panel-footer"><a target="_blank" href="../fr/doc.asp?mcat=3&mrub=187" title="Courrier de l'Industrie">
+               <div class="a-center"><img class="f-none" src="../fr/download/ci/ci.png"	alt="Courrier de l'Industrie"	title="Courrier de l'Industrie" width="159" height="166" />
+               <h3 class="s_110p">Industry Magazine <br> "Courrier de l'Industrie"</h3></a>
+			</div>
+           </div>
+			<div class="panel-footer"><a href="doc.asp?mcat=3&mrub=23"  title="Bulletin de conjoncture">
+               <div class="a-center"><img src="images/homepage/suivi.jpg"	alt="Bulletin de conjoncture"	title="Bulletin de conjoncture" width="159" height="166" />
+               <h3 class="s_110p">Bulletin of industrial indicators</h3></a>
+			</div>
+ 			</div>
+
+			<div class="panel-footer"><a target="_blank" href="../fr/download/CFGA/Manuel_procedures_2016.pdf" title="Manuel des procédures - Guide de l'investisseur">
+               <div class="a-center"><img src="../fr/images/homepage/manuel.png"	alt="Bulletin veille API"	title="Bulletin veille API" width="159" height="166" />
+               <h3 class="s_110p">Procedures manual - Investor's guide</h3></a>
+			</div>
+			</div>
+    	</div>
+		<div class="box-right">
+			<div class="panel-footer">
+           <script language="javascript">
+				function validatenewsletter()
+				{
+	           // alert ("ok");
+	           // return false;
+             
+				if (document.mlform.mlemail.value== '' || mlform.mlemail.value.indexOf('@', 0) == -1  || mlform.mlemail.value.indexOf('.', 0) == -1) 
+				{
+				alert ('Newsletter : Email manquant ou invalide !') ;
+				document.mlform.mlemail.focus();
+				return false ; 
+				}
+				
+				}
+				//--
+		   </script>         
+
+				<div class="footer-search">
+  				   <form name="mlform" method="post" action="maillist.asp" onsubmit="return validatenewsletter()">
+					<h3 class="s_120p">Receive our newsletter</h3> 
+                  <input type="text" placeholder="" required size="15" name="mlemail">
+                  <button class="button1 orange"  name="mlok" type="submit">Sign up</button>
+					</form>
+				</div>
+				<br>
+				<div class="footer-social">
+					<div class="clearfix">
+						<div class="SOCIAL first"><a class="hovering" href="https://www.facebook.com/APIITUNISIE" target="_blank">
+							<img src="images/homepage/footer-facebook-hover.png" alt="Facebook" title="Facebook" class="off-hover" width="50" height="50" />
+						</a></div>
+						<div class="SOCIAL"><a class="hovering" href="https://x.com/APIITunisie" target="_blank">
+							<img src="images/homepage/footer-twitter-hover.png" alt="Twitter" title="Twitter" class="off-hover" width="50" height="50" />
+						</a></div>
+						<div class="SOCIAL last"><a class="hovering" href="https://www.youtube.com/@APIITUNISIE" target="_blank">
+							<img src="images/homepage/footer-youtube-hover.png" alt="Youtube" title="Youtube" class="off-hover" width="50" height="50" />
+						</a></div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div  id="wrapper-copyright">
+	<div class="copyright">
+	<p class="left"><a href="../fr/doc.asp?mcat=25&mrub=205">Copyright © API Tunisia 2018 - Tous droits réservés</a></p>
+	<p class="right"> Last updated: 25&nbsp;March&nbsp;2026</p><br>
+	
+		<p class="a-center">
+			Agency for the Promotion of Industry and Innovation <br>63, rue de Syrie, 1002 Tunis Belvédère - Tunisie <br>
+			<span class="serverid">Tel.: (216) 71 792 144 - Fax: (216) 71 782 482 -  E-mail : 
+            <a href="mailto:apii@apii.tn">apii@apii.tn</a> </span>
+		</p>
+
+	</div>
+</div>
+</section>
+<section id="see-it">
+</section>
+<div class="scroll-to-top">
+</div>
+</div>
+            </div>
+

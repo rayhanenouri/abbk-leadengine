@@ -1,0 +1,19 @@
+Date: Fri, 26 Jun 2026 10:57:38 GMT
+Content-Type: text/html; charset=UTF-8
+Server: cloudflare
+Expires: Wed, 11 Jan 1984 05:00:00 GMT
+Cache-Control: public, max-age=300, must-revalidate
+X-Redirect-By: WordPress
+Vary: User-Agent
+Location: https://www.tunisienumerique.com/economie-45-jours-pour-sauver-les-meubles/
+X-Frame-Options: SAMEORIGIN
+X-Xss-Protection: 1; mode=block
+X-Content-Type-Options: nosniff
+X-Cache-Status: MISS
+X-Powered-By: PleskLin
+Cf-Cache-Status: MISS
+Nel: {"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}
+Server-Timing: cfCacheStatus;desc="MISS"
+Server-Timing: cfEdge;dur=7,cfOrigin;dur=2428
+Report-To: {"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=bBxSGOwWfjyAdZafadQ7NoiYTdcVhc%2FmbPW%2B8gAHFRvUn8VVmXMmF6kuRXtcPlGQ4BZtajRo%2BdYdxpPW1XoKu3tNIUIe%2FvbN4LYhNu6JswH7fWsJHf1rPsKwzlTUIll4ra%2FiEAQS25g%2BiQ%3D%3D"}]}
+Cf-Ray: a11bb12aef766488-MRS

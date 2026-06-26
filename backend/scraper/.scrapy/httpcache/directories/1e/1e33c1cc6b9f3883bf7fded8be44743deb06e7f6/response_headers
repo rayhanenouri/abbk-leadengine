@@ -1,0 +1,15 @@
+Server: nginx
+Date: Fri, 26 Jun 2026 10:57:32 GMT
+Content-Type: text/html; charset=UTF-8
+X-Xss-Protection: 1
+X-Powered-By: SECURAS
+X-Frame-Options: sameorigin
+X-Content-Type-Options: nosniff
+Strict-Transport-Security: max-age=15552000; preload
+Expires: Wed, 11 Jan 1984 05:00:00 GMT
+Cache-Control: no-cache, must-revalidate, max-age=0
+Link: <https://www.conect.org.tn/wp-json/>; rel="https://api.w.org/"
+X-Tec-Api-Version: v1
+X-Tec-Api-Root: https://www.conect.org.tn/wp-json/tribe/events/v1/
+X-Tec-Api-Origin: https://www.conect.org.tn
+Set-Cookie: _wp_session=0f449571921a9012dc8d8e9068a61af1%7C%7C1782473248%7C%7C1782472888; expires=Fri, 26-Jun-2026 11:27:28 GMT; Max-Age=1800; path=/

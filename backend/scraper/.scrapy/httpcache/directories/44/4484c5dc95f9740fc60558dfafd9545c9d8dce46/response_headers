@@ -1,0 +1,18 @@
+Date: Fri, 26 Jun 2026 11:09:47 GMT
+Content-Type: text/html; charset=UTF-8
+Server: Apache
+X-Powered-By: PHP/8.5
+Content-Encoding: gzip
+Vary: Accept-Encoding
+Strict-Transport-Security: max-age=31536000; includeSubDomains
+X-Frame-Options: SAMEORIGIN
+Referrer-Policy: strict-origin-when-cross-origin
+X-Content-Type-Options: nosniff
+X-Permitted-Cross-Domain-Policies: none
+X-Xss-Protection: 0
+Permissions-Policy: camera=(), microphone=(), geolocation=(self), payment=(), usb=()
+Permissions-Policy: unload=()
+Content-Security-Policy: default-src 'unsafe-inline' 'unsafe-eval' 'self' data: blob: *.googleapis.com *.gstatic.com *.google.com *.googletagmanager.com *.google-analytics.com *.facebook.net *.tinymce.com *.tiny.cloud *.facebook.com *.jsdelivr.net cdn-cookieyes.com *.cookieyes.com *.doubleclick.net  *.google.tn *.studi.com.tn *.googlesyndication.com *.youtube.com *.youtube-nocookie.com secure.gravatar.com;
+Cache-Control: max-age=172800
+Expires: Sun, 28 Jun 2026 11:09:47 GMT
+Accept-Ranges: none

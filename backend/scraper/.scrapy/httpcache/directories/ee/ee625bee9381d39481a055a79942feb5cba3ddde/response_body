@@ -1,0 +1,755 @@
+
+<head>
+<title>Companies with 100% foreign capital</title>
+<meta name="description" content="Gateway site of Tunisian industry, summarizing advantages and incentives and containing a dynamic data base">
+<meta name="keywords" content="Tunisia, Tunisian, Industry, API, Creation, Economy, Companies, economic situation, data bank, incentive, incentives, investment, partnership">
+<meta name="robots" content="index,follow" /> 
+<link rel="shortcut icon" href="images/api.ico" type="image/x-icon"/> 
+<link rel="icon" href="images/api.ico" type="image/x-icon"/>
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-18832289-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+<head>
+<link href="css/styles.css" rel="stylesheet" type="text/css" />
+<link href="css/layout.css" rel="stylesheet" type="text/css" />
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="js/main3860.js" type="text/javascript"></script>
+<script type="text/javascript" src="js/retina.js"></script>
+<script type="text/javascript" src="js/picturefill.js"></script>
+<script type="text/javascript" src="js/mootools.v1.11.js"></script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-060KDYXTRK"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-060KDYXTRK');
+</script>
+</head>
+
+
+<section id="scroll-down">
+<div id="wrapperhaut">
+	<div id="haut" class="wrapper clearfix">
+			<div class="navigation-menu">
+				<ul>
+			      <LI class="first"><a href="../fr/home.asp" title="Français">Français</a></LI>
+			      <LI><a href="../ar/home.asp" id="to-top" title="&#1593;&#1585;&#1576;&#1610;"> &#1593;&#1585;&#1576;&#1610;</a></LI>
+				</ul>
+			</div>
+		<p class="f-lefttitle"> Republic of Tunisia  | Ministry  of Industry, Energy and Mines</p>
+	</div>
+</div>
+<div id="wrap-haut">
+ <div id="wrap-nav">
+ <a href="home.asp" title="Tunisian Industry Portal" >
+	<div id="navigation" class="clearfix">
+			<div id="logo">
+				<img src="images/bg/banner.png" alt="Tunisian Industry Portal" title="Tunisian Industry Portal - Home page" /></a>
+			</div>
+			<div class="navigation-recherch">
+ 				<div class="search-wrapper">
+              <form class="a-center" method="post" action="recherche.asp" name="formrecherche">
+                  <input type="text" placeholder="Search..." required size="13" name="cles">
+                  <button class="button1 dark" type="submit">Search</button>
+              </form> 
+            </div>
+	       </div>	
+   </div>
+ </div>
+</div>
+<div class="wrapper-menu  clearfix">
+<div id="wrap-menu">
+<div id="wrapper-navigation">
+<div id="main-menu" class="row row-main">
+<div class="shadowUp"><!--###--></div>
+
+   <ul class="reset">
+    
+          <li id='menu-01' class='first'><a href="home.asp">Home</a></li>
+    
+          <li id='menu-02'><a href="#">Incentives and Benefits</a>
+    
+      <div class='submenu submenu-left'>
+      	<div class='row'>
+      <div class="colm col-submenu-a">
+            <h3><a class ="rub" href="doc.asp?mcat=12&mrub=209" onmouseover ="overme(this.sourceIndex)" onmouseout ="outme(this.sourceIndex)" >New Legislative Framework</a></h3><h3><a class ="rub" href="doc.asp?mcat=12&mrub=210" onmouseover ="overme(this.sourceIndex)" onmouseout ="outme(this.sourceIndex)" >Activity sectors</a></h3><h3><a class ="rub" href="doc.asp?mcat=12&mrub=207" onmouseover ="overme(this.sourceIndex)" onmouseout ="outme(this.sourceIndex)" >Activities requiring pre-authorization</a></h3><h3><a class ="rub" href="doc.asp?mcat=12&mrub=208" onmouseover ="overme(this.sourceIndex)" onmouseout ="outme(this.sourceIndex)" >Granting and release of financial benefits</a></h3><h3><a class ="rub" href="doc.asp?mcat=12&mrub=206" onmouseover ="overme(this.sourceIndex)" onmouseout ="outme(this.sourceIndex)" >Modernization Program</a></h3>
+      </div>
+      <div class="colm col-submenu-c">
+         <div class="text-box">
+          <a href="download/CFGA/Code.pdf" target="_blank">
+          <img src="images/HomePage/code.jpg" alt="code d'incitations aux investissements" />
+          <p>The Investment Incentives Code</p></a> </div>
+        </div></div>
+     </li>
+     
+          <li id='menu-03'><a href="#">Enterprises Creation</a>
+    
+           <div class='submenu submenu-left'>
+            <div class='row'>
+            <div class="colm col-submenu-a">
+             <h3><a class ="rub" href="link.asp?mcat=16&mrub=148" onmouseover ="overme(this.sourceIndex)" onmouseout ="outme(this.sourceIndex)" >Project idea</a></h3><h3><a class ="rub" href="doc.asp?mcat=16&mrub=182" onmouseover ="overme(this.sourceIndex)" onmouseout ="outme(this.sourceIndex)" >Support structures</a></h3><h3><a class ="rub" href="doc.asp?mcat=16&mrub=122" onmouseover ="overme(this.sourceIndex)" onmouseout ="outme(this.sourceIndex)" >On-line project declaration</a></h3><h4>One-Stop Window</h4><h3><ul><li><a class =rub href="doc.asp?mcat=16&mrub=186&msrub=267&dev=true"  > Presentation&nbsp; </a></li><li><a class =rub href="doc.asp?mcat=16&mrub=186&msrub=268&dev=true"  > Delivery of a certificate of deposit - declaration&nbsp; </a></li><li><a class =rub href="doc.asp?mcat=16&mrub=186&msrub=269&dev=true"  > Legal constitution of companies&nbsp; </a></li><li><a class =rub href="doc.asp?mcat=16&mrub=186&msrub=270&dev=true"  > Other kinds of services&nbsp; </a></li><li><a class =rub href="doc.asp?mcat=16&mrub=186&msrub=271&dev=true"  > Assistance and information&nbsp; </a></li></ul><h3><a class ="rub" href="link.asp?mcat=16&mrub=138" onmouseover ="overme(this.sourceIndex)" onmouseout ="outme(this.sourceIndex)" >Enterprises incubators</a></h3><h3><a class ="rub" href="doc.asp?mcat=16&mrub=203" onmouseover ="overme(this.sourceIndex)" onmouseout ="outme(this.sourceIndex)" >Technical centers</a></h3><h3><a class ="rub" href="doc.asp?mcat=16&mrub=157" onmouseover ="overme(this.sourceIndex)" onmouseout ="outme(this.sourceIndex)" >Technopoles in Tunisia</a></h3>
+            </div>
+            <div class="colm col-submenu-c">
+             <div class="text-boxlast">
+              <a href="doc.asp?mcat=16&mrub=122">
+              <img src="images/HomePage/declaration.jpg" alt="Déclaration en ligne de votre projet d’investissement" />
+               <p>On-line project declaration</p></a></div>
+       </div></div>
+          </li>
+    
+          <li id='menu-04'><strong class='active'>Industry Information</strong>
+    
+           <div class='submenu submenu-left'>
+            <div class='row'>
+            <div class="colm col-submenu-a">
+             <h3><a class ="rub" href="doc.asp?mcat=3&mrub=23" onmouseover ="overme(this.sourceIndex)" onmouseout ="outme(this.sourceIndex)" >Bulletin of industrial indicators</a></h3><h3><a class ="rub" href="doc.asp?mcat=3&mrub=211" onmouseover ="overme(this.sourceIndex)" onmouseout ="outme(this.sourceIndex)" >Major projects - follow-up</a></h3><h4>Operational companies - Industry</h4><h3><ul><li><a class =rub href="link.asp?mcat=3&mrub=24&msrub=276&dev=true"  > Tunisian industry&nbsp; </a></li><li><a class =rub href="link.asp?mcat=3&mrub=24&msrub=277&dev=true"  > Tunisian companies&nbsp; </a></li><li><a class =rub href="link.asp?mcat=3&mrub=24&msrub=278&dev=true"  > Mixed companies&nbsp; </a></li><li><a class =rub href="link.asp?mcat=3&mrub=24&msrub=279&dev=true"  > Companies with 100% foreign capital&nbsp; </a></li></ul>
+            </div>
+            <div class="colm col-submenu-c">
+              <div class="text-box">
+              <a href="doc.asp?mcat=3&mrub=23">
+                 <img src="images/HomePage/conjoncture.jpg" alt="Bulletin de conjoncture" />
+                 <p>Bulletin of industrial indicators</p></a></div>
+              </div>
+          </li>
+    
+          <li id='menu-05'><a href="etudes.asp">Studies and Monographs</a>
+       
+      <div class='submenu submenu-right'>
+      	<div class='row'>
+      <div class="colm col-submenu-a">
+            <h3><a class ="rub" href="doc.asp?mcat=13&mrub=140" onmouseover ="overme(this.sourceIndex)" onmouseout ="outme(this.sourceIndex)" >Industrial studies</a></h3><h3><a class ="rub" href="doc.asp?mcat=13&mrub=172" onmouseover ="overme(this.sourceIndex)" onmouseout ="outme(this.sourceIndex)" >Regional studies</a></h3><h3><a class ="rub" href="doc.asp?mcat=13&mrub=173" onmouseover ="overme(this.sourceIndex)" onmouseout ="outme(this.sourceIndex)" >Industrial strategy 2016</a></h3><h3><a class ="rub" href="doc.asp?mcat=13&mrub=195" onmouseover ="overme(this.sourceIndex)" onmouseout ="outme(this.sourceIndex)" >Sectoral monographs</a></h3><h3><a class ="rub" href="doc.asp?mcat=13&mrub=105" onmouseover ="overme(this.sourceIndex)" onmouseout ="outme(this.sourceIndex)" >Regional monographs</a></h3>
+      </div>
+      <div class="colm col-submenu-c">
+         <div class="text-boxlast">
+          <a href="etudes.asp">
+          <img src="images/HomePage/etudesvue.jpg" alt="Etudes et monographies sectorielles réalisées par l'API" />
+          <p>Etudes et monographies sectorielles réalisées par l'API</p></a></div>
+       </div></div>
+     </li>
+    
+          <li id='menu-07' class='last' ><a href="#">Online Services</a>
+    
+      <div class='submenu submenu-right'>
+      	<div class='row'>
+         <div class="colm col-submenu-a">
+            <h3><a class ="rub" href="link.asp?mcat=4&mrub=82" onmouseover ="overme(this.sourceIndex)" onmouseout ="outme(this.sourceIndex)" >Declaration for the realization of an industrial project</a></h3><h3><a class ="rub" href="link.asp?mcat=4&mrub=188" onmouseover ="overme(this.sourceIndex)" onmouseout ="outme(this.sourceIndex)" >Declaration for the realization of a service project</a></h3><h3><a class ="rub" href="link.asp?mcat=4&mrub=193" onmouseover ="overme(this.sourceIndex)" onmouseout ="outme(this.sourceIndex)" >Directory of industrial enterprises</a></h3><h3><a class ="rub" href="link.asp?mcat=4&mrub=86" onmouseover ="overme(this.sourceIndex)" onmouseout ="outme(this.sourceIndex)" >Tunisian Certified Enterprises</a></h3><h3><a class ="rub" href="link.asp?mcat=4&mrub=202" onmouseover ="overme(this.sourceIndex)" onmouseout ="outme(this.sourceIndex)" >Virtual Exhibition</a></h3><h3><a class ="rub" href="doc.asp?mcat=4&mrub=204" onmouseover ="overme(this.sourceIndex)" onmouseout ="outme(this.sourceIndex)" >Documentary data base</a></h3><h3><a class ="rub" href="link.asp?mcat=4&mrub=151" onmouseover ="overme(this.sourceIndex)" onmouseout ="outme(this.sourceIndex)" >Business plan online</a></h3><h3><a class ="rub" href="doc.asp?mcat=4&mrub=155" onmouseover ="overme(this.sourceIndex)" onmouseout ="outme(this.sourceIndex)" >Useful documents</a></h3><h3><a class ="rub" href="doc.asp?mcat=4&mrub=191" onmouseover ="overme(this.sourceIndex)" onmouseout ="outme(this.sourceIndex)" >API publications</a></h3>
+      </div>
+      <div class="colm col-submenu-c">
+        <div class="text-box">
+          <a href="dbi.asp">
+          <img src="images/HomePage/annuaires.jpg" alt="Directory of industrial enterprises" />
+          <p>Directory of industrial enterprises</p></a>
+        </div>
+        <div class="text-boxlast">
+           <a href="salon.asp">
+           <img src="images/HomePage/salons.jpg" alt="Virtual Exhibition" />
+           <p>Virtual Exhibition</p></a>
+        </div>
+        </div></div>
+     </li>
+</ul>
+<div class="shadowDown"><!--###--></div>
+</div>
+</div>
+</div></div>
+<div id="wrapper-navigation">
+<DIV id="menu"><NAV>
+<UL class="secondLevelMenu">
+  <UL class="block">
+    <LI><A href="doc.asp?mcat=25&mrub=189">About us</A></LI>
+    <LI><A href="contact.asp">Contact us</A></LI>
+    <LI class="last"><A href="plan.asp">Site map</A></LI>       
+  </UL>
+  <UL class="middle">
+    <LI><A href="doc.asp?mcat=4&mrub=191">API publications</A></LI>
+    <LI><A href="doc.asp?mcat=13&mrub=195">Sectoral monographs </A></LI>
+  </UL>
+  <UL class="telechargement">
+    <LI class="last"><A href="doc.asp?mcat=4&mrub=155" alt="Espace Téléchargement" title="Espace Téléchargement">Espace Téléchargement</A></LI></UL> 
+  </UL>
+ </UL>
+ </div> </div>
+<script>            
+jQuery(document).ready(function() {
+var offset = 200;
+var duration = 500;
+jQuery(window).scroll(function() {
+	if (jQuery(this).scrollTop() > offset) {
+		jQuery('.scroll-to-top').fadeIn(duration);
+	} else {
+ 	jQuery('.scroll-to-top').fadeOut(duration);
+	}
+	});	
+	jQuery('.scroll-to-top').click(function(event) {
+	event.preventDefault();
+	jQuery('html, body').animate({scrollTop: 0}, duration);
+	return false;
+	})
+	});
+          </script>
+          
+<script type="text/javascript">   
+    window.addEvent('domready', function () {
+      /* Slide pour les espaces rencontres - MOOTOOLS Rock!!! */
+      var infoslide = new Object();
+      $$('.infodiv').each(function (infodiv) {
+        infoslide[infodiv.id] = new Fx.Slide(infodiv, { duration : 500 }).hide();
+      });
+      $$('td.name').addEvent('click', function (e) {
+        var infodiv = $E('#info'+this.getParent().id+' .infodiv');
+        if (infoslide[infodiv.id].open) {
+          infoslide[infodiv.id].options.transition = Fx.Transitions['Back']['easeIn'];
+          this.setStyle('background-image', 'url(images/puce-plus.gif)');
+        } else {
+          infoslide[infodiv.id].options.transition = Fx.Transitions['Back']['easeOut'];
+          this.setStyle('background-image', 'url(images/puce-minus.gif)');
+        }
+        infoslide[infodiv.id].toggle();
+      });
+    });
+	      </script>
+
+
+<div id="wrapper-body">
+<div id="wrapper-zone">
+<div class="grid no-clear">
+<div class="container">
+<div class="colo n-12">
+
+<p id="breadcrumb"><a href='home.asp'>Home</a> <span> Industry Information </span><span>Operational companies - Industry</span><strong>Companies with 100% foreign capital</strong></p>
+
+<div class='idee'>
+<h1>Companies with 100% foreign capital</h1> 
+<h2>Entreprises</h2>
+
+<p>Companies with 100% foreign capital (Industry) is comprised of <font color="#FF0000">878 </font> enterprises having 10 or more employees, of which <font color="#FF0000">828</font> are 
+totally exporting enterprises.</p>
+<table class="one" border="0">
+<TR>
+<TD class="v-tab" width="48%">Sectors</td>
+<TD class="v-tab" width="13%">TE<FONT color=#cc0000>*</FONT></td>
+<TD class="v-tab" width="13%">OTE<FONT color=#cc0000>*</FONT></td>
+<TD class="v-tab" width="13%">Total</td>
+<TD class="v-tab" width="13%">%</TD>
+</TR>
+
+
+
+<tr >
+<td width="48%">Manufacture of food products&nbsp;</TD>                            
+<td width="13%"  class="v-middle">21&nbsp;</TD>                            
+<td width="13%"  class="v-middle">4&nbsp;</TD>                            
+<td width="13%"  class="v-middle">25&nbsp;</TD>                            
+<td width="13%"  class="v-middle">2.8%&nbsp;</TD>                            
+</tr>
+	
+
+<tr class='v-tabtr'>
+<td width="48%">Manufacture of construction products, ceramic and glass&nbsp;</TD>                            
+<td width="13%"  class="v-middle">8&nbsp;</TD>                            
+<td width="13%"  class="v-middle">11&nbsp;</TD>                            
+<td width="13%"  class="v-middle">19&nbsp;</TD>                            
+<td width="13%"  class="v-middle">2.2%&nbsp;</TD>                            
+</tr>
+	
+
+<tr >
+<td width="48%">Manufacture of mechanicals and basic metals&nbsp;</TD>                            
+<td width="13%"  class="v-middle">111&nbsp;</TD>                            
+<td width="13%"  class="v-middle">9&nbsp;</TD>                            
+<td width="13%"  class="v-middle">120&nbsp;</TD>                            
+<td width="13%"  class="v-middle">13.7%&nbsp;</TD>                            
+</tr>
+	
+
+<tr class='v-tabtr'>
+<td width="48%">Manufacture of electric and electronic equipment&nbsp;</TD>                            
+<td width="13%"  class="v-middle">161&nbsp;</TD>                            
+<td width="13%"  class="v-middle">1&nbsp;</TD>                            
+<td width="13%"  class="v-middle">162&nbsp;</TD>                            
+<td width="13%"  class="v-middle">18.5%&nbsp;</TD>                            
+</tr>
+	
+
+<tr >
+<td width="48%">Manufacture of chemicals and chemical products&nbsp;</TD>                            
+<td width="13%"  class="v-middle">69&nbsp;</TD>                            
+<td width="13%"  class="v-middle">15&nbsp;</TD>                            
+<td width="13%"  class="v-middle">84&nbsp;</TD>                            
+<td width="13%"  class="v-middle">9.6%&nbsp;</TD>                            
+</tr>
+	
+
+<tr class='v-tabtr'>
+<td width="48%">Manufacture of textile and wearing apparel&nbsp;</TD>                            
+<td width="13%"  class="v-middle">355&nbsp;</TD>                            
+<td width="13%"  class="v-middle">7&nbsp;</TD>                            
+<td width="13%"  class="v-middle">362&nbsp;</TD>                            
+<td width="13%"  class="v-middle">41.2%&nbsp;</TD>                            
+</tr>
+	
+
+<tr >
+<td width="48%">Manufacture of wood and wood products&nbsp;</TD>                            
+<td width="13%"  class="v-middle">8&nbsp;</TD>                            
+<td width="13%"  class="v-middle">2&nbsp;</TD>                            
+<td width="13%"  class="v-middle">10&nbsp;</TD>                            
+<td width="13%"  class="v-middle">1.1%&nbsp;</TD>                            
+</tr>
+	
+
+<tr class='v-tabtr'>
+<td width="48%">Manufacture of leather and footwear&nbsp;</TD>                            
+<td width="13%"  class="v-middle">59&nbsp;</TD>                            
+<td width="13%"  class="v-middle">0&nbsp;</TD>                            
+<td width="13%"  class="v-middle">59&nbsp;</TD>                            
+<td width="13%"  class="v-middle">6.7%&nbsp;</TD>                            
+</tr>
+	
+
+<tr >
+<td width="48%">Other manufacturing&nbsp;</TD>                            
+<td width="13%"  class="v-middle">36&nbsp;</TD>                            
+<td width="13%"  class="v-middle">1&nbsp;</TD>                            
+<td width="13%"  class="v-middle">37&nbsp;</TD>                            
+<td width="13%"  class="v-middle">4.2%&nbsp;</TD>                            
+</tr>
+	
+
+
+<tr>
+<TD class="v-tab" width="48%">Total</TD>
+<TD class="v-tab" width="13%">828 &nbsp;</TD>                            
+<TD class="v-tab" width="13%">50&nbsp;</TD>
+<TD class="v-tab" width="13%">878&nbsp;</TD>
+<TD class="v-tab" width="13%">100%&nbsp;</TD>
+</tr>
+
+</table>
+
+<br>
+<p id="breadcrumb"><FONT color=#cc0000>* </FONT>TE: Totally exporting<BR>&nbsp;&nbsp;&nbsp;OTE: Other than totally exporting <br></P>
+
+<h2>Employment</h2>
+<p> Companies with 100% foreign capital with 10 or more employees account for the employment of <font color="#FF0000">210,511 </font>
+  persons.</p>
+
+<table class="one" border="0">
+<TR>
+<TD class="v-tab" width="48%">Sectors</TD>
+<TD class="v-tab" width="13%">Employment TE<FONT color=#cc0000>*</FONT></b></TD>
+<TD class="v-tab" width="13%">Employment OTE<FONT color=#cc0000>*</FONT></b></TD>
+<TD class="v-tab" width="13%">Total</B></TD>
+<TD class="v-tab" width="13%">Share</b></TD>
+</tr>
+
+
+
+<tr >
+<td width="48%">Manufacture of food products&nbsp;</TD>                            
+<td width="13%"  class="v-middle">2,650&nbsp;</td>
+<td width="13%"  class="v-middle">1,174&nbsp;</td>                            
+<td width="13%"  class="v-middle">3,824&nbsp;</td>                            
+<td width="13%"  class="v-middle">1.8%&nbsp;</td>                            
+</tr>
+	
+
+<tr class='v-tabtr'>
+<td width="48%">Manufacture of construction products, ceramic and glass&nbsp;</TD>                            
+<td width="13%"  class="v-middle">634&nbsp;</td>
+<td width="13%"  class="v-middle">838&nbsp;</td>                            
+<td width="13%"  class="v-middle">1,472&nbsp;</td>                            
+<td width="13%"  class="v-middle">0.7%&nbsp;</td>                            
+</tr>
+	
+
+<tr >
+<td width="48%">Manufacture of mechanicals and basic metals&nbsp;</TD>                            
+<td width="13%"  class="v-middle">17,766&nbsp;</td>
+<td width="13%"  class="v-middle">845&nbsp;</td>                            
+<td width="13%"  class="v-middle">18,611&nbsp;</td>                            
+<td width="13%"  class="v-middle">8.8%&nbsp;</td>                            
+</tr>
+	
+
+<tr class='v-tabtr'>
+<td width="48%">Manufacture of electric and electronic equipment&nbsp;</TD>                            
+<td width="13%"  class="v-middle">83,961&nbsp;</td>
+<td width="13%"  class="v-middle">230&nbsp;</td>                            
+<td width="13%"  class="v-middle">84,191&nbsp;</td>                            
+<td width="13%"  class="v-middle">40.0%&nbsp;</td>                            
+</tr>
+	
+
+<tr >
+<td width="48%">Manufacture of chemicals and chemical products&nbsp;</TD>                            
+<td width="13%"  class="v-middle">10,842&nbsp;</td>
+<td width="13%"  class="v-middle">1,248&nbsp;</td>                            
+<td width="13%"  class="v-middle">12,090&nbsp;</td>                            
+<td width="13%"  class="v-middle">5.7%&nbsp;</td>                            
+</tr>
+	
+
+<tr class='v-tabtr'>
+<td width="48%">Manufacture of textile and wearing apparel&nbsp;</TD>                            
+<td width="13%"  class="v-middle">57,831&nbsp;</td>
+<td width="13%"  class="v-middle">414&nbsp;</td>                            
+<td width="13%"  class="v-middle">58,245&nbsp;</td>                            
+<td width="13%"  class="v-middle">27.7%&nbsp;</td>                            
+</tr>
+	
+
+<tr >
+<td width="48%">Manufacture of wood and wood products&nbsp;</TD>                            
+<td width="13%"  class="v-middle">2,104&nbsp;</td>
+<td width="13%"  class="v-middle">50&nbsp;</td>                            
+<td width="13%"  class="v-middle">2,154&nbsp;</td>                            
+<td width="13%"  class="v-middle">1.0%&nbsp;</td>                            
+</tr>
+	
+
+<tr class='v-tabtr'>
+<td width="48%">Manufacture of leather and footwear&nbsp;</TD>                            
+<td width="13%"  class="v-middle">22,983&nbsp;</td>
+<td width="13%"  class="v-middle">0&nbsp;</td>                            
+<td width="13%"  class="v-middle">22,983&nbsp;</td>                            
+<td width="13%"  class="v-middle">10.9%&nbsp;</td>                            
+</tr>
+	
+
+<tr >
+<td width="48%">Other manufacturing&nbsp;</TD>                            
+<td width="13%"  class="v-middle">6,825&nbsp;</td>
+<td width="13%"  class="v-middle">116&nbsp;</td>                            
+<td width="13%"  class="v-middle">6,941&nbsp;</td>                            
+<td width="13%"  class="v-middle">3.3%&nbsp;</td>                            
+</tr>
+	
+
+
+<tr>
+<TD class="v-tab" width="20%">Total</TD>
+<TD class="v-tab" width="13%">205,596&nbsp;</TD>                            
+<TD class="v-tab" width="13%">4,915&nbsp;</TD>
+<TD class="v-tab" width="13%">210,511&nbsp;</TD>
+<TD class="v-tab" width="13%">100%&nbsp;</TD>
+</tr>
+</table>
+
+<br>
+
+<p id="breadcrumb"><FONT color=#cc0000>* </FONT>TE: Totally exporting<BR>&nbsp;&nbsp;&nbsp;OTE: Other than totally exporting <br></P>
+
+
+<h2>Partnership</h2>
+  <TABLE cellSpacing=1 width="98%" border=0 style="border-collapse: collapse" bordercolor="#111111">
+<TBODY>
+
+
+
+<table class="one" border="0">
+<TR>
+<TD class="v-tab" width="50%">Sectors</TD>
+<TD class="v-tab" width="10%">France</TD>
+<TD class="v-tab" width="10%">Italy</TD>
+<TD class="v-tab" width="10%">Germany</TD>
+<TD class="v-tab" width="10%">Belgium</TD>
+<TD class="v-tab" width="10%">Other</TD>
+</TR>
+
+
+
+<tr >
+<td width="50%">Manufacture of food products&nbsp;</TD>                            
+<td width="10%"  class="v-middle">3&nbsp;</TD>                            
+<td width="10%"  class="v-middle">5&nbsp;</TD>                            
+<td width="10%"  class="v-middle">0&nbsp;</TD>                            
+<td width="10%"  class="v-middle">0&nbsp;</TD>                            
+<td width="10%"  class="v-middle">21&nbsp;</TD>                            
+</tr>
+	
+
+<tr class='v-tabtr'>
+<td width="50%">Manufacture of construction products, ceramic and glass&nbsp;</TD>                            
+<td width="10%"  class="v-middle">0&nbsp;</TD>                            
+<td width="10%"  class="v-middle">12&nbsp;</TD>                            
+<td width="10%"  class="v-middle">2&nbsp;</TD>                            
+<td width="10%"  class="v-middle">0&nbsp;</TD>                            
+<td width="10%"  class="v-middle">8&nbsp;</TD>                            
+</tr>
+	
+
+<tr >
+<td width="50%">Manufacture of mechanicals and basic metals&nbsp;</TD>                            
+<td width="10%"  class="v-middle">73&nbsp;</TD>                            
+<td width="10%"  class="v-middle">31&nbsp;</TD>                            
+<td width="10%"  class="v-middle">3&nbsp;</TD>                            
+<td width="10%"  class="v-middle">1&nbsp;</TD>                            
+<td width="10%"  class="v-middle">22&nbsp;</TD>                            
+</tr>
+	
+
+<tr class='v-tabtr'>
+<td width="50%">Manufacture of electric and electronic equipment&nbsp;</TD>                            
+<td width="10%"  class="v-middle">61&nbsp;</TD>                            
+<td width="10%"  class="v-middle">49&nbsp;</TD>                            
+<td width="10%"  class="v-middle">33&nbsp;</TD>                            
+<td width="10%"  class="v-middle">1&nbsp;</TD>                            
+<td width="10%"  class="v-middle">35&nbsp;</TD>                            
+</tr>
+	
+
+<tr >
+<td width="50%">Manufacture of chemicals and chemical products&nbsp;</TD>                            
+<td width="10%"  class="v-middle">45&nbsp;</TD>                            
+<td width="10%"  class="v-middle">27&nbsp;</TD>                            
+<td width="10%"  class="v-middle">9&nbsp;</TD>                            
+<td width="10%"  class="v-middle">1&nbsp;</TD>                            
+<td width="10%"  class="v-middle">15&nbsp;</TD>                            
+</tr>
+	
+
+<tr class='v-tabtr'>
+<td width="50%">Manufacture of textile and wearing apparel&nbsp;</TD>                            
+<td width="10%"  class="v-middle">152&nbsp;</TD>                            
+<td width="10%"  class="v-middle">96&nbsp;</TD>                            
+<td width="10%"  class="v-middle">42&nbsp;</TD>                            
+<td width="10%"  class="v-middle">42&nbsp;</TD>                            
+<td width="10%"  class="v-middle">54&nbsp;</TD>                            
+</tr>
+	
+
+<tr >
+<td width="50%">Manufacture of wood and wood products&nbsp;</TD>                            
+<td width="10%"  class="v-middle">6&nbsp;</TD>                            
+<td width="10%"  class="v-middle">2&nbsp;</TD>                            
+<td width="10%"  class="v-middle">0&nbsp;</TD>                            
+<td width="10%"  class="v-middle">0&nbsp;</TD>                            
+<td width="10%"  class="v-middle">2&nbsp;</TD>                            
+</tr>
+	
+
+<tr class='v-tabtr'>
+<td width="50%">Manufacture of leather and footwear&nbsp;</TD>                            
+<td width="10%"  class="v-middle">21&nbsp;</TD>                            
+<td width="10%"  class="v-middle">30&nbsp;</TD>                            
+<td width="10%"  class="v-middle">7&nbsp;</TD>                            
+<td width="10%"  class="v-middle">1&nbsp;</TD>                            
+<td width="10%"  class="v-middle">8&nbsp;</TD>                            
+</tr>
+	
+
+<tr >
+<td width="50%">Other manufacturing&nbsp;</TD>                            
+<td width="10%"  class="v-middle">18&nbsp;</TD>                            
+<td width="10%"  class="v-middle">9&nbsp;</TD>                            
+<td width="10%"  class="v-middle">3&nbsp;</TD>                            
+<td width="10%"  class="v-middle">3&nbsp;</TD>                            
+<td width="10%"  class="v-middle">9&nbsp;</TD>                            
+</tr>
+	
+
+
+<tr>
+<TD class="v-tab" width="25%">Total</TD>
+<TD class="v-tab" width="10%">379&nbsp;</TD>                            
+<TD class="v-tab" width="10%">261&nbsp;</TD>
+<TD class="v-tab" width="10%">99&nbsp;</TD>
+<TD class="v-tab" width="10%">49&nbsp;</TD>
+<TD class="v-tab" width="10%">174&nbsp;</TD>
+</tr>
+
+</table>
+<br>
+<p id="breadcrumb">Note: An enterprise may be counted for a number of times</FONT> </p>
+
+<table class="one" border="0">
+    <tr>
+      <td width="100%"class="v-middle" colspan="5"> <h3 align="center">Breakdown of partnership enterprises by country</h3></td>
+    </tr>
+    <tr>
+      <td width="16%" valign="bottom"><p align="center"><IMG src="images/indicateur.jpg" height='190' width="50"> </td>
+      <td width="16%" valign="bottom"><p align="center"><IMG src="images/indicateur.jpg" height='130' width="50" ></td>
+      <td width="17%" valign="bottom"><p align="center"><IMG src="images/indicateur.jpg" height='50' width="50" ></td>
+      <td width="17%" valign="bottom"><p align="center"><IMG src="images/indicateur.jpg" height='25' width="50" ></td>
+      <td width="17%" valign="bottom"><p align="center"><IMG src="images/indicateur.jpg" height='85' width="50" ></td>
+    </tr>
+    <tr>
+      <td align="center" bgcolor="#FF9900" height="1" colspan="5"></td>
+    </tr>
+    <tr>
+      <td width="16%" align="center"><b>France</b><br>(379)</td>
+      <td width="16%" align="center"><b>Italy</b><br>(261)</td>
+      <td width="17%" align="center"><b>Germany</b><br>(99)</td>
+      <td width="17%" align="center"><b>Belgium</b><br>(49)</td>
+      <td width="17%" align="center"><b>Other</b><br>(174)</td>
+    </tr>
+  </table>
+<br>
+<P dir="ltr" align="right"><FONT color=#cc0000>Source: Agency for the Promotion of Industry and Innovation - May&nbsp;2026</p></font>
+
+<br>
+</div>
+
+
+</div></div><aside><div class='panel-zonerubrique'>
+<h2 class="hr"> Industry Information</h2>
+              <nav class="vnav"><ul class="vnav-menu"><li><a  class="vnav-item" href="doc.asp?mcat=3&mrub=23" >Bulletin of industrial indicators</a></li><li><a  class="vnav-item" href="doc.asp?mcat=3&mrub=211" >Major projects - follow-up</a></li><li class="active"><a class="vnav-item" >Operational companies - Industry</a><ul class="vnav-subnav"><li><a href="link.asp?mcat=3&mrub=24&msrub=276&dev=true"> Tunisian industry&nbsp; </a></li><li><a href="link.asp?mcat=3&mrub=24&msrub=277&dev=true"> Tunisian companies&nbsp; </a></li><li><a href="link.asp?mcat=3&mrub=24&msrub=278&dev=true"> Mixed companies&nbsp; </a></li><li><a href="link.asp?mcat=3&mrub=24&msrub=279&dev=true"> <font color="#FF0000">Companies with 100% foreign capital&nbsp; </a></li></ul></ul></nav></div></aside>
+<aside>
+<div class="panel-zoneright">
+<div class="panel-zoneright-title"><h3> </h3></div>
+	<div class="panel  grid-padding-bottom" id="panel-c">
+	<div class="panel-in" >
+		<div class="panel-in2"><a href="doc.asp?mcat=4&mrub=191">
+				<div data-picture data-alt="" title="API publications" class="img-panel-bg">
+					<div data-src="images/HomePage/publication.jpg" ></div>								
+                   </div>								
+
+				<div class="content-text white90">
+					<div class="content-text-in">
+						<div class="s_110p text">API publications</div>
+					</div></a>
+				</div>
+		</div>
+	</div>
+</div>
+ <ul class="grid list-item">
+   <li class="colo n-6last">
+	<div class="panel  grid-padding-bottomfooter" id="panel-f">
+	<div class="panel-in" >
+		<div class="panel-in2"><a href="statinfind.asp">
+				<div data-picture data-alt="Industry Information" title="Industry Information" class="img-panel-bg">
+					<div data-src="images/webpage/infind.jpg" ></div>								
+                 </div>								
+
+				<div class="content-text white90">
+					<span class="label s_95p">Industry Information</span>
+					<div class="content-text-in">
+			    </div></a>
+		</div> </div></div> </div>
+    </li>
+
+   <li class="colo n-66last">
+	<div class="panel  grid-padding-bottomfooter" id="panel-f">
+	<div class="panel-in" >
+		<div class="panel-in2"><a href="doc.asp?mcat=3&mrub=23&msrub=274&dev=true">
+				<div data-picture data-alt="Bulletin of industrial indicators" title="Bulletin of industrial indicators" class="img-panel-bg">
+					<div data-src="images/homepage/bulletin.jpg" ></div>								
+                 </div>								
+
+				<div class="content-text white90">
+					<span class="label s_95p">Bulletin of industrial indicators</span>
+					<div class="content-text-in">
+			    </div></a>
+		</div> </div></div> </div>
+    </li>
+  </ul>
+</div>
+</aside>
+</aside></div></div>
+
+<div class="wrapper  clearfix"></div></div>
+<div class="panel-zoneright"></div>
+<div id="wrapper-footer" class="clearfix">
+	<div class="wrapper clearfix" role="contentinfo">
+		<div class="box-left clearfix">
+			<div class="panel-footer first-desktop"><a target="_blank" href="http://www.eentunisia.tn/opportunites-d-affaires-europe" title="Publishing business opportunity">
+               <div class="a-center"><img src="images/homepage/opport.jpg"	alt="Publication des opportunités"	title="Publishing business opportunity" width="159" height="166" />
+               <h3 class="s_110p">Publishing business opportunity</h3></a>
+			</div>
+			</div>
+			<div class="panel-footer"><a target="_blank" href="../fr/doc.asp?mcat=3&mrub=187" title="Courrier de l'Industrie">
+               <div class="a-center"><img class="f-none" src="../fr/download/ci/ci.png"	alt="Courrier de l'Industrie"	title="Courrier de l'Industrie" width="159" height="166" />
+               <h3 class="s_110p">Industry Magazine <br> "Courrier de l'Industrie"</h3></a>
+			</div>
+           </div>
+			<div class="panel-footer"><a href="doc.asp?mcat=3&mrub=23"  title="Bulletin de conjoncture">
+               <div class="a-center"><img src="images/homepage/suivi.jpg"	alt="Bulletin de conjoncture"	title="Bulletin de conjoncture" width="159" height="166" />
+               <h3 class="s_110p">Bulletin of industrial indicators</h3></a>
+			</div>
+ 			</div>
+
+			<div class="panel-footer"><a target="_blank" href="../fr/download/CFGA/Manuel_procedures_2016.pdf" title="Manuel des procédures - Guide de l'investisseur">
+               <div class="a-center"><img src="../fr/images/homepage/manuel.png"	alt="Bulletin veille API"	title="Bulletin veille API" width="159" height="166" />
+               <h3 class="s_110p">Procedures manual - Investor's guide</h3></a>
+			</div>
+			</div>
+    	</div>
+		<div class="box-right">
+			<div class="panel-footer">
+           <script language="javascript">
+				function validatenewsletter()
+				{
+	           // alert ("ok");
+	           // return false;
+             
+				if (document.mlform.mlemail.value== '' || mlform.mlemail.value.indexOf('@', 0) == -1  || mlform.mlemail.value.indexOf('.', 0) == -1) 
+				{
+				alert ('Newsletter : Email manquant ou invalide !') ;
+				document.mlform.mlemail.focus();
+				return false ; 
+				}
+				
+				}
+				//--
+		   </script>         
+
+				<div class="footer-search">
+  				   <form name="mlform" method="post" action="maillist.asp" onsubmit="return validatenewsletter()">
+					<h3 class="s_120p">Receive our newsletter</h3> 
+                  <input type="text" placeholder="" required size="15" name="mlemail">
+                  <button class="button1 orange"  name="mlok" type="submit">Sign up</button>
+					</form>
+				</div>
+				<br>
+				<div class="footer-social">
+					<div class="clearfix">
+						<div class="SOCIAL first"><a class="hovering" href="https://www.facebook.com/APIITUNISIE" target="_blank">
+							<img src="images/homepage/footer-facebook-hover.png" alt="Facebook" title="Facebook" class="off-hover" width="50" height="50" />
+						</a></div>
+						<div class="SOCIAL"><a class="hovering" href="https://x.com/APIITunisie" target="_blank">
+							<img src="images/homepage/footer-twitter-hover.png" alt="Twitter" title="Twitter" class="off-hover" width="50" height="50" />
+						</a></div>
+						<div class="SOCIAL last"><a class="hovering" href="https://www.youtube.com/@APIITUNISIE" target="_blank">
+							<img src="images/homepage/footer-youtube-hover.png" alt="Youtube" title="Youtube" class="off-hover" width="50" height="50" />
+						</a></div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div  id="wrapper-copyright">
+	<div class="copyright">
+	<p class="left"><a href="../fr/doc.asp?mcat=25&mrub=205">Copyright © API Tunisia 2018 - Tous droits réservés</a></p>
+	<p class="right"> Last updated: 25&nbsp;March&nbsp;2026</p><br>
+	
+		<p class="a-center">
+			Agency for the Promotion of Industry and Innovation <br>63, rue de Syrie, 1002 Tunis Belvédère - Tunisie <br>
+			<span class="serverid">Tel.: (216) 71 792 144 - Fax: (216) 71 782 482 -  E-mail : 
+            <a href="mailto:apii@apii.tn">apii@apii.tn</a> </span>
+		</p>
+
+	</div>
+</div>
+</section>
+<section id="see-it">
+</section>
+<div class="scroll-to-top">
+</div>
+</div>
+            </div>
+

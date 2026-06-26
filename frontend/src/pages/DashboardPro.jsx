@@ -9,7 +9,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
   Users, Target, TrendingUp, Activity, ArrowUpRight, ArrowDownRight,
   Search, Filter, Download, Plus, MoreVertical, ChevronRight,
-  Calendar, DollarSign, Zap, Eye, Menu
+  Calendar, DollarSign, Zap, Eye, Menu, CheckCircle2
 } from 'lucide-react';
 import { getLeads, getRankedLeads, logout, getUnreadCount } from '../services/api';
 import Sidebar from '../components/layout/Sidebar';
@@ -326,6 +326,7 @@ const DashboardPro = ({ onNavigate, onLogout, sidebarOpen, setSidebarOpen }) => 
                   <div className="col-span-4">Company</div>
                   <div className="col-span-2">Location</div>
                   <div className="col-span-2">Industry</div>
+                  <div className="col-span-1 text-center">Data</div>
                   <div className="col-span-1 text-center">Score</div>
                   <div className="col-span-2">Top Product</div>
                   <div className="col-span-1 text-right">Action</div>
@@ -434,6 +435,15 @@ const DashboardPro = ({ onNavigate, onLogout, sidebarOpen, setSidebarOpen }) => 
                             }}>
                               {lead.sector || 'General'}
                             </span>
+                          </div>
+
+                          {/* Data Status - NEW COLUMN */}
+                          <div className="col-span-1 text-center">
+                            {lead.best_score > 0 ? (
+                              <CheckCircle2 className="w-5 h-5 text-emerald-600 mx-auto" strokeWidth={2.5} />
+                            ) : (
+                              <span className="text-neutral-300 font-bold">—</span>
+                            )}
                           </div>
 
                           {/* Score */}

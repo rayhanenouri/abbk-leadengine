@@ -14,9 +14,10 @@ celery_app = Celery(
         "app.workers.tasks.logo_detection",
         "app.workers.tasks.maintenance",
         "app.workers.tasks.apify_linkedin",
-        "app.workers.tasks.apify_discover",  # NEW: LinkedIn company discovery
+        "app.workers.tasks.apify_discover",
         "app.workers.tasks.company_enrichment",
-        "app.workers.tasks.universal_scraping",  # AI-powered universal scraper for 34 verified sources
+        "app.workers.tasks.universal_scraping",
+        "app.workers.tasks.full_automation",  # COMPLETE AUTOMATION PIPELINE
     ],
 )
 
@@ -32,15 +33,44 @@ celery_app.conf.update(
 )
 
 # ─── Scheduled jobs (Celery Beat) ─────────────────────────────────────────────
-# All scrapers auto-scheduled to keep data fresh
+# COMPLETE AUTOMATION - Everything runs automatically
 celery_app.conf.beat_schedule = {
-    # ═══ DATA COLLECTION (Scrapers) ═══
-
-    # Tunisian business directories - Daily at 2am
-    "scrape-directories-daily": {
-        "task": "app.workers.tasks.scraping.scrape_directories",
-        "schedule": crontab(hour=2, minute=0),
+    # ═══ MASTER AUTOMATION PIPELINE ═══
+    # This ONE task does EVERYTHING automatically every day
+    "run-full-automation-daily": {
+        "task": "app.workers.tasks.full_automation.run_full_pipeline",
+        "schedule": crontab(hour=2, minute=0),  # Daily at 2am
         "options": {"queue": "scrapers"},
+    },
+
+    # ═══ INDIVIDUAL TASKS (backup - runs if master fails) ═══
+
+    # Discover companies - Daily at 2am
+    "discover-companies-daily": {
+        "task": "app.workers.tasks.full_automation.discover_companies",
+        "schedule": crontab(hour=2, minute=30),
+        "options": {"queue": "scrapers"},
+    },
+
+    # Find websites - Daily at 3am
+    "find-websites-daily": {
+        "task": "app.workers.tasks.full_automation.find_company_websites",
+        "schedule": crontab(hour=3, minute=0),
+        "options": {"queue": "scrapers"},
+    },
+
+    # Scrape all websites - Daily at 4am
+    "scrape-websites-daily": {
+        "task": "app.workers.tasks.full_automation.scrape_all_websites",
+        "schedule": crontab(hour=4, minute=0),
+        "options": {"queue": "scrapers"},
+    },
+
+    # Recalculate scores - Daily at 5am
+    "recalculate-scores-daily": {
+        "task": "app.workers.tasks.full_automation.recalculate_all_scores",
+        "schedule": crontab(hour=5, minute=0),
+        "options": {"queue": "scoring"},
     },
 
     # Business news - Every 6 hours
