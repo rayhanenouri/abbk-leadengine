@@ -211,7 +211,7 @@ export default function ScoreEngine({ onViewLead }) {
                     <div>
                       <div className="text-sm font-bold uppercase tracking-wider mb-2">Scoring Algorithm</div>
                       <h2 className="text-3xl font-bold mb-3" style={{ fontWeight: 800, letterSpacing: '-0.03em' }}>
-                        Claude Sonnet 4.5 AI Engine
+                        AI-Powered Engine
                       </h2>
                       <p className="text-purple-100 mb-4 max-w-2xl">
                         Analyzes 11 buying signals across {leads.length} companies using business manager's priority weighting.
@@ -427,7 +427,7 @@ export default function ScoreEngine({ onViewLead }) {
                       </div>
                       <div>
                         <h4 className="font-bold text-neutral-900 mb-2" style={{ fontSize: '16px', fontWeight: 700 }}>
-                          AI Detects Signals (Claude Sonnet 4.5)
+                          AI Detects Signals (Advanced NLP)
                         </h4>
                         <p className="text-sm text-neutral-700 font-medium">
                           Scrapes data from LinkedIn, news, tenders, job boards → AI extracts signals → Cached to avoid re-processing same text
