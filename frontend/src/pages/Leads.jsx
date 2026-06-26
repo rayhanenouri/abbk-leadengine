@@ -183,20 +183,20 @@ export default function Leads({ onViewLead, onLogout, onMenuClick }) {
               </p>
             </div>
 
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2 md:gap-3">
               <motion.button
                 onClick={() => setShowFilters(!showFilters)}
-                className={`flex items-center gap-2 px-4 py-2.5 rounded-xl border transition-all ${
+                className={`flex items-center gap-1 md:gap-2 px-2 md:px-4 py-1.5 md:py-2.5 rounded-lg md:rounded-xl border transition-all text-xs md:text-sm ${
                   showFilters
                     ? 'bg-neutral-900 text-white border-neutral-900'
                     : 'bg-white text-neutral-700 border-neutral-200 hover:bg-neutral-50'
                 }`}
                 whileHover={{ y: -1 }}
                 whileTap={{ scale: 0.98 }}
-                style={{ fontSize: '14px', fontWeight: 600 }}
+                style={{ fontWeight: 600 }}
               >
-                <Filter className="w-4 h-4" strokeWidth={2.5} />
-                Filters
+                <Filter className="w-3 h-3 md:w-4 md:h-4" strokeWidth={2.5} />
+                <span className="hidden sm:inline">Filters</span>
                 {Object.values(filters).some(v => v && v !== 0 && v !== 100) && (
                   <span className="px-2 py-0.5 bg-blue-600 text-white rounded-full text-xs font-bold">
                     {Object.values(filters).filter(v => v && v !== 0 && v !== 100).length}
@@ -206,17 +206,17 @@ export default function Leads({ onViewLead, onLogout, onMenuClick }) {
 
               <motion.button
                 onClick={loadLeads}
-                className="flex items-center gap-2 px-4 py-2.5 text-neutral-700 hover:bg-neutral-100 rounded-xl transition-all border border-neutral-200"
+                className="flex items-center gap-1 md:gap-2 px-2 md:px-4 py-1.5 md:py-2.5 text-neutral-700 hover:bg-neutral-100 rounded-lg md:rounded-xl transition-all border border-neutral-200 text-xs md:text-sm"
                 whileHover={{ y: -1 }}
                 whileTap={{ scale: 0.98 }}
-                style={{ fontSize: '14px', fontWeight: 600 }}
+                style={{ fontWeight: 600 }}
               >
-                <RefreshCw className="w-4 h-4" strokeWidth={2.5} />
-                Refresh
+                <RefreshCw className="w-3 h-3 md:w-4 md:h-4" strokeWidth={2.5} />
+                <span className="hidden sm:inline">Refresh</span>
               </motion.button>
 
               <motion.button
-                className="flex items-center gap-2 px-4 py-2.5 text-neutral-700 hover:bg-neutral-100 rounded-xl transition-all border border-neutral-200"
+                className="hidden md:flex items-center gap-2 px-4 py-2.5 text-neutral-700 hover:bg-neutral-100 rounded-xl transition-all border border-neutral-200"
                 whileHover={{ y: -1 }}
                 whileTap={{ scale: 0.98 }}
                 style={{ fontSize: '14px', fontWeight: 600 }}
@@ -227,7 +227,7 @@ export default function Leads({ onViewLead, onLogout, onMenuClick }) {
 
               <motion.button
                 disabled={selectedLeads.size === 0}
-                className={`flex items-center gap-2 px-4 py-2.5 rounded-xl transition-all ${
+                className={`hidden md:flex items-center gap-2 px-4 py-2.5 rounded-xl transition-all ${
                   selectedLeads.size > 0
                     ? 'bg-emerald-600 text-white hover:bg-emerald-700'
                     : 'bg-neutral-200 text-neutral-400 cursor-not-allowed'
