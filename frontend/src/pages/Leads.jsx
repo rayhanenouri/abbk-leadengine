@@ -35,6 +35,7 @@ export default function Leads({ onViewLead, onLogout, onMenuClick }) {
     isMultinational: false,
     isExporter: false,
     underAudit: false,
+    hideUnverified: false, // NEW: Filter out companies without websites
   });
 
   useEffect(() => {
@@ -115,10 +116,11 @@ export default function Leads({ onViewLead, onLogout, onMenuClick }) {
       const matchesMultinational = !filters.isMultinational || lead.is_multinational;
       const matchesExporter = !filters.isExporter || lead.is_exporter;
       const matchesAudit = !filters.underAudit || lead.under_audit;
+      const matchesVerified = !filters.hideUnverified || lead.website; // NEW: Filter unverified
 
       return matchesSearch && matchesSector && matchesCity && matchesCountry &&
              matchesStatus && matchesScore && matchesMultinational &&
-             matchesExporter && matchesAudit;
+             matchesExporter && matchesAudit && matchesVerified;
     })
     .sort((a, b) => {
       let aVal = a[sortField];
@@ -377,6 +379,16 @@ export default function Leads({ onViewLead, onLogout, onMenuClick }) {
                     <span className="text-sm font-semibold text-neutral-700">Under Audit Only</span>
                   </label>
 
+                  <label className="flex items-center gap-2 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={filters.hideUnverified}
+                      onChange={(e) => setFilters({ ...filters, hideUnverified: e.target.checked })}
+                      className="w-4 h-4 rounded border-neutral-300 text-neutral-900 focus:ring-neutral-900"
+                    />
+                    <span className="text-sm font-semibold text-neutral-700">Hide Unverified</span>
+                  </label>
+
                   <button
                     onClick={() => setFilters({
                       sector: '',
@@ -388,6 +400,7 @@ export default function Leads({ onViewLead, onLogout, onMenuClick }) {
                       isMultinational: false,
                       isExporter: false,
                       underAudit: false,
+                      hideUnverified: false,
                     })}
                     className="ml-auto text-sm font-semibold text-neutral-600 hover:text-neutral-900"
                   >
@@ -508,10 +521,19 @@ export default function Leads({ onViewLead, onLogout, onMenuClick }) {
                         </button>
                       </td>
                       <td className="px-4 py-2.5 sticky left-10 bg-white group-hover:bg-neutral-50 z-10">
-                        <div className="font-semibold text-neutral-900" style={{ fontSize: '13px', fontWeight: 600 }}>
-                          {lead.company_name}
+                        <div className="flex items-center gap-2">
+                          <div>
+                            <div className="font-semibold text-neutral-900" style={{ fontSize: '13px', fontWeight: 600 }}>
+                              {lead.company_name}
+                            </div>
+                            <div className="text-xs text-neutral-500">ID: {lead.lead_id}</div>
+                          </div>
+                          {!lead.website && (
+                            <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-bold bg-amber-100 text-amber-700 whitespace-nowrap" title="No website found - requires manual research">
+                              ⚠️ Unverified
+                            </span>
+                          )}
                         </div>
-                        <div className="text-xs text-neutral-500">ID: {lead.lead_id}</div>
                       </td>
                       <td className="px-4 py-2.5">
                         <span className="text-xs text-neutral-700 font-medium">{lead.sector || '—'}</span>
