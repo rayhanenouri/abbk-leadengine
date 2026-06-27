@@ -23,7 +23,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.db.session import AsyncSessionLocal
 from app.models.models import Lead, LeadSignal, LeadScore
 from app.scrapers.utils.deep_enricher import DeepCompanyEnricher
-from app.services.scoring_engine import ScoringEngine
+from app.services.scoring_engine import score_all_leads
 from datetime import datetime
 
 
@@ -54,13 +54,24 @@ async def step1_clean_junk():
         junk_conditions = [Lead.company_name.ilike(f"%{p}%") for p in JUNK_PATTERNS]
         empty_condition = and_(
             Lead.website.is_(None),
-            Lead.phone.is_(None),
             Lead.sector.is_(None)
         )
 
-        delete_stmt = delete(Lead).where(or_(*junk_conditions, empty_condition))
-        result = await db.execute(delete_stmt)
-        deleted = result.rowcount
+        # First get IDs to delete
+        select_stmt = select(Lead.id).where(or_(*junk_conditions, empty_condition))
+        result = await db.execute(select_stmt)
+        lead_ids_to_delete = [row[0] for row in result.fetchall()]
+
+        if lead_ids_to_delete:
+            # Delete related records first
+            await db.execute(delete(LeadScore).where(LeadScore.lead_id.in_(lead_ids_to_delete)))
+            await db.execute(delete(LeadSignal).where(LeadSignal.lead_id.in_(lead_ids_to_delete)))
+
+            # Delete leads
+            result = await db.execute(delete(Lead).where(Lead.id.in_(lead_ids_to_delete)))
+            deleted = result.rowcount
+        else:
+            deleted = 0
 
         await db.commit()
 
@@ -75,25 +86,22 @@ async def step1_clean_junk():
 
 
 async def step2_mark_unverified():
-    """Step 2: Mark companies without websites as unverified."""
+    """Step 2: Count companies without websites (skip marking - no 'unverified' status in enum)."""
 
     print("\n" + "=" * 60)
-    print("STEP 2: MARK UNVERIFIED LEADS")
+    print("STEP 2: COUNT UNVERIFIED LEADS")
     print("=" * 60)
 
     async with AsyncSessionLocal() as db:
-        # Update status for companies without websites
+        # Just count companies without websites
         result = await db.execute(
-            update(Lead)
-            .where(Lead.website.is_(None))
-            .values(status="unverified")
+            select(Lead).where(Lead.website.is_(None))
         )
 
-        count = result.rowcount
-        await db.commit()
+        count = len(result.scalars().all())
 
-        print(f"❓ Marked {count} companies as 'unverified' (no website)")
-        print("   These will show separately on dashboard as low-priority")
+        print(f"❓ {count} companies WITHOUT websites (will have low scores)")
+        print(f"   They stay in 'new' status - low priority for enrichment")
 
         return count
 
@@ -245,16 +253,11 @@ async def step4_recalculate_scores():
 
         print(f"🔄 Recalculating scores for {len(leads)} companies...\n")
 
-        scoring_engine = ScoringEngine(db)
-
-        total_scores = 0
-
-        for lead in leads:
-            scores = await scoring_engine.calculate_all_scores_for_lead(lead.id)
-            total_scores += len(scores)
+        stats = await score_all_leads(db)
 
         print(f"\n✅ Scores recalculated!")
-        print(f"   Total scores: {total_scores}")
+        print(f"   Total scores: {stats.get('total_scores', 0)}")
+        print(f"   Leads scored: {stats.get('leads_scored', 0)}")
 
         return total_scores
 
