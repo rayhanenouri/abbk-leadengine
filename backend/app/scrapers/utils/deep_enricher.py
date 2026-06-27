@@ -27,34 +27,75 @@ class DeepCompanyEnricher:
     Scrapes all available online data.
     """
 
-    # Signal detection keywords
-    ENGINEERING_KEYWORDS = [
-        "CAD", "solidworks", "simulation", "FEA", "CFD", "conception",
-        "bureau d'études", "mechanical design", "3D modeling", "product design",
-        "engineering", "ingénierie", "mécanique", "électrique",
-        "manufacturing", "fabrication", "CAO", "DAO", "simulation numérique",
-        "calcul de structure", "AutoCAD", "CATIA", "Inventor", "SolidEdge", "NX", "Creo"
+    # COMPREHENSIVE MULTILINGUAL KEYWORDS (French + English + Arabic)
+
+    ENGINEERING_ROLES = [
+        # French
+        "ingénieur conception", "ingénieur mécanique", "ingénieur bureau d'études",
+        "ingénieur R&D", "ingénieur simulation", "ingénieur calcul", "ingénieur fabrication",
+        "ingénieur production", "ingénieur qualité", "ingénieur méthodes", "ingénieur industriel",
+        "ingénieur automobile", "ingénieur aéronautique", "ingénieur naval", "concepteur CAO",
+        "dessinateur projeteur", "technicien CAO", "responsable bureau d'études",
+        "chef de projet mécanique", "ingénieur structure", "ingénieur thermique",
+        "ingénieur fluides", "ingénieur plasturgie", "ingénieur outillage", "ingénieur process",
+        "ingénieur électrique", "ingénieur électronique", "bureau d'études",
+        # English
+        "mechanical engineer", "CAD designer", "design engineer", "R&D engineer",
+        "simulation engineer", "FEA engineer", "CAE engineer", "manufacturing engineer",
+        "production engineer", "structural engineer", "product design engineer",
+        "mechanical design engineer", "CAD/CAM engineer", "electrical engineer",
+        # Arabic
+        "مهندس ميكانيكي", "مهندس تصميم", "مهندس إنتاج",
+    ]
+
+    SOFTWARE_AND_TOOLS = [
+        "SOLIDWORKS", "SolidWorks", "Solid Works", "CAO", "CAD", "DAO",
+        "conception assistée par ordinateur", "computer aided design",
+        "CATIA", "Inventor", "AutoCAD", "ANSYS", "Abaqus",
+        "simulation numérique", "éléments finis", "FEA", "CFD",
+        "PLM", "PDM", "gestion données techniques", "bureau d'études",
+        "maquette numérique", "prototype numérique", "CAM", "FAO",
+        "usinage", "CNC", "CFAO", "Creo", "SolidEdge", "NX",
+    ]
+
+    COMPANY_ACTIVITIES = [
+        "bureau d'études", "conception mécanique", "fabrication mécanique",
+        "tôlerie", "chaudronnerie", "mécanique de précision", "usinage",
+        "injection plastique", "moulage", "outillage", "moule", "presse",
+        "emboutissage", "soudure", "assemblage mécanique", "maintenance industrielle",
+        "automatisation", "robotique", "électromécanique", "conception électrique",
+        "câblage", "faisceaux", "wiring harness", "PCB", "électronique embarquée",
+        "systèmes embarqués", "automotive", "automobile", "aéronautique",
+        "aerospace", "naval", "énergie", "oil and gas", "pétrochimie",
+        "pharmaceutique", "agroalimentaire", "industrie", "manufacturing",
+        "production", "usine", "atelier",
     ]
 
     HIRING_KEYWORDS = [
-        "recrutement", "recrute", "hiring", "job opening", "career",
-        "offre d'emploi", "ingénieur", "engineer", "designer", "dessinateur",
-        "technicien", "bureau d'études", "R&D", "conception", "CAD designer"
+        "recrutement", "offre d'emploi", "nous recrutons", "rejoignez notre équipe",
+        "poste à pourvoir", "CDI", "CDD", "stage", "alternance",
+        "hiring", "we are hiring", "job opening", "career opportunity",
+        "talent acquisition", "croissance", "expansion", "nouveau site",
+        "nouvelle usine", "développement", "investissement",
     ]
 
     ISO_KEYWORDS = [
-        "ISO 9001", "ISO 14001", "ISO 45001", "certification", "certifié",
-        "audit", "qualité", "quality", "certified", "accrédité"
+        "ISO 9001", "ISO 14001", "ISO 45001", "ISO", "EN", "DIN",
+        "certification", "certifié", "certified", "audit", "qualité",
+        "quality", "conformité", "accrédité", "normes",
     ]
 
     EXPORT_KEYWORDS = [
-        "export", "international", "worldwide", "global", "overseas",
-        "clients internationaux", "marchés internationaux", "à l'étranger"
+        "export", "exportation", "international", "mondial", "global",
+        "Europe", "France", "Allemagne", "Italie", "Espagne",
+        "client international", "partenaire international",
+        "certification internationale", "worldwide", "overseas",
+        "clients internationaux", "marchés internationaux", "à l'étranger",
     ]
 
     MULTINATIONAL_KEYWORDS = [
         "filiale", "subsidiary", "groupe", "group", "multinational",
-        "international presence", "offices worldwide", "global company"
+        "international presence", "offices worldwide", "global company",
     ]
 
     def __init__(self):
@@ -240,13 +281,13 @@ class DeepCompanyEnricher:
     # ========== SIGNAL DETECTION ==========
 
     def detect_signals(self, text: str) -> Dict[str, bool]:
-        """Detect buying signals from text content."""
+        """Detect buying signals from text content using comprehensive multilingual keywords."""
 
         text_lower = text.lower()
 
         return {
-            "has_engineering": any(kw.lower() in text_lower for kw in self.ENGINEERING_KEYWORDS),
-            "has_cad_software": any(kw.lower() in text_lower for kw in ["CAD", "solidworks", "autocad", "catia", "CAO", "inventor", "creo"]),
+            "has_engineering": any(kw.lower() in text_lower for kw in self.ENGINEERING_ROLES + self.COMPANY_ACTIVITIES),
+            "has_cad_software": any(kw.lower() in text_lower for kw in self.SOFTWARE_AND_TOOLS),
             "is_hiring_engineers": any(kw.lower() in text_lower for kw in self.HIRING_KEYWORDS),
             "has_iso_certification": any(kw.lower() in text_lower for kw in self.ISO_KEYWORDS),
             "is_exporter": any(kw.lower() in text_lower for kw in self.EXPORT_KEYWORDS),
