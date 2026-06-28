@@ -1,0 +1,15 @@
+Date: Sun, 28 Jun 2026 00:47:26 GMT
+Set-Cookie: BIGipServerpool-afd-prod.cegedim.cloud-tcp80=!Jvy0/wdso1RBF5p3Zj8tcwec1Snos+9S3EF1sZwvNpdFySItzNqd4+seOP9i0UThhQ6hLylU5lECU6QQ39Gf3LjHyYwb; path=/; Httponly; Secure
+Cache-Control: must-revalidate, no-cache, private
+X-Drupal-Dynamic-Cache: HIT
+Link: </themes/custom/afd_theme/favicon.ico>; rel="icon"; type="image/x-icon", </themes/custom/afd_theme/favicon.ico>; rel="icon"; type="image/x-icon"
+X-Drupal-Cache: MISS
+Content-Language: fr
+X-Content-Type-Options: nosniff
+X-Frame-Options: SAMEORIGIN
+Expires: Sun, 19 Nov 1978 05:00:00 GMT
+Content-Type: text/html; charset=UTF-8
+Strict-Transport-Security: max-age=31536000; includeSubDomains
+Vary: Accept-Encoding
+Content-Encoding: gzip
+X-Cp-Via: C3-5fba1f40-86dc2899
