@@ -17,7 +17,8 @@ celery_app = Celery(
         "app.workers.tasks.apify_discover",
         "app.workers.tasks.company_enrichment",
         "app.workers.tasks.universal_scraping",
-        "app.workers.tasks.full_automation",  # COMPLETE AUTOMATION PIPELINE
+        "app.workers.tasks.full_automation",
+        "app.workers.tasks.complete_automation",  # NEW: ZERO-INTERVENTION AUTOMATION
     ],
 )
 
@@ -37,8 +38,9 @@ celery_app.conf.update(
 celery_app.conf.beat_schedule = {
     # ═══ MASTER AUTOMATION PIPELINE ═══
     # This ONE task does EVERYTHING automatically every day
-    "run-full-automation-daily": {
-        "task": "app.workers.tasks.full_automation.run_full_pipeline",
+    # NEW: Complete automation with job boards + news search
+    "run-complete-automation-daily": {
+        "task": "complete_automation.run_complete_pipeline",
         "schedule": crontab(hour=2, minute=0),  # Daily at 2am
         "options": {"queue": "scrapers"},
     },
