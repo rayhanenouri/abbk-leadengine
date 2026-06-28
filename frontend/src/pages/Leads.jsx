@@ -23,6 +23,7 @@ export default function Leads({ onViewLead, onLogout, onMenuClick }) {
   const [sortDirection, setSortDirection] = useState('desc');
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(50);
+  const [trustFilter, setTrustFilter] = useState('verified'); // NEW: Default to verified only
 
   // Filters
   const [filters, setFilters] = useState({
@@ -116,11 +117,11 @@ export default function Leads({ onViewLead, onLogout, onMenuClick }) {
       const matchesMultinational = !filters.isMultinational || lead.is_multinational;
       const matchesExporter = !filters.isExporter || lead.is_exporter;
       const matchesAudit = !filters.underAudit || lead.under_audit;
-      const matchesVerified = !filters.hideUnverified || lead.website; // NEW: Filter unverified
+      const matchesTrust = trustFilter === 'all' || lead.trust_level === trustFilter; // NEW: Trust filter
 
       return matchesSearch && matchesSector && matchesCity && matchesCountry &&
              matchesStatus && matchesScore && matchesMultinational &&
-             matchesExporter && matchesAudit && matchesVerified;
+             matchesExporter && matchesAudit && matchesTrust;
     })
     .sort((a, b) => {
       let aVal = a[sortField];
@@ -242,6 +243,50 @@ export default function Leads({ onViewLead, onLogout, onMenuClick }) {
                 Export ({selectedLeads.size})
               </motion.button>
             </div>
+          </div>
+
+          {/* Trust Level Filter Tabs */}
+          <div className="flex items-center gap-2 mb-6">
+            <button
+              onClick={() => setTrustFilter('all')}
+              className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${
+                trustFilter === 'all'
+                  ? 'bg-neutral-900 text-white'
+                  : 'bg-neutral-100 text-neutral-600 hover:bg-neutral-200'
+              }`}
+            >
+              All Leads
+            </button>
+            <button
+              onClick={() => setTrustFilter('verified')}
+              className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${
+                trustFilter === 'verified'
+                  ? 'bg-emerald-600 text-white'
+                  : 'bg-emerald-50 text-emerald-700 hover:bg-emerald-100'
+              }`}
+            >
+              ✓ Verified
+            </button>
+            <button
+              onClick={() => setTrustFilter('partial')}
+              className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${
+                trustFilter === 'partial'
+                  ? 'bg-amber-600 text-white'
+                  : 'bg-amber-50 text-amber-700 hover:bg-amber-100'
+              }`}
+            >
+              ⚠ Partial Data
+            </button>
+            <button
+              onClick={() => setTrustFilter('unverified')}
+              className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${
+                trustFilter === 'unverified'
+                  ? 'bg-neutral-600 text-white'
+                  : 'bg-neutral-100 text-neutral-500 hover:bg-neutral-200'
+              }`}
+            >
+              ? Unverified
+            </button>
           </div>
 
           {/* Search Bar */}
@@ -528,9 +573,20 @@ export default function Leads({ onViewLead, onLogout, onMenuClick }) {
                             </div>
                             <div className="text-xs text-neutral-500">ID: {lead.lead_id}</div>
                           </div>
-                          {!lead.website && (
-                            <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-bold bg-amber-100 text-amber-700 whitespace-nowrap" title="No website found - requires manual research">
-                              ⚠️ Unverified
+                          {/* Trust Level Badge */}
+                          {lead.trust_level === 'verified' && (
+                            <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-bold bg-emerald-100 text-emerald-700 whitespace-nowrap" title="Verified - Real website + signals">
+                              ✓ Verified
+                            </span>
+                          )}
+                          {lead.trust_level === 'partial' && (
+                            <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-bold bg-amber-100 text-amber-700 whitespace-nowrap" title="Partial data - Directory listing">
+                              ⚠ Partial
+                            </span>
+                          )}
+                          {lead.trust_level === 'unverified' && (
+                            <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-bold bg-neutral-100 text-neutral-600 whitespace-nowrap" title="Unverified - Name only">
+                              ? Unverified
                             </span>
                           )}
                         </div>
