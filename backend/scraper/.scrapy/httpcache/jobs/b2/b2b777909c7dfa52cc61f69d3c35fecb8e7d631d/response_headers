@@ -1,0 +1,11 @@
+Server: nginx/1.22.1
+Date: Sun, 28 Jun 2026 08:20:13 GMT
+Content-Type: text/html; charset=utf-8
+X-Frame-Options: SAMEORIGIN
+Vary: Cookie
+Strict-Transport-Security: max-age=31556926; includeSubDomains
+X-Content-Type-Options: nosniff
+Referrer-Policy: same-origin
+Cross-Origin-Opener-Policy: same-origin
+Set-Cookie: csrftoken=MW0Gg04hpdzSbM42eVxYjjCgaXRp9PRq; expires=Sun, 27 Jun 2027 08:29:29 GMT; Max-Age=31449600; Path=/; SameSite=Lax; Secure
+Content-Encoding: gzip

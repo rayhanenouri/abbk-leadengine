@@ -1,7 +1,7 @@
 Server: nginx/1.26.3 (Ubuntu)
 Content-Type: text/html; charset=UTF-8
 Cache-Control: must-revalidate, no-cache, private
-Date: Fri, 26 Jun 2026 11:10:19 GMT
+Date: Sun, 28 Jun 2026 08:31:10 GMT
 X-Drupal-Dynamic-Cache: UNCACHEABLE (poor cacheability)
 X-Drupal-Cache: MISS
 Content-Language: fr

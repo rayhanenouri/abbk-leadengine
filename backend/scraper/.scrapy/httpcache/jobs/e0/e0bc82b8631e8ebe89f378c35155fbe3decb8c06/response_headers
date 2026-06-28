@@ -1,0 +1,21 @@
+Date: Sun, 28 Jun 2026 08:29:30 GMT
+Content-Type: text/html; charset=UTF-8
+Server: cloudflare
+X-Powered-By: PHP/7.2.34
+Cache-Control: no-cache, private
+Cache-Control: max-age=3600
+Set-Cookie: XSRF-TOKEN=eyJpdiI6ImhLTStxazBESzJBRDlDbzNuamxWWVE9PSIsInZhbHVlIjoieGJRYWxKZEFRTFRiZnlpdmdkTGVuOGRaSnEzZ2oyaDJnWjAwWkRcL2NydTdTaGxiRkcrS0ZUNHhqMEIyMnNIbXYiLCJtYWMiOiJhOWU2Y2E4NTRmNGRjZDc0NzM1ZTRlOWM1ZTQzMzgxMDY1NjdiMTBjNTg2ZWYyYjA3NjMzZDA5YWY2ZjZiYjkwIn0%3D; expires=Sun, 28-Jun-2026 10:29:30 GMT; Max-Age=7200; path=/
+Set-Cookie: laravel_session=eyJpdiI6IlQ4RUV0eTNCS25GelFpSkFOYlREamc9PSIsInZhbHVlIjoiVjM5YkhtNE1iV0NpcTRGWVdOUlNBYzlOUWdcL2Jkbit6WDF2NmU2TW9oakQzRkZ0U1cwVnJmTGFlQ1FFRXpRTzAiLCJtYWMiOiI3NTllNTFhYmIwMjZmM2E0YzFjNzFjZDI5MmYwZGIzYzcwODU2YWFjMDRmZmMyMDM5NWU5ZWNhYzEwN2U1MDIxIn0%3D; expires=Sun, 28-Jun-2026 10:29:30 GMT; Max-Age=7200; path=/; httponly
+Set-Cookie: 5EdRkIuYFIJNnEPxMkN14sSICJ2t7yEnTXJuHg6h=eyJpdiI6IlBuU3ZcL25FK0hSdUFGWFp0eG1MMkRRPT0iLCJ2YWx1ZSI6IkxndTRJeVhHaDBoTmxVUGErNFVCOGQxMTVubkdnblo4RWExUGhnV280WkdOZDdlNzhpR2ZSbHFQdnpJN1ZGRDRtSGNMSGN4dmloM0tLdzhZVU4xY1ExUVNmV0JKS1NZSk5ydjlHWmFPM1c1a0Fwa05NUVlLSis3NFViNGJqSTUrcEIxNDF0NUx4UFNRUEFJVDBZa2xDRHhEdURobCtMQmx4bFh5Z0JtRUNGRVwvNWJRUUc4RHRLTFNPQzdnZW1wYm5vTURIbFVOUHdTbzJwbnRxVUNCaFpncklRXC9LRlpjVnlkeHFleTh3cEpaNFJjXC9QRTZCVlBcL21PYUw3WEZ2TFZyQXpRc0U3b2gwTGlSSXF3T3VUM2NqKysxaHkxQ1ZZS2wrN2FvQXk4YUI4Nzg0eVlac2c0T3RWN090Zm1RN3o1SSIsIm1hYyI6IjQzNzhhNzM3YmMzMDI1OTdiNGJkNTA2NmM2MzRlN2I2Y2FiZmNjYWIwMDk3YTlmODlmMGNhZGVmNGUyMDE1OTUifQ%3D%3D; expires=Sun, 28-Jun-2026 10:29:30 GMT; Max-Age=7200; path=/; httponly
+X-Frame-Options: DENY
+Referrer-Policy: same-origin
+Expires: Sun, 28 Jun 2026 09:29:28 GMT
+Vary: Accept-Encoding
+Nel: {"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}
+Cf-Cache-Status: DYNAMIC
+Server-Timing: cfCacheStatus;desc="DYNAMIC"
+Server-Timing: cfEdge;dur=9,cfOrigin;dur=2016
+Report-To: {"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=9WHgrQdtF0uEw9KWd6YUCP4kEg4VTb7dgHe1IDbjjPeb9bJXzjjmbdT1MdyLFqJuZviANM05H5YpI%2F3ZsqIpxZOJ36jxyM3%2Ba79EiFrVogUP1zgQj9FHmupE9%2FjR6gpd%2BMBBsOo%3D"}]}
+Content-Encoding: gzip
+Cf-Ray: a12b52eb1818e1d8-MRS
+Alt-Svc: h3=":443"; ma=86400

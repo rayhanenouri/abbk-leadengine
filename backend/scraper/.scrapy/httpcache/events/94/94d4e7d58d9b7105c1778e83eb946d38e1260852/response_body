@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+<link rel="shortlink" href="https://www.cepex.nat.tn/" />
+<link rel="canonical" href="https://www.cepex.nat.tn/" />
+<meta name="Generator" content="Drupal 10 (https://www.drupal.org)" />
+<meta name="MobileOptimized" content="width" />
+<meta name="HandheldFriendly" content="true" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="icon" href="/themes/custom/cepex/favicon.ico" type="image/vnd.microsoft.icon" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" media="all" href="/sites/default/files/css/css_XVLmIw01EMyEBrUiozmPx-56cu3P52sLKazgQHME6_A.css?delta=0&amp;language=fr&amp;theme=cepex&amp;include=eJxljlEKAyEQQy80W796HhnXrJWOjjhCd3v62pbCQr_CSwJJwBjoHntTQ_RblonmEio6CwXVYaNzu7rAhjMn0cCy2Dgk13ROCsw4wWhFw-7eDZjfOq3a4ar2wpKfIOGafOzaoj6qe9Pyo2WbLTJdM4sviJn9XLmb-7cu44YCmtu5wX2F7LCB8vn8AltgWKI" />
+<link rel="stylesheet" media="all" href="/sites/default/files/css/css_ZveiGOZy6XzXyfshb_z9zcXZ2L8zsV1vqainQ9XEANo.css?delta=1&amp;language=fr&amp;theme=cepex&amp;include=eJxljlEKAyEQQy80W796HhnXrJWOjjhCd3v62pbCQr_CSwJJwBjoHntTQ_RblonmEio6CwXVYaNzu7rAhjMn0cCy2Dgk13ROCsw4wWhFw-7eDZjfOq3a4ar2wpKfIOGafOzaoj6qe9Pyo2WbLTJdM4sviJn9XLmb-7cu44YCmtu5wX2F7LCB8vn8AltgWKI" />
+<link rel="stylesheet" media="all" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+<link rel="stylesheet" media="all" href="/sites/default/files/css/css_m9l05e8TGh6aBcgpkyWZnqfX59PqRUL7t9io6gW67-A.css?delta=3&amp;language=fr&amp;theme=cepex&amp;include=eJxljlEKAyEQQy80W796HhnXrJWOjjhCd3v62pbCQr_CSwJJwBjoHntTQ_RblonmEio6CwXVYaNzu7rAhjMn0cCy2Dgk13ROCsw4wWhFw-7eDZjfOq3a4ar2wpKfIOGafOzaoj6qe9Pyo2WbLTJdM4sviJn9XLmb-7cu44YCmtu5wX2F7LCB8vn8AltgWKI" />
+<link rel="stylesheet" media="all" href="https://unpkg.com/swiper@8/swiper-bundle.min.css" />
+<link rel="stylesheet" media="all" href="/sites/default/files/css/css_GvA9z-upB5YXapYLlzybOtKW5wXOBX6LpHyCVy4GFVQ.css?delta=5&amp;language=fr&amp;theme=cepex&amp;include=eJxljlEKAyEQQy80W796HhnXrJWOjjhCd3v62pbCQr_CSwJJwBjoHntTQ_RblonmEio6CwXVYaNzu7rAhjMn0cCy2Dgk13ROCsw4wWhFw-7eDZjfOq3a4ar2wpKfIOGafOzaoj6qe9Pyo2WbLTJdM4sviJn9XLmb-7cu44YCmtu5wX2F7LCB8vn8AltgWKI" />
+
+      
+        <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css'>
+        <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.css'>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.css">
+                <title>Page non trouvée | Cepex</title>
+        
+<link rel="preload" href="/fonts/metropolis/Metropolis-Regular.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/metropolis/Metropolis-SemiBold.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/metropolis/Metropolis-Bold.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/lora/lora-v14-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
+        
+</head>
+
+<body class="path-fr">
+
+  <div class="dialog-off-canvas-main-canvas d-flex flex-column h-100" data-off-canvas-main-canvas>
+    <header class="header">
+  <div class="headder-cepex">
+    <div class="logo">
+        <div class="region region-header">
+        <a href="/" title="Accueil" rel="home">
+    <img src="/sites/default/files/Logo%20Cepex%20SSLl_0.png" class="img-responsive logo-header" alt="Cepex" />
+  </a>
+  
+  </div>
+
+    </div>
+    <div class="flex-header-top-bottom">
+      <div class="header-top">
+        <div class="box-sociaux-header">
+            <div class="region region-header-rs">
+    <div id="block-cepex-socialmedialinks" class="block-social-media-links block block-social-media-links-block">
+  
+    
+      
+
+<ul class="social-media-links--platforms platforms ul-sociaux-header ul-sociaux">
+      <li>
+      <a class="social-media-link-icon--facebook-f" target="_blank" href="https://www.facebook.com/CEPEX.TUNISIE"  >
+        <i class='fab fa-facebook-f'></i>
+      </a>
+
+          </li>
+      <li>
+      <a class="social-media-link-icon--instagram" target="_blank" href="https://www.instagram.com/tunisiaexport/ "  >
+        <i class='fab fa-instagram'></i>
+      </a>
+
+          </li>
+      <li>
+      <a class="social-media-link-icon--linkedin-in" target="_blank" href="https://www.linkedin.com/in/cepex/"  >
+        <i class='fab fa-linkedin-in'></i>
+      </a>
+
+          </li>
+      <li>
+      <a class="social-media-link-icon--youtube" target="_blank" href="https://www.youtube.com/@TUNISIAEXPORTTV"  >
+        <i class='fab fa-youtube'></i>
+      </a>
+
+          </li>
+  </ul>
+
+  </div>
+
+  </div>
+
+        </div>
+
+          <div class="region region-secondary-menu">
+    <nav role="navigation" aria-labelledby="block-cepex-reclamation-menu" id="block-cepex-reclamation" class="block block-menu navigation menu--reclamation navmenu navmobile">
+            
+  <h5 class="visually-hidden" id="block-cepex-reclamation-menu">Contactez-nous</h5>
+  
+
+          <div class="box-contact-header box-contact-header-mobile">
+    <a href="/form/contact" class="link-contact">
+     <span class="flex-icon-contact">
+          <i class="fa-solid fa-phone icon-phone"></i>
+            <i class="fa-regular fa-envelope icon-msg"></i>
+     </span>
+      <span class="title-link-contact">Contactez-nous</span>
+    </a>
+  </div>
+
+  </nav>
+<div class="views-exposed-form bef-exposed-form block block-views block-views-exposed-filter-blockrecherche-globale-page-1" data-bef-auto-submit-full-form="" data-bef-auto-submit="" data-bef-auto-submit-delay="500" data-drupal-selector="views-exposed-form-recherche-globale-page-1" id="block-cepex-formulaireexposerecherche-globalepage-1">
+  
+    
+      <form data-block="secondary_menu" action="/recherche-globale" method="get" id="views-exposed-form-recherche-globale-page-1" accept-charset="UTF-8">
+  <div class="boxserach searchbtn">
+  <span class="buttonsearch"><i class="fa-solid fa-magnifying-glass"></i></span>
+  <div class="searchdiv">
+    <div class="serachprod">
+      <div class="search">
+        <div class="js-form-item form-item js-form-type-textfield form-type-textfield js-form-item-keys form-item-keys">
+      
+        
+  <input title="Mots-clés de recherche" data-bef-auto-submit-exclude="" data-drupal-selector="edit-keys" type="text" id="edit-keys" name="keys" value="" size="15" maxlength="128" placeholder="Rechercher" class="form-text form-control" />
+
+
+        </div>
+<div data-drupal-selector="edit-actions" class="form-actions js-form-wrapper form-wrapper" id="edit-actions">
+    <input data-bef-auto-submit-click="" data-drupal-selector="edit-submit-recherche-globale" type="submit" id="edit-submit-recherche-globale" value="search" class="button js-form-submit form-submit btn btn-primary" />
+
+</div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+</form>
+
+  </div>
+<nav role="navigation" aria-labelledby="block-cepex-account-menu-menu" id="block-cepex-account-menu" class="block block-menu navigation menu--account">
+            
+  <h5 class="visually-hidden" id="block-cepex-account-menu-menu">User account menu</h5>
+  
+
+          <div class="box-connecter-header box-connecter-header-mobile">
+    <a href="/user/login" class="link-connect-header"><i class="fa-regular fa-user"></i> Se connecter</a>
+  </div>
+
+  </nav>
+<div class="vl"></div>
+
+  </div>
+
+
+          <div class="region region-search-menu">
+    <div class="boxlangue">
+  <i class="fa-solid fa-globe"></i>
+          <form class="lang-dropdown-form lang_dropdown_form clearfix language_interface" id="lang_dropdown_form_lang-dropdown-form" data-drupal-selector="lang-dropdown-form-2" action="/fr/calendrier-des-salons" method="post" accept-charset="UTF-8">
+  <div class="js-form-item form-item js-form-type-select form-type-select js-form-item-lang-dropdown-select form-item-lang-dropdown-select form-no-label">
+      <label for="edit-lang-dropdown-select" class="visually-hidden">Select your language</label>
+        <select style="width:165px" class="lang-dropdown-select-element form-select form-control" data-lang-dropdown-id="lang-dropdown-form" data-drupal-selector="edit-lang-dropdown-select" id="edit-lang-dropdown-select" name="lang_dropdown_select"><option value="fr" selected="selected">fr</option><option value="en">en</option><option value="ar">ar</option></select>
+        </div>
+
+  <input data-drupal-selector="edit-fr" type="hidden" name="fr" value="/system/404" />
+
+
+  <input data-drupal-selector="edit-en" type="hidden" name="en" value="/en/system/404" />
+
+
+  <input data-drupal-selector="edit-ar" type="hidden" name="ar" value="/ar/system/404" />
+
+<noscript><div>
+    <input data-drupal-selector="edit-submit" type="submit" id="edit-submit" name="op" value="Allez" class="button js-form-submit form-submit btn btn-primary" />
+
+</div></noscript>
+  <input data-drupal-selector="form-wrd1doywnoic3pjfie4-xsdbpnp-dz-tlewhkndzvhe" type="hidden" name="form_build_id" value="form-wrd1dOywNoIC3pjFIE4-XSDBpNP_DZ-TleWHKndzvhE" />
+
+
+  <input data-drupal-selector="edit-lang-dropdown-form" type="hidden" name="form_id" value="lang_dropdown_form" />
+
+
+</form>
+
+    </div>
+
+  </div>
+
+
+        <div class="btnmenu">
+          <div id="menu-toggle">
+            <div id="hamburger">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="header-bottom">
+          <div class="region region-primary-menu">
+    <nav role="navigation" aria-labelledby="block-cepex-main-navigation-menu" id="block-cepex-main-navigation" class="block block-menu navigation menu--main navmenu navmobile">
+            
+  <h5 class="visually-hidden" id="block-cepex-main-navigation-menu">Navigation principale</h5>
+  
+
+        <ul class="nav-menu">
+      <li class="link-nav">
+      <a href="/" class="btn-nav">
+        Accueil
+      </a>
+          </li>
+      <li class="link-nav link-sous-nav">
+      <a href="/tunisia-export" class="btn-nav hidden">
+        Tunisia Export
+      </a>
+              <div class="dropdown">
+          <a class="dropbtn btn-nav" href="/tunisia-export">Tunisia Export</a>
+          <ul class="nav-menu-level dropdown-content">
+                          <li><a href="/tunisia-export#presentation" class="btn-nav dropdown-item">Présentation</a></li>
+                          <li><a href="/tunisia-export#services" class="btn-nav dropdown-item">Services</a></li>
+                          <li><a href="/tunisia-export#regionaux" class="btn-nav dropdown-item">Bureaux régionaux</a></li>
+                          <li><a href="/tunisia-export#etranger" class="btn-nav dropdown-item">Bureaux à l'étranger</a></li>
+                          <li><a href="/tunisia-export#cepex" class="btn-nav dropdown-item">Maison de l'exportateur</a></li>
+                      </ul>
+        </div>
+          </li>
+      <li class="link-nav link-sous-nav">
+      <a href="/activites-export" class="btn-nav hidden">
+        Actualités
+      </a>
+              <div class="dropdown">
+          <a class="dropbtn btn-nav" href="/activites-export">Actualités</a>
+          <ul class="nav-menu-level dropdown-content">
+                          <li><a href="/activites-export#temoignages" class="btn-nav dropdown-item">Témoignages</a></li>
+                      </ul>
+        </div>
+          </li>
+      <li class="link-nav link-sous-nav">
+      <a href="/opportunites-daffaires" class="btn-nav hidden">
+        Opportunités d'Affaires
+      </a>
+              <div class="dropdown">
+          <a class="dropbtn btn-nav" href="/opportunites-daffaires">Opportunités d'Affaires</a>
+          <ul class="nav-menu-level dropdown-content">
+                          <li><a href="/opportunites-daffaires#annuaire-exportateur" class="btn-nav dropdown-item">Annuaire des entreprises</a></li>
+                      </ul>
+        </div>
+          </li>
+      <li class="link-nav">
+      <a href="/discover-tunisia" class="btn-nav">
+        Découvrir la Tunisie
+      </a>
+          </li>
+      <li class="link-nav">
+      <a href="/gouvernance" class="btn-nav">
+        Gouvernance
+      </a>
+          </li>
+      <li class="link-nav">
+      <a href="/media" class="btn-nav">
+        Média
+      </a>
+          </li>
+  </ul>
+
+  </nav>
+
+  </div>
+
+      </div>
+    </div>
+  </div>
+</header>
+<div class="boxmenunav">
+  <div class="menu-mobile">
+    <span class="btnmenu big closebtn"></span>
+    <div class="boxnav-cta mobile">
+        <div class="region region-primary-menu">
+    <nav role="navigation" aria-labelledby="block-cepex-main-navigation-menu" id="block-cepex-main-navigation" class="block block-menu navigation menu--main navmenu navmobile">
+            
+  <h5 class="visually-hidden" id="block-cepex-main-navigation-menu">Navigation principale</h5>
+  
+
+        <ul class="nav-menu">
+      <li class="link-nav">
+      <a href="/" class="btn-nav">
+        Accueil
+      </a>
+          </li>
+      <li class="link-nav link-sous-nav">
+      <a href="/tunisia-export" class="btn-nav hidden">
+        Tunisia Export
+      </a>
+              <div class="dropdown">
+          <a class="dropbtn btn-nav" href="/tunisia-export">Tunisia Export</a>
+          <ul class="nav-menu-level dropdown-content">
+                          <li><a href="/tunisia-export#presentation" class="btn-nav dropdown-item">Présentation</a></li>
+                          <li><a href="/tunisia-export#services" class="btn-nav dropdown-item">Services</a></li>
+                          <li><a href="/tunisia-export#regionaux" class="btn-nav dropdown-item">Bureaux régionaux</a></li>
+                          <li><a href="/tunisia-export#etranger" class="btn-nav dropdown-item">Bureaux à l'étranger</a></li>
+                          <li><a href="/tunisia-export#cepex" class="btn-nav dropdown-item">Maison de l'exportateur</a></li>
+                      </ul>
+        </div>
+          </li>
+      <li class="link-nav link-sous-nav">
+      <a href="/activites-export" class="btn-nav hidden">
+        Actualités
+      </a>
+              <div class="dropdown">
+          <a class="dropbtn btn-nav" href="/activites-export">Actualités</a>
+          <ul class="nav-menu-level dropdown-content">
+                          <li><a href="/activites-export#temoignages" class="btn-nav dropdown-item">Témoignages</a></li>
+                      </ul>
+        </div>
+          </li>
+      <li class="link-nav link-sous-nav">
+      <a href="/opportunites-daffaires" class="btn-nav hidden">
+        Opportunités d'Affaires
+      </a>
+              <div class="dropdown">
+          <a class="dropbtn btn-nav" href="/opportunites-daffaires">Opportunités d'Affaires</a>
+          <ul class="nav-menu-level dropdown-content">
+                          <li><a href="/opportunites-daffaires#annuaire-exportateur" class="btn-nav dropdown-item">Annuaire des entreprises</a></li>
+                      </ul>
+        </div>
+          </li>
+      <li class="link-nav">
+      <a href="/discover-tunisia" class="btn-nav">
+        Découvrir la Tunisie
+      </a>
+          </li>
+      <li class="link-nav">
+      <a href="/gouvernance" class="btn-nav">
+        Gouvernance
+      </a>
+          </li>
+      <li class="link-nav">
+      <a href="/media" class="btn-nav">
+        Média
+      </a>
+          </li>
+  </ul>
+
+  </nav>
+
+  </div>
+
+    </div>
+      <div class="region region-secondary-menu">
+    <nav role="navigation" aria-labelledby="block-cepex-reclamation-menu" id="block-cepex-reclamation" class="block block-menu navigation menu--reclamation navmenu navmobile">
+            
+  <h5 class="visually-hidden" id="block-cepex-reclamation-menu">Contactez-nous</h5>
+  
+
+          <div class="box-contact-header box-contact-header-mobile">
+    <a href="/form/contact" class="link-contact">
+     <span class="flex-icon-contact">
+          <i class="fa-solid fa-phone icon-phone"></i>
+            <i class="fa-regular fa-envelope icon-msg"></i>
+     </span>
+      <span class="title-link-contact">Contactez-nous</span>
+    </a>
+  </div>
+
+  </nav>
+<div class="views-exposed-form bef-exposed-form block block-views block-views-exposed-filter-blockrecherche-globale-page-1" data-bef-auto-submit-full-form="" data-bef-auto-submit="" data-bef-auto-submit-delay="500" data-drupal-selector="views-exposed-form-recherche-globale-page-1" id="block-cepex-formulaireexposerecherche-globalepage-1">
+  
+    
+      <form data-block="secondary_menu" action="/recherche-globale" method="get" id="views-exposed-form-recherche-globale-page-1" accept-charset="UTF-8">
+  <div class="boxserach searchbtn">
+  <span class="buttonsearch"><i class="fa-solid fa-magnifying-glass"></i></span>
+  <div class="searchdiv">
+    <div class="serachprod">
+      <div class="search">
+        <div class="js-form-item form-item js-form-type-textfield form-type-textfield js-form-item-keys form-item-keys">
+      
+        
+  <input title="Mots-clés de recherche" data-bef-auto-submit-exclude="" data-drupal-selector="edit-keys" type="text" id="edit-keys" name="keys" value="" size="15" maxlength="128" placeholder="Rechercher" class="form-text form-control" />
+
+
+        </div>
+<div data-drupal-selector="edit-actions" class="form-actions js-form-wrapper form-wrapper" id="edit-actions">
+    <input data-bef-auto-submit-click="" data-drupal-selector="edit-submit-recherche-globale" type="submit" id="edit-submit-recherche-globale" value="search" class="button js-form-submit form-submit btn btn-primary" />
+
+</div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+</form>
+
+  </div>
+<nav role="navigation" aria-labelledby="block-cepex-account-menu-menu" id="block-cepex-account-menu" class="block block-menu navigation menu--account">
+            
+  <h5 class="visually-hidden" id="block-cepex-account-menu-menu">User account menu</h5>
+  
+
+          <div class="box-connecter-header box-connecter-header-mobile">
+    <a href="/user/login" class="link-connect-header"><i class="fa-regular fa-user"></i> Se connecter</a>
+  </div>
+
+  </nav>
+<div class="vl"></div>
+
+  </div>
+
+  </div>
+</div>
+
+<div class="content">
+  <div class="">
+    <div class="content-grids">
+        <div class="region region-content">
+    <div data-drupal-messages-fallback class="hidden"></div>
+<div id="block-cepex-content" class="block block-system block-system-main-block">
+  
+    
+      La page demandée n'a pas pu être trouvée.
+  </div>
+
+  </div>
+
+    </div>
+  </div>
+</div>
+<footer class="site-footer">
+  <div class="footer-wrapper d-flex justify-content-between container">
+    <div class="footer-block col-md-5 col-sm-12 col-12">
+        <div class="region region-footer-left">
+    <div id="block-cepex-descriptioncepex" class="block block-block-content block-block-contente4e34f94-0b12-4fcd-b391-b8c66b3a7820">
+  
+    
+        <div class="clearfix text-formatted field field--name-body field--type-text-with-summary field--label-hidden">
+              <div class="field__item"><p style="text-align:center !important;"><img src="/sites/default/files/inline-images/Logo%20Cepex%20SSL.png" data-entity-uuid="b42645d7-13d2-4a04-a0cf-c226da6d434b" data-entity-type="file" width="113" height="99"></p><p style="text-align:justify !important;">Le <strong>Centre de Promotion des Exportations</strong> est un établissement public tunisien agissant sous la tutelle du <strong>Ministère du Commerce et du Développement des Exportations</strong>.&nbsp;</p><p style="text-align:justify !important;">Créé en avril <strong>1973</strong>, le <strong>CEPEX</strong> s'insère dans le dispositif institutionnel d'appui au secteur privé et agit dans le cadre des objectifs <strong>nationaux de promotion</strong> des <strong>exportations</strong>.</p></div>
+          </div>
+  </div>
+<div id="block-cepex-socialmedialinks-2" class="block-social-media-links block block-social-media-links-block box-sociaux-footer">
+      
+
+<ul class="social-media-links--platforms platforms ul-sociaux-header ul-sociaux">
+      <li>
+      <a class="social-media-link-icon--facebook-f" target="_blank" href="https://www.facebook.com//CEPEX.TUNISIE"  rel="nofollow" >
+        <i class='fab fa-facebook-f'></i>
+      </a>
+
+          </li>
+      <li>
+      <a class="social-media-link-icon--instagram" target="_blank" href="https://www.instagram.com/tunisiaexport"  rel="nofollow" >
+        <i class='fab fa-instagram'></i>
+      </a>
+
+          </li>
+      <li>
+      <a class="social-media-link-icon--linkedin-in" target="_blank" href="https://www.linkedin.com/in/cepex/"  rel="nofollow" >
+        <i class='fab fa-linkedin-in'></i>
+      </a>
+
+          </li>
+      <li>
+      <a class="social-media-link-icon--youtube" target="_blank" href="https://www.youtube.com//@TUNISIAEXPORTTV"  rel="nofollow" >
+        <i class='fab fa-youtube'></i>
+      </a>
+
+          </li>
+  </ul>
+
+  </div>
+
+  </div>
+
+    </div>
+
+    <div class="footer-block col-md-4 col-sm-12 col-12">
+        <div class="region region-footer-middle">
+    <nav role="navigation" aria-labelledby="block-cepex-navigationprincipale-menu" id="block-cepex-navigationprincipale" class="block block-menu navigation menu--main navmenu navmobile">
+      
+  <h5 id="block-cepex-navigationprincipale-menu">Navigation</h5>
+  
+
+        
+        <ul data-block="footer_middle" class="nav flex-column">
+                  <li class="nav-item">
+                  <a href="/" class="nav-link   ">
+            <i class="fa-solid fa-chevron-right"></i> Accueil
+          </a>
+              </li>
+                <li class="nav-item">
+                  <a href="/tunisia-export" class="nav-link  dropdown-toggle ">
+            <i class="fa-solid fa-chevron-right"></i> Tunisia Export
+          </a>
+              </li>
+                <li class="nav-item">
+                  <a href="/activites-export" class="nav-link  dropdown-toggle ">
+            <i class="fa-solid fa-chevron-right"></i> Actualités
+          </a>
+              </li>
+                <li class="nav-item">
+                  <a href="/opportunites-daffaires" class="nav-link  dropdown-toggle ">
+            <i class="fa-solid fa-chevron-right"></i> Opportunités d'Affaires
+          </a>
+              </li>
+                <li class="nav-item">
+                  <a href="/discover-tunisia" class="nav-link   ">
+            <i class="fa-solid fa-chevron-right"></i> Découvrir la Tunisie
+          </a>
+              </li>
+                <li class="nav-item">
+                  <a href="/gouvernance" class="nav-link   ">
+            <i class="fa-solid fa-chevron-right"></i> Gouvernance
+          </a>
+              </li>
+                <li class="nav-item">
+                  <a href="/media" class="nav-link   ">
+            <i class="fa-solid fa-chevron-right"></i> Média
+          </a>
+              </li>
+      </ul>
+    
+
+
+  </nav>
+
+  </div>
+
+    </div>
+
+    <div class="footer-block col-md-3 col-sm-12 col-12">
+        <div class="region region-footer-right">
+    <div id="block-cepex-contact" class="block block-block-content block-block-content25f1254c-7e2c-4f5a-bbd9-48c02310d0a2">
+  
+      <h5 class="">Contact</h5>
+    
+        <div class="row">
+        <div class="icones">
+          <div class="icon-text-container">
+            <div class="icon">
+              <i class="fa-solid fa-phone"></i>
+            </div>
+          </div>
+          <div class="icon-text-container">
+            <div class="icon">
+              <i class="fa-solid fa-envelope"></i>
+            </div>
+          </div>
+          <div class="icon-text-container">
+            <div class="icon">
+              <i class="fa-solid fa-location-dot"></i>
+            </div>
+          </div>
+        </div>
+        <div class="information">
+          <div class="field field--name-field-telephone-contact field--type-telephone field--label-above">
+              <div class="field__item"> (+216) 71 130 320</div>
+          </div>  <div class="field field--name-field-email-contact field--type-email field--label-above">
+              <div class="field__item">rapidcontact@tunisiaexport.tn</div>
+          </div>  <div class="field field--name-field-adresse-contact field--type-string field--label-above">
+              <div class="field__item">Centre Urbain Nord - BP 225 1080 Tunis Cedex</div>
+          </div>
+        </div>
+      </div>
+  </div>
+
+  </div>
+
+    </div>
+  </div>
+  <div class="footer-block copyright">
+      <div class="region region-footer region--footer">
+    <div id="block-cepex-copyright" class="block block-block-content block-block-content663c884b-f154-4e18-92b5-53cb7e841bb6">
+  
+    
+        <div class="clearfix text-formatted field field--name-body field--type-text-with-summary field--label-hidden">
+              <div class="field__item"><div class="copyrights"><p>copyright 2023@<span>cepex.</span>Powered by Numeryx</p></div></div>
+          </div>
+  </div>
+
+  </div>
+
+  </div>
+</footer>
+
+
+  </div>
+
+
+<script type="application/json" data-drupal-selector="drupal-settings-json">{"path":{"baseUrl":"\/","pathPrefix":"","currentPath":"","currentPathIsAdmin":false,"isFront":false,"currentLanguage":"fr"},"pluralDelimiter":"\u0003","suppressDeprecationErrors":true,"ajaxTrustedUrl":{"\/recherche-globale":true,"form_action_p_pvdeGsVG5zNF_XLGPTvYSKCf43t8qZYSwcfZl2uzM":true},"currentUser":{"roles":["anonymous"]},"lang_dropdown":{"lang-dropdown-form":{"key":"lang-dropdown-form"}},"user":{"uid":0,"permissionsHash":"04afdfdfd7dc6402cea6789eecdb87b47eab665fe4bb2d404167e6e507ee4f5c"}}</script>
+<script src="/core/assets/vendor/jquery/jquery.min.js?v=3.7.1"></script>
+<script src="/core/assets/vendor/once/once.min.js?v=1.0.1"></script>
+<script src="/sites/default/files/languages/fr_O6kBKA_4upZvLJAdmpcQGJKgadLBBLjKkCuiKxdc-Iw.js?tg5su5"></script>
+<script src="/core/misc/drupalSettingsLoader.js?v=10.4.0"></script>
+<script src="/core/misc/drupal.js?v=10.4.0"></script>
+<script src="/core/misc/drupal.init.js?v=10.4.0"></script>
+<script src="/core/misc/debounce.js?v=10.4.0"></script>
+<script src="/modules/contrib/better_exposed_filters/js/auto_submit.js?v=6.x"></script>
+<script src="/modules/contrib/better_exposed_filters/js/better_exposed_filters.js?v=6.x"></script>
+<script src="/themes/contrib/bootstrap5/dist/bootstrap/5.3.3/dist/js/bootstrap.bundle.js?v=5.3.3"></script>
+<script src="/core/misc/jquery.form.js?v=4.3.0"></script>
+<script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js"></script>
+<script src="/themes/custom/cepex/js/conflict.js?tg5su5"></script>
+<script src="/themes/custom/cepex/js/jquery.fancybox.min.js?tg5su5"></script>
+<script src="/themes/custom/cepex/js/owl.carousel.js?tg5su5"></script>
+<script src="/themes/custom/cepex/js/pannellum.js?tg5su5"></script>
+<script src="/themes/custom/cepex/js/libpannellum.js?tg5su5"></script>
+<script src="/themes/custom/cepex/js/header.js?tg5su5"></script>
+<script src="/themes/custom/cepex/js/maps.js?tg5su5"></script>
+<script src="/themes/custom/cepex/js/main.js?tg5su5"></script>
+<script src="/themes/custom/cepex/js/evo-calendar.js?tg5su5"></script>
+<script src="/themes/custom/cepex/js/slick-offre.js?tg5su5"></script>
+<script src="/themes/custom/cepex/js/team.js?tg5su5"></script>
+<script src="/themes/custom/cepex/js/maketplace.js?tg5su5"></script>
+<script src="/themes/custom/cepex/js/profile.js?tg5su5"></script>
+<script src="/themes/custom/cepex/js/share.js?tg5su5"></script>
+<script src="/themes/custom/cepex/js/produit.js?tg5su5"></script>
+<script src="/themes/custom/cepex/js/custom-register.js?tg5su5"></script>
+<script src="/themes/custom/cepex/js/popup.js?tg5su5"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+<script src="/modules/contrib/lang_dropdown/js/lang_dropdown.js?v=1.x"></script>
+<script src="https://js.stripe.com/v3/"></script>
+<script src="/modules/contrib/stripe/js/stripe.js?tg5su5"></script>
+
+
+  <!-- Inclure jQuery en premier -->
+  
+  <!-- Inclure jQuery UI après jQuery -->
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+
+  <!-- Inclure Bootstrap après jQuery -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Inclure Slick Carousel après jQuery -->
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js'></script>
+  <script src='https://alexandrebuffet.fr/codepen/slider/slick-animation.min.js'></script>
+
+  <!-- Inclure Fancybox après jQuery -->
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js"></script>
+</body>
+</html>

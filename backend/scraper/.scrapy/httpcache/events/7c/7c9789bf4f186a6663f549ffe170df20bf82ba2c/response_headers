@@ -1,0 +1,15 @@
+Server: nginx/1.26.3 (Ubuntu)
+Content-Type: text/html; charset=UTF-8
+Cache-Control: must-revalidate, no-cache, private
+Date: Fri, 26 Jun 2026 02:05:59 GMT
+X-Drupal-Dynamic-Cache: UNCACHEABLE (poor cacheability)
+Content-Language: fr
+X-Content-Type-Options: nosniff
+X-Frame-Options: SAMEORIGIN
+X-Drupal-Cache-Tags: CACHE_MISS_IF_UNCACHEABLE_HTTP_METHOD:form block_content:1 block_content:12 block_content:15 block_content:2 block_content_view block_view config:block.block.dropdownlanguage config:block.block.exposedformlisting_contentlisting_filter_form config:block.block.gaviascontentbuilderfooter2 config:block.block.gowilds_sub_block_sliders_1 config:block.block.gowilds_sub_breadcrumbs config:block.block.gowilds_sub_gaviascontentbuilderfooter3 config:block.block.gowilds_sub_gaviascontentbuilderfooter_2 config:block.block.gowilds_sub_mailchimpsubscriptionformsubscribenewsletter_2 config:block.block.gowilds_sub_mainnavigation config:block.block.gowilds_sub_mainpagecontent config:block.block.gowilds_sub_messages config:block.block.gowilds_sub_pricingvertical config:block.block.gowilds_sub_primaryadminactions config:block.block.gowilds_sub_searchform config:block.block.gowilds_sub_sitebranding config:block.block.gowilds_sub_tabs config:block.block.gowilds_sub_topbar config:block.block.gowilds_sub_topbarlinks config:block.block.gowilds_sub_views_block__categories_post_block_1 config:block.block.gowilds_sub_views_block__categories_post_block_2 config:block.block.gowilds_sub_webform config:block.block.headerright config:block.block.useraccountmenu config:block.block.views_block__post_other_block_1 config:block.block.webform_booking config:block_list config:configurable_language_list config:filter.format.full_html config:filter.format.restricted_html config:image.style.normal_size config:search.settings config:system.menu.account config:system.menu.main config:system.site config:user.role.anonymous config:user.settings config:webform.settings config:webform.webform.booking_form config:webform.webform.contact file:1152 file:1157 file:1196 file:1240 file:1245 file:1259 file:1262 file:1263 file:1264 http_response local_task node:134 node:149 node:150 node:152 node:158 node:159 node:162 node:198 node:200 node:201 node:202 node:203 node:204 node:205 node:206 node:207 node:213 node:313 node:333 node:335 node:338 node:349 node:353 node:355 node:356 node:357 node:358 node_view page_manager_route_name:evenements_page.list rendered taxonomy_term:1 taxonomy_term:2 user:1 webform:booking_form webform:contact
+X-Drupal-Cache-Contexts: languages:language_content languages:language_interface languages:language_url route theme timezone url.path url.query_args user.permissions user.roles:authenticated
+X-Drupal-Cache-Max-Age: 0 (Uncacheable)
+Expires: Sun, 19 Nov 1978 05:00:00 GMT
+X-Generator: Drupal 11 (https://www.drupal.org)
+X-Drupal-Cache: HIT
+Content-Encoding: gzip

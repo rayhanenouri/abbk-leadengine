@@ -616,7 +616,11 @@ def run_complete_pipeline():
     results = {}
 
     try:
-        results['step1_discovery'] = discover_companies()
+        # SKIP Step 1 for now - scrapy not in worker container
+        # results['step1_discovery'] = discover_companies()
+
+        logger.info("⏩ Skipping Step 1 (directory discovery) - running from existing data")
+
         results['step2_find_websites'] = find_websites_via_google()
         results['step3_scrape_websites'] = scrape_all_company_websites()
         results['step4_job_boards'] = search_job_boards()

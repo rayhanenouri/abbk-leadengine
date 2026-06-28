@@ -1,13 +1,12 @@
-Content-Length: 26765
+Content-Length: 19866
 Server: nginx
-Date: Fri, 26 Jun 2026 10:59:47 GMT
+Date: Sun, 28 Jun 2026 08:31:28 GMT
 Content-Type: text/html; charset=UTF-8
 X-Powered-By: PHP/8.4.22
 X-Powered-By: PleskLin
-X-Jetpack-Boost-Cache: miss
 Link: <https://www.lapresse.tn/wp-json/>; rel="https://api.w.org/", <https://www.lapresse.tn/wp-json/wp/v2/categories/90>; rel="alternate"; title="JSON"; type="application/json"
 Cache-Control: max-age=0
-Expires: Fri, 26 Jun 2026 10:59:42 GMT
+Expires: Sun, 28 Jun 2026 08:31:20 GMT
 Vary: Accept-Encoding
 Content-Encoding: gzip
 X-Cache-Status: MISS

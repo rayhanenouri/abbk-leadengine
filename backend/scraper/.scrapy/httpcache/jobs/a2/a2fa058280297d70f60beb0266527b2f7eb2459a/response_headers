@@ -1,0 +1,15 @@
+Content-Length: 24729
+Date: Sun, 28 Jun 2026 08:29:27 GMT
+Server: Apache/2
+Strict-Transport-Security: max-age=31536000; includeSubDomains
+X-Frame-Options: SAMEORIGIN
+X-Content-Type-Options: nosniff
+Referrer-Policy: strict-origin-when-cross-origin
+Permissions-Policy: geolocation=(), microphone=(), camera=(), usb=()
+Content-Security-Policy: default-src *; script-src * 'unsafe-inline' 'unsafe-eval'; style-src * 'unsafe-inline'; img-src * data:; font-src * data:; frame-src *;
+Last-Modified: Sat, 27 Jun 2026 23:38:58 GMT
+Cache-Control: max-age=0
+Expires: Sun, 28 Jun 2026 08:29:27 GMT
+Vary: Accept-Encoding,User-Agent
+Content-Encoding: gzip
+Content-Type: text/html; charset=UTF-8

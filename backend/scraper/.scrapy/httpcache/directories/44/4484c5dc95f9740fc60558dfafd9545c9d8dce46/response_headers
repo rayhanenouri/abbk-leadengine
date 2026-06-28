@@ -1,4 +1,4 @@
-Date: Fri, 26 Jun 2026 11:09:47 GMT
+Date: Sun, 28 Jun 2026 08:29:51 GMT
 Content-Type: text/html; charset=UTF-8
 Server: Apache
 X-Powered-By: PHP/8.5
@@ -14,5 +14,4 @@ Permissions-Policy: camera=(), microphone=(), geolocation=(self), payment=(), us
 Permissions-Policy: unload=()
 Content-Security-Policy: default-src 'unsafe-inline' 'unsafe-eval' 'self' data: blob: *.googleapis.com *.gstatic.com *.google.com *.googletagmanager.com *.google-analytics.com *.facebook.net *.tinymce.com *.tiny.cloud *.facebook.com *.jsdelivr.net cdn-cookieyes.com *.cookieyes.com *.doubleclick.net  *.google.tn *.studi.com.tn *.googlesyndication.com *.youtube.com *.youtube-nocookie.com secure.gravatar.com;
 Cache-Control: max-age=172800
-Expires: Sun, 28 Jun 2026 11:09:47 GMT
-Accept-Ranges: none
+Expires: Tue, 30 Jun 2026 08:29:51 GMT
