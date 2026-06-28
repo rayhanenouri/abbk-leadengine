@@ -1,0 +1,21 @@
+Server: nginx
+Date: Sun, 28 Jun 2026 08:34:58 GMT
+Content-Type: text/html; charset=UTF-8
+Vary: Accept-Encoding
+Vary: Cookie
+Cache-Control: max-age=43200, public
+Content-Language: en
+Etag: W/"1782477689"
+Expires: Sun, 19 Nov 1978 05:00:00 GMT
+Last-Modified: Fri, 26 Jun 2026 12:41:29 GMT
+X-Content-Type-Options: nosniff
+X-Frame-Options: SAMEORIGIN
+X-Content-Length: 65669
+Age: 64019
+X-Xss-Protection: 1; mode=block
+Referrer-Policy: strict-origin-when-cross-origin
+X-Permitted-Cross-Domain-Policies: none
+Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
+Permissions-Policy: accelerometer=(self "https://youtube.com" "https://www.youtube.com" "https://www.youtube-nocookie.com"), autoplay=(self "https://youtube.com" "https://www.youtube.com" "https://www.youtube-nocookie.com"), camera=(), cross-origin-isolated=(), display-capture=(), encrypted-media=(self "https://youtube.com" "https://www.youtube.com" "https://www.youtube-nocookie.com"), fullscreen=(self "https://youtube.com" "https://www.youtube.com" "https://www.youtube-nocookie.com"), geolocation=(), gyroscope=(self "https://youtube.com" "https://www.youtube.com" "https://www.youtube-nocookie.com"), keyboard-map=(), magnetometer=(), microphone=(), midi=(), payment=(), picture-in-picture=(self "https://youtube.com" "https://www.youtube.com" "https://www.youtube-nocookie.com"), publickey-credentials-get=(), screen-wake-lock=(), sync-xhr=(), usb=(), web-share=(self "https://youtube.com" "https://www.youtube.com" "https://www.youtube-nocookie.com"), xr-spatial-tracking=()
+Content-Security-Policy: default-src * 'unsafe-inline' 'unsafe-eval' data: blob:; object-src *; frame-ancestors *; base-uri *
+Content-Encoding: gzip

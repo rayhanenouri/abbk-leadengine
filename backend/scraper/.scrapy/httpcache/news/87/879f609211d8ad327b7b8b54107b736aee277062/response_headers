@@ -1,11 +1,7 @@
-Content-Length: 20635
-Date: Fri, 26 Jun 2026 10:59:55 GMT
+Content-Length: 21170
+Date: Sun, 28 Jun 2026 08:31:39 GMT
 Server: Apache/2
-Vary: User-Agent,Accept-Encoding
-Last-Modified: Thu, 25 Jun 2026 14:53:45 GMT
-Accept-Ranges: bytes
+Link: <https://kapitalis.com/tunisie/wp-json/>; rel="https://api.w.org/", <https://kapitalis.com/tunisie/wp-json/wp/v2/categories/995>; rel="alternate"; title="JSON"; type="application/json"
+Vary: Accept-Encoding,User-Agent
 Content-Encoding: gzip
-Cache-Control: max-age=0, no-cache, no-store, must-revalidate
-Pragma: no-cache
-Expires: Mon, 29 Oct 1923 20:30:00 GMT
 Content-Type: text/html; charset=UTF-8

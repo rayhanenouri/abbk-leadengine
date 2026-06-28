@@ -18,7 +18,9 @@ celery_app = Celery(
         "app.workers.tasks.company_enrichment",
         "app.workers.tasks.universal_scraping",
         "app.workers.tasks.full_automation",
-        "app.workers.tasks.complete_automation",  # NEW: ZERO-INTERVENTION AUTOMATION
+        "app.workers.tasks.complete_automation",
+        "app.workers.tasks.master_scraping",
+        "app.workers.tasks.production_enrichment",  # PRODUCTION: Real signal extraction
     ],
 )
 
@@ -132,6 +134,13 @@ celery_app.conf.beat_schedule = {
     },
 
     # ═══ ENRICHMENT (Detection & Analysis) ═══
+
+    # PRODUCTION ENRICHMENT - Extract real signals from ALL sources
+    "production-enrichment-daily": {
+        "task": "production_enrichment.enrich_all_companies",
+        "schedule": crontab(hour=6, minute=0),  # Daily at 6am (after scraping)
+        "options": {"queue": "enrichment"},
+    },
 
     # Multinational/exporter/audit detection - Daily at 1am
     "enrichment-flags-daily": {

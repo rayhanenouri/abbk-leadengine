@@ -1,0 +1,13 @@
+Content-Length: 218363
+Date: Sun, 28 Jun 2026 08:35:06 GMT
+Server: Apache
+Expires: Thu, 19 Nov 1981 08:52:00 GMT
+Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0
+Pragma: no-cache
+Access-Control-Allow-Origin: http://localhost
+Set-Cookie: PHPSESSID=qtc5kcghfj8atefrjm01piue53; path=/;Max-Age=86400
+Set-Cookie: cookiesession1=678B28A4E68DB67F8D5373D14D2044D4;Expires=Mon, 28 Jun 2027 08:35:06 GMT;Path=/;HttpOnly
+Content-Security-Policy: frame-ancestors https://*.rnu.tn;
+Content-Type: text/html; charset=UTF-8
+X-Content-Type-Options: nosniff
+X-Frame-Options: SAMEORIGIN

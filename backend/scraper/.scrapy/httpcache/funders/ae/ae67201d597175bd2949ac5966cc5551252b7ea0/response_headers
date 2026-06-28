@@ -1,0 +1,16 @@
+Content-Length: 211
+Date: Sun, 28 Jun 2026 08:34:52 GMT
+Set-Cookie: BIGipServerpool-afd-prod.cegedim.cloud-tcp80=!/8APdjLYYRf3LQd3Zj8tcwec1Snos88Xo+DbjA+TuORq+hxeDQYyuikezw9FYNcoJC0jPyCjcEqtboxUL1sDzLehBgfG; path=/; Httponly; Secure
+X-Redirect-Id: 30889
+Content-Language: fr
+X-Content-Type-Options: nosniff
+X-Frame-Options: SAMEORIGIN
+Cache-Control: must-revalidate, no-cache, private
+Expires: Sun, 19 Nov 1978 05:00:00 GMT
+X-Drupal-Cache: MISS
+Location: https://www.afd.fr/fr/pays-regions/tunisie
+Content-Type: text/html; charset=utf-8
+Strict-Transport-Security: max-age=31536000; includeSubDomains
+Vary: Accept-Encoding
+Content-Encoding: gzip
+X-Cp-Via: C2-3c52c93b-5c799252

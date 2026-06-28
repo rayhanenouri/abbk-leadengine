@@ -1,0 +1,10 @@
+Content-Length: 10
+Accept-Ranges: bytes
+Expires: Sun, 28 Jun 2026 08:34:53 GMT
+Cache-Control: max-age=0, no-cache, no-store
+Pragma: no-cache
+Date: Sun, 28 Jun 2026 08:34:53 GMT
+Strict-Transport-Security: max-age=31536000 ; includeSubDomains
+Referrer-Policy: no-referrer-when-downgrade
+X-Content-Type-Options: nosniff
+X-Frame-Options: SAMEORIGIN

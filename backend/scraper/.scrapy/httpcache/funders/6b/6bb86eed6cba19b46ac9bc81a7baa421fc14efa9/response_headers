@@ -1,0 +1,16 @@
+Content-Length: 22014
+Date: Sat, 27 Jun 2026 23:16:58 GMT
+Set-Cookie: BIGipServerpool-afd-prod.cegedim.cloud-tcp80=!XaZTHuNRWXe7YnZ3Zj8tcwec1Snos/+EIoyd/4N1jtMzUcyFkiqyUedQJ7JWCbLcE4PLvOBT49v4Xpt6s+0epvnyTwNs; path=/; Httponly; Secure
+Cache-Control: must-revalidate, no-cache, private
+X-Drupal-Dynamic-Cache: MISS
+Link: </themes/custom/afd_theme/favicon.ico>; rel="icon"; type="image/x-icon"
+Content-Language: fr
+X-Content-Type-Options: nosniff
+X-Frame-Options: SAMEORIGIN
+Expires: Sun, 19 Nov 1978 05:00:00 GMT
+X-Drupal-Cache: HIT
+Vary: Accept-Encoding
+Content-Encoding: gzip
+Content-Type: text/html; charset=UTF-8
+Strict-Transport-Security: max-age=31536000; includeSubDomains
+X-Cp-Via: C2-3c52c93b-bd570789

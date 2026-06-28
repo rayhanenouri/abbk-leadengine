@@ -1,0 +1,21 @@
+Content-Length: 7335
+Date: Sun, 28 Jun 2026 08:34:50 GMT
+Content-Type: text/html;charset=utf-8
+Server: cloudflare
+Cf-Ray: a12b5acbbc08e240-MRS
+Cf-Cache-Status: MISS
+Accept-Ranges: bytes
+Cache-Control: public, max-age=14400
+Content-Encoding: gzip
+Expires: Sun, 28 Jun 2026 12:34:50 GMT
+Last-Modified: Sun, 28 Jun 2026 08:34:50 GMT
+Vary: Accept-Encoding,User-Agent
+X-Dispatcher: dispatcher2useast1
+X-Vhost: publish
+Set-Cookie: __cf_bm=yaqE7dV7go3JcIYsLfc2iKdxrzM2PROXimKCd04Iszw-1782635690-1.0.1.1-NbILAjMu4aR7PvBBO.D6f1Bm.RLe1I8Cy581OfulnApNZFwb_G.yQqIeEUrcdArP3ygGwjDSVMlcxLpYowaSmMduR05V2OHgMgKvuvbDkiM; path=/; expires=Sun, 28-Jun-26 09:04:50 GMT; domain=.worldbank.org; HttpOnly; Secure; SameSite=None
+Set-Cookie: _cfuvid=A1saQkVoF6opsEwHvCsbOLo3AT16RnPdjKaAXAuXEto-1782635690976-0.0.1.1-604800000; path=/; domain=.worldbank.org; HttpOnly; Secure; SameSite=None
+Strict-Transport-Security: max-age=63072000; includeSubDomains
+X-Content-Type-Options: nosniff
+X-Frame-Options: SAMEORIGIN
+X-Xss-Protection: 1; mode=block
+X-Bot-Score: 20

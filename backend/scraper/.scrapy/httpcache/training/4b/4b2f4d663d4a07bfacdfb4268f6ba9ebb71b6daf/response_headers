@@ -1,0 +1,8 @@
+Content-Length: 16
+Date: Sun, 28 Jun 2026 08:35:01 GMT
+Server: Apache
+Content-Security-Policy: frame-ancestors https://*.rnu.tn;
+Content-Type: text/html; charset=UTF-8
+Set-Cookie: cookiesession1=678B28A4B7E8757D292123BC5FECE389;Expires=Mon, 28 Jun 2027 08:35:01 GMT;Path=/;HttpOnly
+X-Content-Type-Options: nosniff
+X-Frame-Options: SAMEORIGIN

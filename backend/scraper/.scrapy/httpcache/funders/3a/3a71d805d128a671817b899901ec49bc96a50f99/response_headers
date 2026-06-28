@@ -1,0 +1,21 @@
+Date: Sun, 28 Jun 2026 08:34:51 GMT
+Content-Type: text/html;charset=utf-8
+Content-Encoding: gzip
+Cf-Ray: a12b5acbcdd69822-MRS
+Cf-Cache-Status: MISS
+Cache-Control: public, max-age=1
+Expires: Sun, 28 Jun 2026 08:34:52 GMT
+Last-Modified: Mon, 22 Jun 2026 22:03:17 GMT
+Vary: Accept-Encoding,User-Agent
+X-Dispatcher: dispatcher2useast1
+X-Vhost: publish
+Server-Timing: cfCacheStatus;desc="MISS"
+Server-Timing: cfOrigin;dur=0,cfEdge;dur=0
+Strict-Transport-Security: max-age=63072000; includeSubDomains
+X-Content-Type-Options: nosniff
+X-Frame-Options: SAMEORIGIN
+X-Xss-Protection: 1; mode=block
+X-Bot-Score: 20
+Set-Cookie: wbg_ctx=20; Path=/; Secure; SameSite=None
+Set-Cookie: _cfuvid=81EprUgbeSZzLlVeF9JdPwNZ3Rf4y7FPg4IuZ5OqOMs-1782635691384-0.0.1.1-604800000; path=/; domain=.www.banquemondiale.org; HttpOnly; Secure; SameSite=None
+Server: cloudflare
