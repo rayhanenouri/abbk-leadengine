@@ -20,7 +20,8 @@ import {
   FileText,
   Database,
   Calendar,
-  X
+  X,
+  Shield
 } from 'lucide-react';
 
 const Sidebar = ({ currentView, onViewChange, onLogout, unreadCount = 0, user, isOpen, onClose }) => {
@@ -42,6 +43,7 @@ const Sidebar = ({ currentView, onViewChange, onLogout, unreadCount = 0, user, i
   const bottomItems = [
     { id: 'notifications', label: 'Notifications', icon: Bell, badge: 3 },
     { id: 'reports', label: 'Export Reports', icon: FileText },
+    { id: 'users', label: 'User Management', icon: Shield, adminOnly: true },
   ];
 
   const handleNavClick = (id) => {
@@ -134,7 +136,7 @@ const Sidebar = ({ currentView, onViewChange, onLogout, unreadCount = 0, user, i
               >
                 <Icon className="w-5 h-5" strokeWidth={2.5} />
                 <span>{item.label}</span>
-                {item.badge && (
+                {item.badge !== undefined && item.badge !== 0 && (
                   <span className={`ml-auto text-xs font-bold px-2 py-0.5 rounded-full ${
                     item.badge === 'LIVE'
                       ? 'bg-emerald-500 text-white animate-pulse'
@@ -193,6 +195,11 @@ const Sidebar = ({ currentView, onViewChange, onLogout, unreadCount = 0, user, i
         <div className="px-3 py-4 border-t border-neutral-200">
         <div className="space-y-1 mb-4">
           {bottomItems.map((item) => {
+            // Hide admin-only items if user is not admin
+            if (item.adminOnly && user?.role !== 'admin') {
+              return null;
+            }
+
             const Icon = item.icon;
             const isActive = currentView === item.id;
 

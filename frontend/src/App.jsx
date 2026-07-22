@@ -12,6 +12,7 @@ import ScoreEngine from './pages/ScoreEngine'
 import DataSources from './pages/DataSources'
 import Notifications from './pages/Notifications'
 import ExportReports from './pages/ExportReports'
+import UserManagement from './pages/UserManagement'
 import Sidebar from './components/layout/Sidebar'
 import LeadDetail from './pages/LeadDetail'
 
@@ -20,24 +21,58 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [selectedLeadId, setSelectedLeadId] = useState(null)
   const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [leadsCount, setLeadsCount] = useState(0)
 
   useEffect(() => {
     const token = localStorage.getItem('token')
     setIsLoggedIn(!!token)
     if (token) {
       setCurrentPage('dashboard')
+      // Delay to ensure backend is ready
+      setTimeout(() => fetchLeadsCount(), 500)
     }
   }, [])
+
+  useEffect(() => {
+    // Refresh count when page changes
+    if (isLoggedIn && currentPage !== 'login' && currentPage !== 'landing') {
+      fetchLeadsCount()
+    }
+  }, [currentPage])
+
+  const fetchLeadsCount = async () => {
+    try {
+      const token = localStorage.getItem('token')
+      // Use the API service function for consistency
+      const response = await fetch(`http://${window.location.hostname}:8000/api/leads/?skip=0&limit=1&sort_by=created_at&sort_order=desc`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      })
+
+      if (!response.ok) {
+        console.error('Failed to fetch leads count:', response.status)
+        return
+      }
+
+      const data = await response.json()
+      console.log('Fetched leads count data:', data)
+      const count = data.total || 0
+      console.log('Setting leads count in sidebar to:', count)
+      setLeadsCount(count)
+    } catch (err) {
+      console.error('Failed to fetch leads count:', err)
+    }
+  }
 
   const handleLoginSuccess = () => {
     setIsLoggedIn(true)
     setCurrentPage('dashboard')
+    fetchLeadsCount()
   }
 
   const handleLogout = () => {
     localStorage.removeItem('token')
     setIsLoggedIn(false)
-    setCurrentPage('landing')
+    setCurrentPage('login')
   }
 
   const handleViewLead = (leadId) => {
@@ -54,6 +89,7 @@ function App() {
           onLogout={handleLogout}
           isOpen={sidebarOpen}
           onClose={() => setSidebarOpen(false)}
+          unreadCount={leadsCount}
         />
         <div className="flex-1 overflow-auto w-full">
           <LeadDetail
@@ -85,6 +121,7 @@ function App() {
             onLogout={handleLogout}
             isOpen={sidebarOpen}
             onClose={() => setSidebarOpen(false)}
+            unreadCount={leadsCount}
           />
           <div className="flex-1 overflow-auto w-full">
             <AnalyticsEnterprise
@@ -261,6 +298,22 @@ function App() {
               onViewLead={handleViewLead}
               onMenuClick={() => setSidebarOpen(!sidebarOpen)}
             />
+          </div>
+        </div>
+      )
+
+    case 'users':
+      return (
+        <div className="flex h-screen bg-neutral-50 overflow-hidden">
+          <Sidebar
+            currentView="users"
+            onViewChange={setCurrentPage}
+            onLogout={handleLogout}
+            isOpen={sidebarOpen}
+            onClose={() => setSidebarOpen(false)}
+          />
+          <div className="flex-1 overflow-auto w-full">
+            <UserManagement />
           </div>
         </div>
       )

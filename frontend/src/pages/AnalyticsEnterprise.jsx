@@ -38,15 +38,12 @@ const AnalyticsEnterprise = ({ onBack }) => {
 
   if (loading) {
     return (
-      <div className="flex h-screen" style={{ backgroundColor: '#FAFAFA' }}>
-        <Sidebar currentView="analytics" onViewChange={(v) => v === 'dashboard' && onBack()} onLogout={logout} />
-        <div className="flex-1 flex items-center justify-center">
-          <div className="text-center">
-            <div className="inline-block w-12 h-12 border-4 border-neutral-900 border-t-transparent rounded-full animate-spin mb-4" />
-            <p className="text-neutral-600 font-semibold" style={{ fontSize: '14px', fontWeight: 600 }}>
-              Loading analytics...
-            </p>
-          </div>
+      <div className="flex-1 flex items-center justify-center" style={{ backgroundColor: '#FAFAFA' }}>
+        <div className="text-center">
+          <div className="inline-block w-12 h-12 border-4 border-neutral-900 border-t-transparent rounded-full animate-spin mb-4" />
+          <p className="text-neutral-600 font-semibold" style={{ fontSize: '14px', fontWeight: 600 }}>
+            Loading analytics...
+          </p>
         </div>
       </div>
     );
@@ -112,10 +109,7 @@ const AnalyticsEnterprise = ({ onBack }) => {
   const maxScoreCount = Math.max(...scoreData.map(s => s.count));
 
   return (
-    <div className="flex h-screen" style={{ backgroundColor: '#FAFAFA' }}>
-      <Sidebar currentView="analytics" onViewChange={(v) => v === 'dashboard' && onBack()} onLogout={logout} />
-
-      <div className="flex-1 flex flex-col overflow-hidden">
+    <div className="flex-1 flex flex-col overflow-hidden" style={{ backgroundColor: '#FAFAFA' }}>
         {/* Header */}
         <div className="bg-white border-b border-neutral-200" style={{
           background: 'linear-gradient(to right, #FFFFFF 0%, #FAFAFA 100%)'
@@ -707,7 +701,6 @@ const AnalyticsEnterprise = ({ onBack }) => {
           </div>
         </div>
       </div>
-    </div>
   );
 };
 

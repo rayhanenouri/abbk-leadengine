@@ -61,10 +61,19 @@ export const getLeads = async (skip = 0, limit = 1000, sortBy = 'created_at', so
   params.append('limit', limit);
   params.append('sort_by', sortBy);
   params.append('sort_order', sortOrder);
+  // Temporarily disable to debug
+  // params.append('include_signals', 'true');
+  // params.append('include_scores', 'true');
 
-  const response = await apiCall(`/leads/?${params.toString()}`);
+  const response = await apiCall(`/leads?${params.toString()}`);
+  console.log('API response:', response);
   // Response format: {leads: [...], total: 349, skip: 0, limit: 1000}
-  return response.leads || response || []; // Return the leads array
+  // Return just the leads array for backward compatibility
+  if (response && response.leads && Array.isArray(response.leads)) {
+    return response.leads;
+  }
+  // Fallback if response is already an array
+  return Array.isArray(response) ? response : [];
 };
 
 // Scores APIs
@@ -146,4 +155,18 @@ export const deleteNotification = async (notificationId) => {
   return apiCall(`/notifications/${notificationId}`, {
     method: 'DELETE',
   });
+};
+
+// Generic API object for custom endpoints
+export const api = {
+  get: (endpoint) => apiCall(endpoint, { method: 'GET' }),
+  post: (endpoint, data) => apiCall(endpoint, {
+    method: 'POST',
+    body: JSON.stringify(data),
+  }),
+  patch: (endpoint, data) => apiCall(endpoint, {
+    method: 'PATCH',
+    body: JSON.stringify(data),
+  }),
+  delete: (endpoint) => apiCall(endpoint, { method: 'DELETE' }),
 };

@@ -201,12 +201,12 @@ export default function Login({ onLoginSuccess }) {
               </motion.button>
             </form>
 
-            {/* Demo Credentials */}
+            {/* Demo Credentials & Account Info */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.8 }}
-              className="mt-6 pt-6 border-t border-neutral-200"
+              className="mt-6 pt-6 border-t border-neutral-200 space-y-3"
             >
               <p className="text-center text-sm text-neutral-500">
                 Demo credentials:{' '}
@@ -217,6 +217,9 @@ export default function Login({ onLoginSuccess }) {
                 <span className="font-mono text-neutral-700 font-semibold">
                   admin123
                 </span>
+              </p>
+              <p className="text-center text-xs text-neutral-400 px-4">
+                Don't have an account? Contact your admin to create one for you.
               </p>
             </motion.div>
           </div>

@@ -274,7 +274,18 @@ async def get_leads(
                 .where(LeadSignal.lead_id == lead.id)
                 .order_by(LeadSignal.detected_at.desc())
             )
-            lead_data["signals"] = signals_result.scalars().all()
+            signals = signals_result.scalars().all()
+            lead_data["signals"] = [
+                {
+                    "id": s.id,
+                    "signal_type": s.signal_type,
+                    "title": s.title,
+                    "detail": s.detail,
+                    "source_url": s.source_url,
+                    "detected_at": s.detected_at,
+                }
+                for s in signals
+            ]
 
         if include_scores:
             scores_result = await db.execute(
@@ -282,7 +293,18 @@ async def get_leads(
                 .where(LeadScore.lead_id == lead.id)
                 .order_by(LeadScore.score.desc())
             )
-            lead_data["scores"] = scores_result.scalars().all()
+            scores = scores_result.scalars().all()
+            lead_data["scores"] = [
+                {
+                    "id": sc.id,
+                    "lead_id": sc.lead_id,
+                    "service_name": sc.service_name,
+                    "score": sc.score,
+                    "reasoning": sc.reasoning,
+                    "scored_at": sc.scored_at,
+                }
+                for sc in scores
+            ]
 
         response_leads.append(lead_data)
 

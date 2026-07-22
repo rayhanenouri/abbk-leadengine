@@ -23,7 +23,7 @@ export default function Leads({ onViewLead, onLogout, onMenuClick }) {
   const [sortDirection, setSortDirection] = useState('desc');
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(50);
-  const [trustFilter, setTrustFilter] = useState('verified'); // NEW: Default to verified only
+  const [trustFilter, setTrustFilter] = useState('all'); // Show all leads by default
 
   // Filters
   const [filters, setFilters] = useState({
@@ -46,8 +46,17 @@ export default function Leads({ onViewLead, onLogout, onMenuClick }) {
   const loadLeads = async () => {
     setLoading(true);
     try {
-      const data = await getLeads(0, 10000, 'created_at', 'desc');
-      console.log('Leads loaded:', data.length, data.slice(0, 2)); // Debug
+      const data = await getLeads(0, 1000, 'created_at', 'desc');
+      console.log('Leads page - raw data:', data);
+      console.log('Leads page - data type:', typeof data, Array.isArray(data));
+      console.log('Leads page - data length:', data?.length);
+
+      if (!data || !Array.isArray(data) || data.length === 0) {
+        console.warn('No leads data received or empty array');
+        setLeads([]);
+        setLoading(false);
+        return;
+      }
 
       // Calculate best_score from lead_scores if available
       const leadsWithScore = data.map(lead => {
@@ -247,46 +256,6 @@ export default function Leads({ onViewLead, onLogout, onMenuClick }) {
 
           {/* Trust Level Filter Tabs */}
           <div className="flex items-center gap-2 mb-6">
-            <button
-              onClick={() => setTrustFilter('all')}
-              className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${
-                trustFilter === 'all'
-                  ? 'bg-neutral-900 text-white'
-                  : 'bg-neutral-100 text-neutral-600 hover:bg-neutral-200'
-              }`}
-            >
-              All Leads
-            </button>
-            <button
-              onClick={() => setTrustFilter('verified')}
-              className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${
-                trustFilter === 'verified'
-                  ? 'bg-emerald-600 text-white'
-                  : 'bg-emerald-50 text-emerald-700 hover:bg-emerald-100'
-              }`}
-            >
-              ✓ Verified
-            </button>
-            <button
-              onClick={() => setTrustFilter('partial')}
-              className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${
-                trustFilter === 'partial'
-                  ? 'bg-amber-600 text-white'
-                  : 'bg-amber-50 text-amber-700 hover:bg-amber-100'
-              }`}
-            >
-              ⚠ Partial Data
-            </button>
-            <button
-              onClick={() => setTrustFilter('unverified')}
-              className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${
-                trustFilter === 'unverified'
-                  ? 'bg-neutral-600 text-white'
-                  : 'bg-neutral-100 text-neutral-500 hover:bg-neutral-200'
-              }`}
-            >
-              ? Unverified
-            </button>
           </div>
 
           {/* Search Bar */}
@@ -499,11 +468,6 @@ export default function Leads({ onViewLead, onLogout, onMenuClick }) {
                       Size <SortIcon field="employee_count" />
                     </button>
                   </th>
-                  <th className="px-4 py-3 text-center" style={{ minWidth: '80px' }}>
-                    <button onClick={() => handleSort('best_score')} className="flex items-center gap-1 text-xs font-bold text-neutral-600 uppercase tracking-wider hover:text-neutral-900 mx-auto">
-                      Score <SortIcon field="best_score" />
-                    </button>
-                  </th>
                   <th className="px-4 py-3 text-left" style={{ minWidth: '180px' }}>
                     <button onClick={() => handleSort('best_service')} className="flex items-center gap-1 text-xs font-bold text-neutral-600 uppercase tracking-wider hover:text-neutral-900">
                       Top Product <SortIcon field="best_service" />
@@ -574,20 +538,12 @@ export default function Leads({ onViewLead, onLogout, onMenuClick }) {
                             <div className="text-xs text-neutral-500">ID: {lead.lead_id}</div>
                           </div>
                           {/* Trust Level Badge */}
-                          {lead.trust_level === 'verified' && (
-                            <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-bold bg-emerald-100 text-emerald-700 whitespace-nowrap" title="Verified - Real website + signals">
-                              ✓ Verified
-                            </span>
                           )}
                           {lead.trust_level === 'partial' && (
                             <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-bold bg-amber-100 text-amber-700 whitespace-nowrap" title="Partial data - Directory listing">
                               ⚠ Partial
                             </span>
                           )}
-                          {lead.trust_level === 'unverified' && (
-                            <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-bold bg-neutral-100 text-neutral-600 whitespace-nowrap" title="Unverified - Name only">
-                              ? Unverified
-                            </span>
                           )}
                         </div>
                       </td>
@@ -602,20 +558,6 @@ export default function Leads({ onViewLead, onLogout, onMenuClick }) {
                       </td>
                       <td className="px-4 py-2.5 text-center">
                         <span className="text-xs font-semibold text-neutral-900">{lead.employee_count || '—'}</span>
-                      </td>
-                      <td className="px-4 py-2.5 text-center">
-                        <div className="flex flex-col items-center gap-1">
-                          <div className={`inline-flex items-center justify-center w-12 h-12 rounded-lg font-bold text-sm ${getScoreColor(lead.best_score)}`}>
-                            {Math.round(lead.best_score)}
-                          </div>
-                          <span className={`text-xs font-bold ${
-                            lead.best_score >= 70 ? 'text-red-600' :
-                            lead.best_score >= 60 ? 'text-emerald-600' :
-                            lead.best_score >= 30 ? 'text-blue-600' : 'text-neutral-500'
-                          }`}>
-                            {getScoreLabel(lead.best_score)}
-                          </span>
-                        </div>
                       </td>
                       <td className="px-4 py-2.5">
                         <span className="text-xs text-neutral-700 font-medium">{lead.best_service || '—'}</span>
