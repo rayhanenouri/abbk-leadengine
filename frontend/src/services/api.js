@@ -164,6 +164,10 @@ export const api = {
     method: 'POST',
     body: JSON.stringify(data),
   }),
+  put: (endpoint, data) => apiCall(endpoint, {
+    method: 'PUT',
+    body: JSON.stringify(data),
+  }),
   patch: (endpoint, data) => apiCall(endpoint, {
     method: 'PATCH',
     body: JSON.stringify(data),

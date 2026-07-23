@@ -54,8 +54,8 @@ export default function UserManagement() {
   const fetchUsers = async () => {
     try {
       setLoading(true);
-      const response = await api.get('/users');
-      setUsers(response.data.filter(u => u.is_active));
+      const response = await api.get('/users/');
+      setUsers(response.filter(u => u.is_active));
       setError('');
     } catch (err) {
       setError('Failed to load users');
@@ -68,7 +68,7 @@ export default function UserManagement() {
   const fetchPendingUsers = async () => {
     try {
       const response = await api.get('/users/pending');
-      setPendingUsers(response.data);
+      setPendingUsers(response);
     } catch (err) {
       console.error('Failed to load pending users:', err);
     }
