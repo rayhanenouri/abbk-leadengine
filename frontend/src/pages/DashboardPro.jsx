@@ -15,7 +15,7 @@ import { getLeads, getRankedLeads, logout, getUnreadCount } from '../services/ap
 import Sidebar from '../components/layout/Sidebar';
 import LeadDetail from './LeadDetail';
 
-const DashboardPro = ({ onNavigate, onLogout, sidebarOpen, setSidebarOpen }) => {
+const DashboardPro = ({ onNavigate, onLogout, sidebarOpen, setSidebarOpen, currentUser }) => {
   const [leads, setLeads] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedLeadId, setSelectedLeadId] = useState(null);
@@ -144,6 +144,7 @@ const DashboardPro = ({ onNavigate, onLogout, sidebarOpen, setSidebarOpen }) => 
           onLogout={onLogout}
           isOpen={sidebarOpen}
           onClose={() => setSidebarOpen(false)}
+          user={currentUser}
         />
         <div className="flex-1 overflow-auto w-full">
           <LeadDetail
@@ -164,6 +165,7 @@ const DashboardPro = ({ onNavigate, onLogout, sidebarOpen, setSidebarOpen }) => 
         onLogout={onLogout}
         isOpen={sidebarOpen}
         onClose={() => setSidebarOpen(false)}
+        user={currentUser}
       />
 
       <div className="flex-1 flex flex-col overflow-hidden w-full">

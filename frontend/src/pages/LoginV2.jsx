@@ -5,10 +5,10 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { TrendingUp, ArrowRight, Mail, Lock } from 'lucide-react';
+import { TrendingUp, ArrowRight, Mail, Lock, UserPlus } from 'lucide-react';
 import { login } from '../services/api';
 
-const LoginV2 = ({ onLoginSuccess }) => {
+const LoginV2 = ({ onLoginSuccess, onNavigateToSignup }) => {
   const [email, setEmail] = useState('admin@abbk.tn');
   const [password, setPassword] = useState('admin123');
   const [error, setError] = useState('');
@@ -433,8 +433,27 @@ const LoginV2 = ({ onLoginSuccess }) => {
             </motion.button>
           </form>
 
+          {/* Signup and Forgot Password Links */}
+          <div className="mt-6 space-y-3">
+            <motion.button
+              onClick={onNavigateToSignup}
+              className="w-full py-3.5 rounded-xl font-semibold flex items-center justify-center gap-2 border-2 border-neutral-200 text-neutral-700 hover:border-neutral-900 hover:text-neutral-900 transition-all"
+              whileHover={{ y: -1 }}
+              whileTap={{ scale: 0.99 }}
+            >
+              <UserPlus className="w-5 h-5" strokeWidth={2.5} />
+              Request Access
+            </motion.button>
+
+            <button
+              className="w-full text-center text-sm font-medium text-neutral-500 hover:text-neutral-900 transition-colors"
+            >
+              Forgot password? Contact your administrator
+            </button>
+          </div>
+
           {/* Stats */}
-          <div className="mt-10 pt-8 border-t border-neutral-200 grid grid-cols-3 gap-6 text-center">
+          <div className="mt-8 pt-8 border-t border-neutral-200 grid grid-cols-3 gap-6 text-center">
             {[
               { value: '500+', label: 'Leads' },
               { value: '93', label: 'Sectors' },

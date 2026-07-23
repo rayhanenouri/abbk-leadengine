@@ -24,3 +24,13 @@ class UserUpdate(BaseModel):
     role: Optional[UserRole] = None
     is_active: Optional[bool] = None
     permissions: Optional[dict] = None
+
+
+class ApproveUserRequest(BaseModel):
+    """Schema for approving a pending user."""
+    role: UserRole
+
+
+class UpdateRoleRequest(BaseModel):
+    """Schema for updating user role."""
+    role: UserRole

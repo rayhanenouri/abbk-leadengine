@@ -38,26 +38,39 @@ const ROLE_COLORS = {
 
 export default function UserManagement() {
   const [users, setUsers] = useState([]);
+  const [pendingUsers, setPendingUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [editingUser, setEditingUser] = useState(null);
+  const [showApproveModal, setShowApproveModal] = useState(false);
+  const [approvingUser, setApprovingUser] = useState(null);
 
   useEffect(() => {
     fetchUsers();
+    fetchPendingUsers();
   }, []);
 
   const fetchUsers = async () => {
     try {
       setLoading(true);
       const response = await api.get('/users');
-      setUsers(response.data);
+      setUsers(response.data.filter(u => u.is_active));
       setError('');
     } catch (err) {
       setError('Failed to load users');
       console.error(err);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const fetchPendingUsers = async () => {
+    try {
+      const response = await api.get('/users/pending');
+      setPendingUsers(response.data);
+    } catch (err) {
+      console.error('Failed to load pending users:', err);
     }
   };
 
@@ -89,8 +102,37 @@ export default function UserManagement() {
     try {
       await api.delete(`/users/${userId}`);
       await fetchUsers();
+      await fetchPendingUsers();
     } catch (err) {
       alert('Failed to delete user');
+      console.error(err);
+    }
+  };
+
+  const handleApproveUser = (user) => {
+    setApprovingUser(user);
+    setShowApproveModal(true);
+  };
+
+  const handleApproveSubmit = async (role) => {
+    try {
+      await api.put(`/users/${approvingUser.id}/approve`, { role });
+      setShowApproveModal(false);
+      setApprovingUser(null);
+      await fetchUsers();
+      await fetchPendingUsers();
+    } catch (err) {
+      alert('Failed to approve user');
+      console.error(err);
+    }
+  };
+
+  const handleChangeRole = async (userId, newRole) => {
+    try {
+      await api.put(`/users/${userId}/role`, { role: newRole });
+      await fetchUsers();
+    } catch (err) {
+      alert('Failed to update user role');
       console.error(err);
     }
   };
@@ -127,7 +169,74 @@ export default function UserManagement() {
         </div>
       )}
 
-      {/* Users List */}
+      {/* Pending Users Section */}
+      {pendingUsers.length > 0 && (
+        <div className="mb-8">
+          <h2 className="text-xl font-bold text-neutral-900 mb-4 flex items-center gap-2">
+            <AlertCircle className="w-6 h-6 text-warning-600" />
+            Pending Approval ({pendingUsers.length})
+          </h2>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            {pendingUsers.map((user) => (
+              <motion.div
+                key={user.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="bg-warning-50 rounded-xl border-2 border-warning-200 p-5 shadow-sm"
+              >
+                <div className="flex items-start justify-between mb-3">
+                  <div>
+                    <h3 className="font-bold text-neutral-900 text-lg">{user.full_name}</h3>
+                    <p className="text-sm text-neutral-600 flex items-center gap-2">
+                      <Mail className="w-4 h-4" />
+                      {user.email}
+                    </p>
+                    {user.permissions?.company_role && (
+                      <p className="text-sm text-neutral-500 mt-1">
+                        {user.permissions.company_role}
+                      </p>
+                    )}
+                  </div>
+                  <span className="px-3 py-1 bg-warning-100 text-warning-700 rounded-lg text-xs font-semibold">
+                    Pending
+                  </span>
+                </div>
+                <div className="text-sm text-neutral-600 mb-4">
+                  <p>
+                    <strong>Requested:</strong>{' '}
+                    {new Date(user.created_at).toLocaleDateString('en-US', {
+                      year: 'numeric',
+                      month: 'short',
+                      day: 'numeric',
+                    })}
+                  </p>
+                </div>
+                <div className="flex items-center gap-2 pt-3 border-t border-warning-200">
+                  <button
+                    onClick={() => handleApproveUser(user)}
+                    className="flex items-center gap-2 px-4 py-2 bg-success-600 text-white rounded-lg hover:bg-success-700 transition-colors text-sm font-medium"
+                  >
+                    <Check className="w-4 h-4" />
+                    Approve
+                  </button>
+                  <button
+                    onClick={() => handleDeleteUser(user.id)}
+                    className="flex items-center gap-2 px-4 py-2 bg-error-100 text-error-700 rounded-lg hover:bg-error-200 transition-colors text-sm font-medium"
+                  >
+                    <X className="w-4 h-4" />
+                    Reject
+                  </button>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Active Users List */}
+      <h2 className="text-xl font-bold text-neutral-900 mb-4">
+        Active Users ({users.length})
+      </h2>
       {loading ? (
         <div className="flex items-center justify-center h-64">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600"></div>
@@ -170,14 +279,19 @@ export default function UserManagement() {
               </div>
 
               <div className="mb-4">
-                <span
-                  className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg border text-sm font-semibold ${
+                <select
+                  value={user.role}
+                  onChange={(e) => handleChangeRole(user.id, e.target.value)}
+                  className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg border text-sm font-semibold cursor-pointer ${
                     ROLE_COLORS[user.role]
                   }`}
                 >
-                  <Shield className="w-4 h-4" />
-                  {user.role.toUpperCase()}
-                </span>
+                  {ROLES.map((role) => (
+                    <option key={role.value} value={role.value}>
+                      {role.icon} {role.label}
+                    </option>
+                  ))}
+                </select>
               </div>
 
               <div className="text-sm text-neutral-600 mb-4">
@@ -241,11 +355,146 @@ export default function UserManagement() {
             onSuccess={() => {
               setShowCreateModal(false);
               fetchUsers();
+              fetchPendingUsers();
             }}
+          />
+        )}
+        {showApproveModal && approvingUser && (
+          <ApproveUserModal
+            user={approvingUser}
+            onClose={() => setShowApproveModal(false)}
+            onApprove={handleApproveSubmit}
           />
         )}
       </AnimatePresence>
     </div>
+  );
+}
+
+function ApproveUserModal({ user, onClose, onApprove }) {
+  const [selectedRole, setSelectedRole] = useState('viewer');
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async () => {
+    setLoading(true);
+    await onApprove(selectedRole);
+    setLoading(false);
+  };
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50"
+      onClick={onClose}
+    >
+      <motion.div
+        initial={{ scale: 0.9, y: 20 }}
+        animate={{ scale: 1, y: 0 }}
+        exit={{ scale: 0.9, y: 20 }}
+        className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="p-6 border-b border-neutral-200">
+          <h2 className="text-2xl font-bold text-neutral-900 flex items-center gap-3">
+            <UserCheck className="w-6 h-6 text-success-600" />
+            Approve User Access
+          </h2>
+          <p className="text-neutral-600 mt-1">
+            Assign a role to {user.full_name} and activate their account
+          </p>
+        </div>
+
+        <div className="p-6">
+          {/* User Info */}
+          <div className="bg-neutral-50 rounded-xl p-4 mb-6">
+            <div className="flex items-center gap-4 mb-2">
+              <div className="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center">
+                <UserIcon className="w-6 h-6 text-primary-600" />
+              </div>
+              <div>
+                <h3 className="font-bold text-neutral-900">{user.full_name}</h3>
+                <p className="text-sm text-neutral-600">{user.email}</p>
+              </div>
+            </div>
+            {user.permissions?.company_role && (
+              <p className="text-sm text-neutral-600">
+                <strong>Company/Role:</strong> {user.permissions.company_role}
+              </p>
+            )}
+            <p className="text-sm text-neutral-600">
+              <strong>Requested:</strong>{' '}
+              {new Date(user.created_at).toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+              })}
+            </p>
+          </div>
+
+          {/* Role Selection */}
+          <div>
+            <label className="block text-sm font-semibold text-neutral-700 mb-3">
+              Assign Role
+            </label>
+            <div className="grid grid-cols-2 gap-3">
+              {ROLES.map((role) => (
+                <button
+                  key={role.value}
+                  type="button"
+                  onClick={() => setSelectedRole(role.value)}
+                  className={`p-4 rounded-xl border-2 text-left transition-all ${
+                    selectedRole === role.value
+                      ? 'border-primary-500 bg-primary-50'
+                      : 'border-neutral-200 hover:border-neutral-300'
+                  }`}
+                >
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="text-xl">{role.icon}</span>
+                    <span className="font-bold text-neutral-900">{role.label}</span>
+                    {selectedRole === role.value && (
+                      <Check className="w-5 h-5 text-primary-600 ml-auto" />
+                    )}
+                  </div>
+                  <p className="text-xs text-neutral-600">{role.description}</p>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Actions */}
+          <div className="flex items-center gap-3 pt-6 mt-6 border-t border-neutral-200">
+            <button
+              type="button"
+              onClick={onClose}
+              className="flex-1 px-6 py-3 border border-neutral-300 text-neutral-700 rounded-xl font-semibold hover:bg-neutral-50 transition-colors"
+            >
+              Cancel
+            </button>
+            <button
+              onClick={handleSubmit}
+              disabled={loading}
+              className="flex-1 px-6 py-3 bg-success-600 text-white rounded-xl font-semibold hover:bg-success-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+            >
+              {loading ? (
+                <>
+                  <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                  Approving...
+                </>
+              ) : (
+                <>
+                  <Check className="w-5 h-5" />
+                  Approve & Activate
+                </>
+              )}
+            </button>
+          </div>
+        </div>
+      </motion.div>
+    </motion.div>
   );
 }
 

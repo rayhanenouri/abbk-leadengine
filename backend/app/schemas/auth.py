@@ -19,6 +19,14 @@ class Token(BaseModel):
     token_type: str = "bearer"
 
 
+class SignupRequest(BaseModel):
+    """Request body for user self-registration."""
+    email: EmailStr
+    full_name: str
+    password: str
+    company_role: str | None = None  # Optional field for user's company/position
+
+
 class UserResponse(BaseModel):
     """User data returned in responses (excludes password)."""
     id: int

@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react'
+import { AnimatePresence } from 'framer-motion'
 import Landing from './pages/Landing'
 import LoginV2 from './pages/LoginV2'
+import Signup from './pages/Signup'
 import DashboardPro from './pages/DashboardPro'
 import AnalyticsEnterprise from './pages/AnalyticsEnterprise'
 import Leads from './pages/Leads'
@@ -15,6 +17,7 @@ import ExportReports from './pages/ExportReports'
 import UserManagement from './pages/UserManagement'
 import Sidebar from './components/layout/Sidebar'
 import LeadDetail from './pages/LeadDetail'
+import WelcomeModal from './components/WelcomeModal'
 
 function App() {
   const [currentPage, setCurrentPage] = useState('login')
@@ -22,6 +25,8 @@ function App() {
   const [selectedLeadId, setSelectedLeadId] = useState(null)
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [leadsCount, setLeadsCount] = useState(0)
+  const [currentUser, setCurrentUser] = useState(null)
+  const [showWelcome, setShowWelcome] = useState(false)
 
   useEffect(() => {
     const token = localStorage.getItem('token')
@@ -29,7 +34,10 @@ function App() {
     if (token) {
       setCurrentPage('dashboard')
       // Delay to ensure backend is ready
-      setTimeout(() => fetchLeadsCount(), 500)
+      setTimeout(() => {
+        fetchLeadsCount()
+        fetchCurrentUser()
+      }, 500)
     }
   }, [])
 
@@ -63,10 +71,40 @@ function App() {
     }
   }
 
+  const fetchCurrentUser = async () => {
+    try {
+      const token = localStorage.getItem('token')
+      const response = await fetch(`http://${window.location.hostname}:8000/api/auth/me`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      })
+
+      if (response.ok) {
+        const userData = await response.json()
+        setCurrentUser(userData)
+
+        // Check if this is the first login (show welcome modal once)
+        const hasSeenWelcome = localStorage.getItem(`welcome_shown_${userData.id}`)
+        if (!hasSeenWelcome) {
+          setShowWelcome(true)
+        }
+      }
+    } catch (err) {
+      console.error('Failed to fetch current user:', err)
+    }
+  }
+
+  const handleCloseWelcome = () => {
+    setShowWelcome(false)
+    if (currentUser) {
+      localStorage.setItem(`welcome_shown_${currentUser.id}`, 'true')
+    }
+  }
+
   const handleLoginSuccess = () => {
     setIsLoggedIn(true)
     setCurrentPage('dashboard')
     fetchLeadsCount()
+    fetchCurrentUser()
   }
 
   const handleLogout = () => {
@@ -90,6 +128,7 @@ function App() {
           isOpen={sidebarOpen}
           onClose={() => setSidebarOpen(false)}
           unreadCount={leadsCount}
+          user={currentUser}
         />
         <div className="flex-1 overflow-auto w-full">
           <LeadDetail
@@ -110,7 +149,15 @@ function App() {
       return <Landing onGetStarted={() => setCurrentPage('login')} />
 
     case 'login':
-      return <LoginV2 onLoginSuccess={handleLoginSuccess} />
+      return <LoginV2
+        onLoginSuccess={handleLoginSuccess}
+        onNavigateToSignup={() => setCurrentPage('signup')}
+      />
+
+    case 'signup':
+      return <Signup
+        onNavigateToLogin={() => setCurrentPage('login')}
+      />
 
     case 'analytics':
       return (
@@ -121,6 +168,7 @@ function App() {
             onLogout={handleLogout}
             isOpen={sidebarOpen}
             onClose={() => setSidebarOpen(false)}
+            user={currentUser}
             unreadCount={leadsCount}
           />
           <div className="flex-1 overflow-auto w-full">
@@ -142,6 +190,7 @@ function App() {
             onLogout={handleLogout}
             isOpen={sidebarOpen}
             onClose={() => setSidebarOpen(false)}
+            user={currentUser}
           />
           <div className="flex-1 overflow-auto w-full">
             <Leads
@@ -162,6 +211,7 @@ function App() {
             onLogout={handleLogout}
             isOpen={sidebarOpen}
             onClose={() => setSidebarOpen(false)}
+            user={currentUser}
           />
           <div className="flex-1 overflow-auto w-full">
             <SalesPipeline
@@ -181,6 +231,7 @@ function App() {
             onLogout={handleLogout}
             isOpen={sidebarOpen}
             onClose={() => setSidebarOpen(false)}
+            user={currentUser}
           />
           <div className="flex-1 overflow-auto w-full">
             <Activities
@@ -200,6 +251,7 @@ function App() {
             onLogout={handleLogout}
             isOpen={sidebarOpen}
             onClose={() => setSidebarOpen(false)}
+            user={currentUser}
           />
           <div className="flex-1 overflow-auto w-full">
             <LiveSignals
@@ -219,6 +271,7 @@ function App() {
             onLogout={handleLogout}
             isOpen={sidebarOpen}
             onClose={() => setSidebarOpen(false)}
+            user={currentUser}
           />
           <div className="flex-1 overflow-auto w-full">
             <SmartSearch
@@ -238,6 +291,7 @@ function App() {
             onLogout={handleLogout}
             isOpen={sidebarOpen}
             onClose={() => setSidebarOpen(false)}
+            user={currentUser}
           />
           <div className="flex-1 overflow-auto w-full">
             <ScoreEngine
@@ -257,6 +311,7 @@ function App() {
             onLogout={handleLogout}
             isOpen={sidebarOpen}
             onClose={() => setSidebarOpen(false)}
+            user={currentUser}
           />
           <div className="flex-1 overflow-auto w-full">
             <DataSources onMenuClick={() => setSidebarOpen(!sidebarOpen)} />
@@ -273,6 +328,7 @@ function App() {
             onLogout={handleLogout}
             isOpen={sidebarOpen}
             onClose={() => setSidebarOpen(false)}
+            user={currentUser}
           />
           <div className="flex-1 overflow-auto w-full">
             <Notifications
@@ -292,6 +348,7 @@ function App() {
             onLogout={handleLogout}
             isOpen={sidebarOpen}
             onClose={() => setSidebarOpen(false)}
+            user={currentUser}
           />
           <div className="flex-1 overflow-auto w-full">
             <ExportReports
@@ -311,6 +368,7 @@ function App() {
             onLogout={handleLogout}
             isOpen={sidebarOpen}
             onClose={() => setSidebarOpen(false)}
+            user={currentUser}
           />
           <div className="flex-1 overflow-auto w-full">
             <UserManagement />
@@ -321,12 +379,23 @@ function App() {
     case 'dashboard':
     default:
       return (
-        <DashboardPro
-          onNavigate={setCurrentPage}
-          onLogout={handleLogout}
-          sidebarOpen={sidebarOpen}
-          setSidebarOpen={setSidebarOpen}
-        />
+        <>
+          <DashboardPro
+            onNavigate={setCurrentPage}
+            onLogout={handleLogout}
+            sidebarOpen={sidebarOpen}
+            setSidebarOpen={setSidebarOpen}
+            currentUser={currentUser}
+          />
+          <AnimatePresence>
+            {showWelcome && currentUser && (
+              <WelcomeModal
+                user={currentUser}
+                onClose={handleCloseWelcome}
+              />
+            )}
+          </AnimatePresence>
+        </>
       )
   }
 }

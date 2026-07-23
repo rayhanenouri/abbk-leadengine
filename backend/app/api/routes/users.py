@@ -7,7 +7,7 @@ from sqlalchemy import select
 
 from app.models.models import User, UserRole
 from app.schemas.auth import UserResponse
-from app.schemas.user import UserCreate, UserUpdate
+from app.schemas.user import UserCreate, UserUpdate, ApproveUserRequest, UpdateRoleRequest
 from app.core.deps import get_db, require_role
 from app.core.security import get_password_hash
 
@@ -28,6 +28,21 @@ async def get_users(
     result = await db.execute(select(User))
     users = result.scalars().all()
     return users
+
+
+@router.get("/pending", response_model=list[UserResponse])
+async def get_pending_users(
+    db: AsyncSession = Depends(get_db),
+    current_user: User = Depends(require_role(UserRole.admin)),
+):
+    """
+    Get all pending users awaiting approval (Admin only).
+
+    Requires admin role. Returns list of users with is_active=False.
+    """
+    result = await db.execute(select(User).where(User.is_active == False))
+    pending_users = result.scalars().all()
+    return pending_users
 
 
 @router.get("/{user_id}", response_model=UserResponse)
@@ -152,6 +167,89 @@ async def update_user(
 
     if user_data.permissions is not None:
         user.permissions = user_data.permissions
+
+    await db.commit()
+    await db.refresh(user)
+
+    return user
+
+
+@router.put("/{user_id}/approve", response_model=UserResponse)
+async def approve_user(
+    user_id: int,
+    approve_data: ApproveUserRequest,
+    db: AsyncSession = Depends(get_db),
+    current_user: User = Depends(require_role(UserRole.admin)),
+):
+    """
+    Approve a pending user and assign role (Admin only).
+
+    Requires admin role. Sets is_active=True and assigns the specified role.
+
+    Example request:
+    ```json
+    {
+        "role": "sales"
+    }
+    ```
+    """
+    # Fetch user
+    result = await db.execute(select(User).where(User.id == user_id))
+    user = result.scalars().first()
+
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"User with ID {user_id} not found",
+        )
+
+    # Approve user
+    user.is_active = True
+    user.role = approve_data.role
+
+    await db.commit()
+    await db.refresh(user)
+
+    return user
+
+
+@router.put("/{user_id}/role", response_model=UserResponse)
+async def update_user_role(
+    user_id: int,
+    role_data: UpdateRoleRequest,
+    db: AsyncSession = Depends(get_db),
+    current_user: User = Depends(require_role(UserRole.admin)),
+):
+    """
+    Update a user's role (Admin only).
+
+    Requires admin role. Changes the user's role to the specified value.
+
+    Example request:
+    ```json
+    {
+        "role": "manager"
+    }
+    ```
+    """
+    # Prevent changing own role
+    if user_id == current_user.id:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="You cannot change your own role",
+        )
+
+    # Fetch user
+    result = await db.execute(select(User).where(User.id == user_id))
+    user = result.scalars().first()
+
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"User with ID {user_id} not found",
+        )
+
+    user.role = role_data.role
 
     await db.commit()
     await db.refresh(user)

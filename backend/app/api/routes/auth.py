@@ -5,10 +5,10 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
 
-from app.schemas.auth import LoginRequest, Token, UserResponse
-from app.models.models import User
+from app.schemas.auth import LoginRequest, Token, UserResponse, SignupRequest
+from app.models.models import User, UserRole
 from app.core.deps import get_db, get_current_user
-from app.core.security import verify_password, create_access_token
+from app.core.security import verify_password, create_access_token, get_password_hash
 
 
 router = APIRouter()
@@ -64,6 +64,58 @@ async def login(
     access_token = create_access_token(data={"sub": user.email})
 
     return Token(access_token=access_token)
+
+
+@router.post("/signup", response_model=UserResponse, status_code=status.HTTP_201_CREATED)
+async def signup(
+    signup_data: SignupRequest,
+    db: AsyncSession = Depends(get_db),
+):
+    """
+    User self-registration endpoint.
+
+    Creates a new account with role='viewer' and is_active=False (pending admin approval).
+
+    Example request:
+    ```json
+    {
+        "email": "user@company.com",
+        "full_name": "John Doe",
+        "password": "securepass123",
+        "company_role": "Sales Engineer"
+    }
+    ```
+
+    Returns the created user profile.
+    User cannot login until admin approves the account.
+    """
+    # Check if email already exists
+    result = await db.execute(select(User).where(User.email == signup_data.email))
+    existing_user = result.scalars().first()
+
+    if existing_user:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="An account with this email already exists",
+        )
+
+    # Create new user with viewer role and inactive status
+    new_user = User(
+        email=signup_data.email,
+        full_name=signup_data.full_name,
+        hashed_pw=get_password_hash(signup_data.password),
+        role=UserRole.viewer,
+        is_active=False,  # Requires admin approval
+        permissions={
+            "company_role": signup_data.company_role  # Store their company role info
+        },
+    )
+
+    db.add(new_user)
+    await db.commit()
+    await db.refresh(new_user)
+
+    return new_user
 
 
 @router.get("/me", response_model=UserResponse)
