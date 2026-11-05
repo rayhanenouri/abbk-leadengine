@@ -7,22 +7,30 @@ celery_app = Celery(
     "abbk_workers",
     broker=settings.REDIS_URL,
     backend=settings.REDIS_URL,
-    include=[
-        "app.workers.tasks.scraping",
-        "app.workers.tasks.scoring",
-        "app.workers.tasks.enrichment",
-        "app.workers.tasks.logo_detection",
-        "app.workers.tasks.maintenance",
-        "app.workers.tasks.apify_linkedin",
-        "app.workers.tasks.apify_discover",
-        "app.workers.tasks.company_enrichment",
-        "app.workers.tasks.universal_scraping",
-        "app.workers.tasks.full_automation",
-        "app.workers.tasks.complete_automation",
-        "app.workers.tasks.master_scraping",
-        "app.workers.tasks.production_enrichment",  # PRODUCTION: Real signal extraction
-    ],
 )
+
+# Force import all task modules to register them
+try:
+    from app.workers.tasks import scraping
+    from app.workers.tasks import scoring
+    from app.workers.tasks import enrichment
+    from app.workers.tasks import deep_enrichment_task
+    from app.workers.tasks import deep_enrichment
+    from app.workers.tasks import logo_detection
+    from app.workers.tasks import maintenance
+    from app.workers.tasks import apify_linkedin
+    from app.workers.tasks import apify_discover
+    from app.workers.tasks import company_enrichment
+    from app.workers.tasks import universal_scraping
+    from app.workers.tasks import full_automation
+    from app.workers.tasks import complete_automation
+    from app.workers.tasks import master_scraping
+    from app.workers.tasks import production_enrichment
+    from app.workers.tasks import import_processing
+    from app.workers.tasks import claude_extraction
+    from app.workers.tasks import comprehensive_scraping  # NEW: 40+ data sources
+except ImportError as e:
+    print(f"Warning: Could not import some task modules: {e}")
 
 celery_app.conf.update(
     task_serializer="json",
@@ -77,14 +85,43 @@ celery_app.conf.beat_schedule = {
         "options": {"queue": "scoring"},
     },
 
-    # Business news - Every 6 hours
+    # ═══ COMPREHENSIVE SCRAPING (40+ DATA SOURCES) ═══
+
+    # ALL Tunisian job boards - Every 6 hours (10 sites)
+    "comprehensive-job-boards-6h": {
+        "task": "comprehensive_scraping.scrape_all_tunisian_job_boards",
+        "schedule": crontab(minute=0, hour="*/6"),  # 00:00, 06:00, 12:00, 18:00
+        "options": {"queue": "scrapers"},
+    },
+
+    # ALL Tunisian directories - Every 24 hours (8 sites)
+    "comprehensive-directories-24h": {
+        "task": "comprehensive_scraping.scrape_all_tunisian_directories",
+        "schedule": crontab(hour=3, minute=0),  # Daily at 3am
+        "options": {"queue": "scrapers"},
+    },
+
+    # ALL Tunisian news - Every 6 hours (8 sites)
+    "comprehensive-news-6h": {
+        "task": "comprehensive_scraping.scrape_all_tunisian_news",
+        "schedule": crontab(minute=30, hour="*/6"),  # 00:30, 06:30, 12:30, 18:30
+        "options": {"queue": "scrapers"},
+    },
+
+    # MASTER: Run ALL comprehensive scraping - Once daily
+    "comprehensive-scraping-master-daily": {
+        "task": "comprehensive_scraping.run_all_comprehensive_scraping",
+        "schedule": crontab(hour=2, minute=30),  # Daily at 2:30am
+        "options": {"queue": "scrapers"},
+    },
+
+    # LEGACY: Original scraping tasks (backup)
     "scrape-news-6h": {
         "task": "app.workers.tasks.scraping.scrape_news",
         "schedule": crontab(minute=0, hour="*/6"),  # 00:00, 06:00, 12:00, 18:00
         "options": {"queue": "scrapers"},
     },
 
-    # Job boards hiring signals - Every 12 hours
     "scrape-jobs-12h": {
         "task": "app.workers.tasks.scraping.scrape_jobs",
         "schedule": crontab(minute=0, hour="*/12"),  # 00:00, 12:00

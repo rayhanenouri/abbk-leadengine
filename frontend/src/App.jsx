@@ -15,6 +15,7 @@ import DataSources from './pages/DataSources'
 import Notifications from './pages/Notifications'
 import ExportReports from './pages/ExportReports'
 import UserManagement from './pages/UserManagement'
+import DatabaseImport from './pages/DatabaseImport'
 import Sidebar from './components/layout/Sidebar'
 import LeadDetail from './pages/LeadDetail'
 import WelcomeModal from './components/WelcomeModal'
@@ -372,6 +373,23 @@ function App() {
           />
           <div className="flex-1 overflow-auto w-full">
             <UserManagement />
+          </div>
+        </div>
+      )
+
+    case 'import':
+      return (
+        <div className="flex h-screen bg-neutral-50 overflow-hidden">
+          <Sidebar
+            currentView="import"
+            onViewChange={setCurrentPage}
+            onLogout={handleLogout}
+            isOpen={sidebarOpen}
+            onClose={() => setSidebarOpen(false)}
+            user={currentUser}
+          />
+          <div className="flex-1 overflow-auto w-full">
+            <DatabaseImport />
           </div>
         </div>
       )

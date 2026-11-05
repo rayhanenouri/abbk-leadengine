@@ -43,6 +43,13 @@ class NotificationType(str, enum.Enum):
     status_change = "status_change"    # Lead status changed
 
 
+class ImportStatus(str, enum.Enum):
+    pending = "pending"              # File uploaded, not yet processed
+    processing = "processing"        # Currently enriching companies
+    completed = "completed"          # All processing finished
+    failed = "failed"                # Import failed
+
+
 # ─── Users & RBAC ─────────────────────────────────────────────────────────────
 
 class User(Base):
@@ -191,3 +198,27 @@ class Service(Base):
     # Scoring weights for this service (JSON dict of signal → weight)
     scoring_weights: Mapped[dict]     = mapped_column(JSON, default=dict)
     is_active:    Mapped[bool]        = mapped_column(Boolean, default=True)
+
+
+# ─── Database Imports (track manual database uploads) ─────────────────────────
+
+class DatabaseImport(Base):
+    __tablename__ = "database_imports"
+
+    id:                Mapped[int]          = mapped_column(Integer, primary_key=True)
+    user_id:           Mapped[int]          = mapped_column(ForeignKey("users.id"), index=True)
+    filename:          Mapped[str]          = mapped_column(String(500))
+    status:            Mapped[ImportStatus] = mapped_column(PgEnum(ImportStatus), default=ImportStatus.pending)
+    total_rows:        Mapped[int]          = mapped_column(Integer, default=0)
+    imported_count:    Mapped[int]          = mapped_column(Integer, default=0)  # Successfully imported
+    duplicates_count:  Mapped[int]          = mapped_column(Integer, default=0)  # Skipped duplicates
+    updated_count:     Mapped[int]          = mapped_column(Integer, default=0)  # Existing leads enriched
+    errors_count:      Mapped[int]          = mapped_column(Integer, default=0)  # Failed rows
+    enriched_count:    Mapped[int]          = mapped_column(Integer, default=0)  # Completed enrichment
+    signals_count:     Mapped[int]          = mapped_column(Integer, default=0)  # Total signals detected
+    error_details:     Mapped[dict]         = mapped_column(JSON, default=dict)  # Error messages
+    column_mapping:    Mapped[dict]         = mapped_column(JSON, default=dict)  # User's column mapping
+    created_at:        Mapped[datetime]     = mapped_column(DateTime, default=datetime.utcnow)
+    completed_at:      Mapped[datetime | None] = mapped_column(DateTime)
+
+    user: Mapped["User"] = relationship("User")

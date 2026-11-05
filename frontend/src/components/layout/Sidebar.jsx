@@ -21,7 +21,8 @@ import {
   Database,
   Calendar,
   X,
-  Shield
+  Shield,
+  Upload
 } from 'lucide-react';
 
 const Sidebar = ({ currentView, onViewChange, onLogout, unreadCount = 0, user, isOpen, onClose }) => {
@@ -38,6 +39,7 @@ const Sidebar = ({ currentView, onViewChange, onLogout, unreadCount = 0, user, i
     { id: 'search', label: 'Smart Search', icon: Search },
     { id: 'scoring', label: 'Score Engine', icon: Target },
     { id: 'enrichment', label: 'Data Sources', icon: Database },
+    { id: 'import', label: 'Database Import', icon: Upload },
   ];
 
   const bottomItems = [

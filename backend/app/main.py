@@ -4,7 +4,7 @@ from contextlib import asynccontextmanager
 
 from app.core.config import settings
 from app.db.session import engine, Base
-from app.api.routes import leads, users, scores, auth, scraping, signals, notifications, analytics, claude_signals, apify
+from app.api.routes import leads, users, scores, auth, scraping, signals, notifications, analytics, claude_signals, apify, imports
 
 
 @asynccontextmanager
@@ -51,6 +51,7 @@ app.include_router(notifications.router, prefix="/api/notifications", tags=["not
 app.include_router(analytics.router,     prefix="/api",               tags=["analytics"])
 app.include_router(claude_signals.router, prefix="/api",              tags=["claude-signals"])
 app.include_router(apify.router,          prefix="/api",               tags=["apify"])
+app.include_router(imports.router,        prefix="/api/imports",       tags=["imports"])
 
 
 @app.get("/health")
